@@ -76,6 +76,7 @@
             this.mbtnPaySearch.Name = "mbtnPaySearch";
             this.mbtnPaySearch.Size = new System.Drawing.Size(184, 52);
             this.mbtnPaySearch.Text = "Búsqueda Pagos";
+            this.mbtnPaySearch.Click += new System.EventHandler(this.mbtnPaySearch_Click);
             // 
             // mbtnStudents
             // 

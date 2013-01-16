@@ -37,8 +37,8 @@ namespace CCMM
         {
             if (txtbAccNum.Text != "")
             {
-                DataAccess dAccessObject = new DataAccess();
-                List<string> selectedStudent = dAccessObject.getStudentDetails(Int32.Parse(txtbAccNum.Text));
+                //Get the select student details (or try)
+                List<string> selectedStudent = DAL.getStudentDetails(Int32.Parse(txtbAccNum.Text));
                 studentToPay = selectedStudent;
 
                 //Clean concept list to add new ones for new student.
@@ -48,17 +48,20 @@ namespace CCMM
                 cbPaymentConcept.Text = "";
                 cbPaymentConcept.Enabled = false;
 
+                //If a student was actually found
                 if (selectedStudent.Count != 0)
                 {
+                    //Show the payment details box
                     gbxPaymentDetails.Visible = true;
 
+                    //Enable controls and all that
                     cbPaymentConcept.Enabled = true;
                     picAccNumber.Image = (Image)CCMM.Properties.Resources.CheckMark;
                     llinkViewAccDetails.Visible = true;
                     llinkViewAccDetails.Text = "[" + selectedStudent[1] + " " + selectedStudent[2] + "]";
 
                     //Load concept list into ComboBox [cbPaymentConcept]
-                    ConceptList = dAccessObject.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
+                    //ConceptList = dAccessObject.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
                     cbPaymentConcept.ValueMember = "Value";
                     cbPaymentConcept.DisplayMember = "Name";
                     cbPaymentConcept.DataSource = ConceptList;

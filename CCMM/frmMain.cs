@@ -32,5 +32,10 @@ namespace CCMM
                 frmNewPayment.Show();
             }
         }
+
+        private void mbtnPaySearch_Click(object sender, EventArgs e)
+        {
+            DAL.setWeeksforYear();
+        }
     }
 }
