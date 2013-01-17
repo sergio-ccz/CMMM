@@ -40,6 +40,7 @@ namespace CCMM
                 //Get the select student details (or try)
                 List<string> selectedStudent = DAL.getStudentDetails(Int32.Parse(txtbAccNum.Text));
                 studentToPay = selectedStudent;
+                cbPaymentType.SelectedIndex = 0;
 
                 //Clean concept list to add new ones for new student.
                 cbPaymentConcept.DataSource = null;
@@ -61,7 +62,7 @@ namespace CCMM
                     llinkViewAccDetails.Text = "[" + selectedStudent[1] + " " + selectedStudent[2] + "]";
 
                     //Load concept list into ComboBox [cbPaymentConcept]
-                    //ConceptList = dAccessObject.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
+                    ConceptList = DAL.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
                     cbPaymentConcept.ValueMember = "Value";
                     cbPaymentConcept.DisplayMember = "Name";
                     cbPaymentConcept.DataSource = ConceptList;
@@ -85,6 +86,33 @@ namespace CCMM
         private void cbPaymentConcept_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void frmNewPayment_Load(object sender, EventArgs e)
+        {
+            cbPaymentType.Items.Add("Escolar");
+            cbPaymentType.Items.Add("Medio Internado");
+
+            cbPaymentType.SelectedIndex = 0;
+        }
+
+        private void cbPaymentType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //For normal payments, grab the concepts that a normal student would pay
+            if (cbPaymentType.SelectedText == "Escolar")
+            {
+
+            }
+
+            if (cbPaymentType.SelectedText == "Medio Internado")
+            {
+            }
+        }
+
+        private void llinkViewAccDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmStudentDetails = new frmStudentDetails(Int32.Parse(txtbAccNum.Text), false);
+            frmStudentDetails.ShowDialog();
         }
 
 

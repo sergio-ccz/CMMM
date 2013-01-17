@@ -141,5 +141,41 @@ namespace CCMM
             }
             
         }
+
+        /// <summary>
+        /// Retreive a list<> of available concepts for the selected account
+        /// </summary>
+        /// <param name="stdGroup">Group of student</param>
+        /// <param name="stdLevel">Level of student</param>
+        /// <returns></returns>
+        public static List<GenericObject> getAvailableConcepts(int stdGroup, int stdLevel)
+        {
+            List<GenericObject> lstConcept = new List<GenericObject>();
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+
+            sqlConnection.Open();
+            SqlCeCommand sqlCommand = new SqlCeCommand();
+            sqlCommand.CommandText = "SELECT Rel_GL_Concept.FK_Concept_ID, Conceptos.* " +
+                "FROM Rel_GL_Concept INNER JOIN " +
+                "Conceptos ON Rel_GL_Concept.FK_Concept_ID = Conceptos.ID " +
+                "WHERE (REL_GL_Concept.FK_Group_ID = " + stdGroup.ToString() +
+                " ) OR (Rel_GL_Concept.FK_Level_ID = " + stdLevel.ToString() + " )";
+
+            sqlCommand.Connection = sqlConnection;
+
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
+
+            while (sqlReader.Read())
+            {
+                GenericObject gObject = new GenericObject();
+                gObject.Name = sqlReader["Title"].ToString(); ;
+                gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
+                gObject.Value = sqlReader["FK_Concept_ID"].ToString();
+
+                lstConcept.Add(gObject);
+            }
+
+            return lstConcept;
+        }
     }
 }
