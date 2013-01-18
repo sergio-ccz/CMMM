@@ -27,5 +27,10 @@ namespace CCMM
             start = start.AddDays(7 * (WeekNumber - 1));
             return Enumerable.Range(0, 7).Select(num => start.AddDays(num)).ToArray();
         }
+
+        public static void CreateNewPayment(string folio, string amount, DateTime payDate, Int32 stID, Int32 ctID)
+        {
+
+        }
     }
 }

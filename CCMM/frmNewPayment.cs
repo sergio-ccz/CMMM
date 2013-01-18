@@ -16,8 +16,11 @@ namespace CCMM
             InitializeComponent();
         }
 
+        private bool finishedLoading = false;
         frmStudentDetails frmStudentDetails;
         private List<GenericObject> ConceptList;
+        private List<GenericObject> ConceptListAS;
+        private List<string> selectedStudent = new List<string>();
         private List<string> studentToPay = null;
 
         private void btnStudentSearch_Click(object sender, EventArgs e)
@@ -38,11 +41,12 @@ namespace CCMM
             if (txtbAccNum.Text != "")
             {
                 //Get the select student details (or try)
-                List<string> selectedStudent = DAL.getStudentDetails(Int32.Parse(txtbAccNum.Text));
+                selectedStudent = DAL.getStudentDetails(Int32.Parse(txtbAccNum.Text));
+                string loadOrder = "";
                 studentToPay = selectedStudent;
-                cbPaymentType.SelectedIndex = 0;
-
+                
                 //Clean concept list to add new ones for new student.
+                cbPaymentType.Items.Clear();
                 cbPaymentConcept.DataSource = null;
                 cbPaymentConcept.Items.Clear();
                 txtbPaymentAmount.Clear();
@@ -52,24 +56,70 @@ namespace CCMM
                 //If a student was actually found
                 if (selectedStudent.Count != 0)
                 {
+                    //Check if student is attending, after-school only or both. 
+                    if (selectedStudent[4] == "99")
+                    {
+                        //After-school only
+                        loadOrder = "MI";
+                    }
+                    else if (selectedStudent[8] == "1")
+                    {
+                        //Both concept lists
+                        loadOrder = "BT";
+                    }
+                    else
+                    {
+                        //Only school-payments
+                        loadOrder = "SC";
+                    }
+
                     //Show the payment details box
                     gbxPaymentDetails.Visible = true;
+
+                    switch (loadOrder)
+                    {
+                        case "BT":
+                            //Load both lists;
+                            cbPaymentType.Items.Insert(0, "Pagos Escolares");
+                            cbPaymentType.Items.Insert(1, "Medio Internado");
+                            cbPaymentType.SelectedIndex = 0;
+                            LoadConceptLists(loadOrder);
+                            break;
+
+                        case "SC":
+                            //Load only school-payments
+                            cbPaymentType.Items.Insert(0, "Pagos Escolares");
+                            cbPaymentType.SelectedIndex = 0;
+                            LoadConceptLists(loadOrder);
+                            break;
+
+                        case "MI":
+                            //Load only after-school payments
+                            cbPaymentType.Items.Insert(0, "Medio Internado");
+                            cbPaymentType.SelectedIndex = 0;
+                            LoadConceptLists(loadOrder);
+                            break;
+
+                    }
+
+                    //Load selected concept list depending on selected type
+                    cbPaymentConcept.ValueMember = "Value";
+                    cbPaymentConcept.DisplayMember = "Name";
+
+                    if(cbPaymentType.SelectedItem.ToString() == "Pagos Escolares")
+                        cbPaymentConcept.DataSource = ConceptList;
+                    else
+                        cbPaymentConcept.DataSource = ConceptListAS;
 
                     //Enable controls and all that
                     cbPaymentConcept.Enabled = true;
                     picAccNumber.Image = (Image)CCMM.Properties.Resources.CheckMark;
                     llinkViewAccDetails.Visible = true;
                     llinkViewAccDetails.Text = "[" + selectedStudent[1] + " " + selectedStudent[2] + "]";
-
-                    //Load concept list into ComboBox [cbPaymentConcept]
-                    ConceptList = DAL.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
-                    cbPaymentConcept.ValueMember = "Value";
-                    cbPaymentConcept.DisplayMember = "Name";
-                    cbPaymentConcept.DataSource = ConceptList;
-
-
+                                   
                     //Update amount
                     cbPaymentConcept_SelectedIndexChanged(null, null);
+                    finishedLoading = true;
                     return;
                 }
                 else
@@ -80,32 +130,90 @@ namespace CCMM
 
             gbxPaymentDetails.Visible = false;
             llinkViewAccDetails.Visible = false;
+            finishedLoading = false;
             picAccNumber.Image = (Image)Properties.Resources.Warning;
+        }
+
+        private void LoadConceptLists(string loadOrder)
+        {
+            switch (loadOrder)
+            {
+                case "BT":
+                    //Load both lists;
+                    ConceptList = DAL.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
+                    ConceptListAS = DAL.getAfterSchoolConcepts();
+                    break;
+
+                case "SC":
+                    //Load only school-payments
+                    ConceptList = DAL.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
+                    break;
+
+                case "MI":
+                    //Load only after-school payments
+                    ConceptListAS = DAL.getAfterSchoolConcepts();
+                    break;
+
+            }
         }
 
         private void cbPaymentConcept_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (finishedLoading)
+            {
+                List<GenericObject> cList = new List<GenericObject>();
 
+                if (cbPaymentType.SelectedItem != null && cbPaymentType.SelectedItem.ToString() == "Medio Internado")
+                    cList = ConceptListAS;
+                else
+                    cList = ConceptList;
+
+                //Get base amounts for the selected concept
+                foreach (GenericObject conceptEntry in cList)
+                {
+                    if (cbPaymentConcept.SelectedItem == conceptEntry)
+                    {
+                        //If the selected student has a discount, apply. Only works if a student is currently selected
+                        if (studentToPay != null && int.Parse(studentToPay[6]) > 0)
+                        {
+                            double paymentAmount = conceptEntry.Amount - (conceptEntry.Amount * (int.Parse(studentToPay[6].ToString()) * .01));
+                            txtbPaymentAmount.Text = paymentAmount.ToString();
+                            picDiscountWarning.Image = (Image)Properties.Resources.Warning;
+                        }
+                        else
+                        {
+                            //If no student is selected, or student has no discount, just display the base amount
+                            txtbPaymentAmount.Text = conceptEntry.Amount.ToString();
+                            picDiscountWarning.Image = null;
+                        }
+                    }
+                }
+            }
         }
 
         private void frmNewPayment_Load(object sender, EventArgs e)
         {
-            cbPaymentType.Items.Add("Escolar");
-            cbPaymentType.Items.Add("Medio Internado");
-
-            cbPaymentType.SelectedIndex = 0;
         }
 
         private void cbPaymentType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //For normal payments, grab the concepts that a normal student would pay
-            if (cbPaymentType.SelectedText == "Escolar")
+            if (finishedLoading)
             {
+                //For normal payments, grab the concepts that a normal student would pay
+                cbPaymentConcept.DataSource = null;
+                cbPaymentConcept.Items.Clear();
 
-            }
+                cbPaymentConcept.ValueMember = "Value";
+                cbPaymentConcept.DisplayMember = "Name";
 
-            if (cbPaymentType.SelectedText == "Medio Internado")
-            {
+                if (cbPaymentType.SelectedItem.ToString() == "Pagos Escolares")
+                {
+                    cbPaymentConcept.DataSource = ConceptList;
+                }
+                else
+                {
+                    cbPaymentConcept.DataSource = ConceptListAS;
+                } 
             }
         }
 
@@ -113,6 +221,11 @@ namespace CCMM
         {
             frmStudentDetails = new frmStudentDetails(Int32.Parse(txtbAccNum.Text), false);
             frmStudentDetails.ShowDialog();
+        }
+
+        private void btnSavePayment_Click(object sender, EventArgs e)
+        {
+
         }
 
 

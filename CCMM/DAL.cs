@@ -177,5 +177,68 @@ namespace CCMM
 
             return lstConcept;
         }
+
+        public static bool getAfterSchool(Int32 stdID)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            string baseQuery = "SELECT After_School FROM Students WHERE Account_Num =";
+            baseQuery += stdID;
+
+            return false;
+        }
+
+        public static List<GenericObject> getAfterSchoolConcepts()
+        {
+            List<GenericObject> lstConcept = new List<GenericObject>();
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+
+            sqlConnection.Open();
+            SqlCeCommand qCommand = new SqlCeCommand();
+            qCommand.CommandText = "SELECT ID, Title, Base_Amount FROM Conceptos WHERE (Concept_Type = 'Internado')" +
+                "ORDER BY ID";
+
+            qCommand.Connection = sqlConnection;
+            SqlCeDataReader sqlReader = qCommand.ExecuteReader();
+
+            while (sqlReader.Read())
+            {
+                GenericObject gObject = new GenericObject();
+                gObject.Name = sqlReader["Title"].ToString(); ;
+                gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
+                gObject.Value = sqlReader["ID"].ToString();
+
+                lstConcept.Add(gObject);
+            }
+
+            sqlConnection.Close();
+
+            return lstConcept;
+        }
+
+        public void InsertPayment(string folio, string amount, DateTime payDate, Int32 stID, Int32 ctID)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            SqlCeCommand sqlCommand = new SqlCeCommand();
+            sqlCommand.CommandText = "INSERT INTO";
+
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            sqlConnection.Close();
+        }
     }
 }
