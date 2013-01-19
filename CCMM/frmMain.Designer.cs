@@ -32,8 +32,8 @@
             this.mbtnNewPayment = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnPaySearch = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnStudents = new System.Windows.Forms.ToolStripMenuItem();
-            this.búsquedaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nuevoAlumnoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnStudentSearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnStudentRegistration = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnReports = new System.Windows.Forms.ToolStripMenuItem();
             this.diarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,8 +81,8 @@
             // mbtnStudents
             // 
             this.mbtnStudents.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.búsquedaToolStripMenuItem,
-            this.nuevoAlumnoToolStripMenuItem});
+            this.mbtnStudentSearch,
+            this.mbtnStudentRegistration});
             this.mbtnStudents.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mbtnStudents.Image = global::CCMM.Properties.Resources.Users;
             this.mbtnStudents.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -90,17 +90,18 @@
             this.mbtnStudents.Size = new System.Drawing.Size(132, 52);
             this.mbtnStudents.Text = "Alumnos";
             // 
-            // búsquedaToolStripMenuItem
+            // mbtnStudentSearch
             // 
-            this.búsquedaToolStripMenuItem.Name = "búsquedaToolStripMenuItem";
-            this.búsquedaToolStripMenuItem.Size = new System.Drawing.Size(184, 24);
-            this.búsquedaToolStripMenuItem.Text = "Búsqueda";
+            this.mbtnStudentSearch.Name = "mbtnStudentSearch";
+            this.mbtnStudentSearch.Size = new System.Drawing.Size(184, 24);
+            this.mbtnStudentSearch.Text = "Búsqueda";
+            this.mbtnStudentSearch.Click += new System.EventHandler(this.mbtnStudentSearch_Click);
             // 
-            // nuevoAlumnoToolStripMenuItem
+            // mbtnStudentRegistration
             // 
-            this.nuevoAlumnoToolStripMenuItem.Name = "nuevoAlumnoToolStripMenuItem";
-            this.nuevoAlumnoToolStripMenuItem.Size = new System.Drawing.Size(184, 24);
-            this.nuevoAlumnoToolStripMenuItem.Text = "Nuevo Alumno";
+            this.mbtnStudentRegistration.Name = "mbtnStudentRegistration";
+            this.mbtnStudentRegistration.Size = new System.Drawing.Size(184, 24);
+            this.mbtnStudentRegistration.Text = "Nuevo Alumno";
             // 
             // mbtnReports
             // 
@@ -117,13 +118,13 @@
             // diarioToolStripMenuItem
             // 
             this.diarioToolStripMenuItem.Name = "diarioToolStripMenuItem";
-            this.diarioToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
+            this.diarioToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
             this.diarioToolStripMenuItem.Text = "Diario";
             // 
             // generalToolStripMenuItem
             // 
             this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            this.generalToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
+            this.generalToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
             this.generalToolStripMenuItem.Text = "General";
             // 
             // mbtnSettings
@@ -176,8 +177,8 @@
         private System.Windows.Forms.ToolStripMenuItem mbtnStudents;
         private System.Windows.Forms.ToolStripMenuItem mbtnReports;
         private System.Windows.Forms.ToolStripMenuItem mbtnSettings;
-        private System.Windows.Forms.ToolStripMenuItem búsquedaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nuevoAlumnoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mbtnStudentSearch;
+        private System.Windows.Forms.ToolStripMenuItem mbtnStudentRegistration;
         private System.Windows.Forms.ToolStripMenuItem diarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevoCicloEscolarToolStripMenuItem;

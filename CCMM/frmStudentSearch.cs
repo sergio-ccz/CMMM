@@ -116,5 +116,11 @@ namespace CCMM
                 }
             }
         }
+
+        private void frmStudentSearch_Load(object sender, EventArgs e)
+        {
+            //Load School Levels
+
+        }
     }
 }

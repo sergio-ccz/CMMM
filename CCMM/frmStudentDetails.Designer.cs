@@ -74,7 +74,7 @@
             // 
             // txtbFalseGrade
             // 
-            this.txtbFalseGrade.Location = new System.Drawing.Point(510, 36);
+            this.txtbFalseGrade.Location = new System.Drawing.Point(510, 35);
             this.txtbFalseGrade.Margin = new System.Windows.Forms.Padding(4);
             this.txtbFalseGrade.Name = "txtbFalseGrade";
             this.txtbFalseGrade.ReadOnly = true;
@@ -165,6 +165,7 @@
             this.btnEditSaveAcc.TabIndex = 71;
             this.btnEditSaveAcc.Text = "Editar";
             this.btnEditSaveAcc.UseVisualStyleBackColor = true;
+            this.btnEditSaveAcc.Click += new System.EventHandler(this.btnEditSaveAcc_Click);
             // 
             // txtbDiscount
             // 
@@ -218,7 +219,8 @@
             "14",
             "15",
             "16",
-            "17"});
+            "17",
+            "Solo MI"});
             this.cbGrade.Location = new System.Drawing.Point(510, 35);
             this.cbGrade.Margin = new System.Windows.Forms.Padding(4);
             this.cbGrade.Name = "cbGrade";
@@ -391,6 +393,7 @@
             this.Name = "frmStudentDetails";
             this.ShowIcon = false;
             this.Text = "Detalles para [Estudiante]";
+            this.Load += new System.EventHandler(this.frmStudentDetails_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gDataPayments)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccNumber)).EndInit();

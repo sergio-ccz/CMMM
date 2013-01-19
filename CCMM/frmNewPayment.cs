@@ -33,6 +33,7 @@ namespace CCMM
             {
                 txtbAccNum.Text = frmSelectUserPayment.studentID;
             }
+
             frmSelectUserPayment.Dispose();
         }
 
@@ -225,9 +226,38 @@ namespace CCMM
 
         private void btnSavePayment_Click(object sender, EventArgs e)
         {
+            //Send list with different values to create a new payment
+            List<string> paymentDetails = new List<string>();
 
+            //Verify that the new [Folio] doesn't exist already
+            if (txtbPaymentFolio.Text != "" && DAL.checkFolio(txtbPaymentFolio.Text))
+            {
+                MessageBox.Show("Este folio ya existe, por favor ingresar uno nuevo");
+                return;
+            }
+
+            try
+            {
+                paymentDetails.Add(txtbPaymentFolio.Text);
+                paymentDetails.Add(txtbPaymentAmount.Text);
+                paymentDetails.Add(datePaymentDate.Value.ToString());
+                paymentDetails.Add(cbPaymentComplete.Checked.ToString());
+                paymentDetails.Add(selectedStudent[0]);
+                paymentDetails.Add(cbPaymentConcept.SelectedValue.ToString());
+
+                //Send list to parse and then to insert on database
+                BAL.CreateNewPayment(paymentDetails);
+
+                DialogResult sameStudent = MessageBox.Show("Pago registrado - ¿Seguir con mismo alumno?", "Nuevo Pago", MessageBoxButtons.YesNo);
+                if (sameStudent == System.Windows.Forms.DialogResult.No)
+                    txtbAccNum.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hubo un error, por favor de verificar los datos");
+                return;
+            }
         }
-
 
     }
 }

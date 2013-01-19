@@ -18,7 +18,7 @@ namespace CCMM
 
         //Creates needed forms
         frmNewPayment frmNewPayment;
-        frmStudentSearch frmSearchStudent;
+        frmStudentSearch frmStudentSearch;
         //frmNewStudent frmNewStudent;
         //frmPaymentSearch frmPaymentSearch;
         //frmConceptConfiguration frmConceptConfiguration;
@@ -36,6 +36,16 @@ namespace CCMM
         private void mbtnPaySearch_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void mbtnStudentSearch_Click(object sender, EventArgs e)
+        {
+            if (frmStudentSearch == null || frmStudentSearch.Visible == false)
+            {
+                frmStudentSearch = new frmStudentSearch("normalSearch");
+                frmStudentSearch.MdiParent = this;
+                frmStudentSearch.Show();
+            }
         }
     }
 }

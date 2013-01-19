@@ -5,6 +5,30 @@ using System.Text;
 
 namespace CCMM
 {
+    class newPayment
+    {
+        public string paymentFolio { get; set; }
+        public double payedAmount { get; set; }
+        public DateTime paymentDate { get; set; }
+        public bool paymentComplete { get; set; }
+        public string paymentComments { get; set; }
+        public Int32 studentID { get; set; }
+        public int conceptID { get; set; }
+    }
+
+    class infoStudent
+    {
+        public Int32 studentID { get; set; }
+        public string studentFistName { get; set; }
+        public string studentLastName { get; set; }
+        public string studentLastName2 { get; set; }
+        public int studentGroup { get; set; }
+        public int studentLevel { get; set; }
+        public int paymentDiscount { get; set; }
+        public string paymentType { get; set; }
+        public bool studentAfterSchool { get; set; }
+    }
+
     class BAL
     {
         public static List<string> CreateWeekEntries()
@@ -28,9 +52,24 @@ namespace CCMM
             return Enumerable.Range(0, 7).Select(num => start.AddDays(num)).ToArray();
         }
 
-        public static void CreateNewPayment(string folio, string amount, DateTime payDate, Int32 stID, Int32 ctID)
+        public static void CreateNewPayment(List<string> paymentDetails)
         {
+            //paymentDetails.Add(txtbPaymentFolio.Text);
+            //paymentDetails.Add(txtbPaymentAmount.Text);
+            //paymentDetails.Add(datePaymentDate.Value.ToString());
+            //paymentDetails.Add(cbPaymentComplete.Checked.ToString());
+            //paymentDetails.Add(selectedStudent[0]);
+            //paymentDetails.Add(cbPaymentConcept.SelectedValue.ToString());
 
+            newPayment nPayment = new newPayment();
+            nPayment.paymentFolio = paymentDetails[0];
+            nPayment.payedAmount = double.Parse(paymentDetails[1]);
+            nPayment.paymentDate = DateTime.Parse(paymentDetails[2]);
+            nPayment.paymentComplete = bool.Parse(paymentDetails[3]);
+            nPayment.studentID = Int32.Parse(paymentDetails[4]);
+            nPayment.conceptID = int.Parse(paymentDetails[5]);
+
+            DAL.InsertPayment(nPayment); 
         }
     }
 }

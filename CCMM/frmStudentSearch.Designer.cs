@@ -45,12 +45,14 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtbAccNum = new System.Windows.Forms.TextBox();
             this.lblAccNum = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dGridStudentResults)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBParameters
             // 
+            this.groupBParameters.Controls.Add(this.checkBox1);
             this.groupBParameters.Controls.Add(this.cbGrade);
             this.groupBParameters.Controls.Add(this.lblGrade);
             this.groupBParameters.Controls.Add(this.txtbLastName2);
@@ -74,7 +76,7 @@
             // cbGrade
             // 
             this.cbGrade.FormattingEnabled = true;
-            this.cbGrade.Location = new System.Drawing.Point(231, 107);
+            this.cbGrade.Location = new System.Drawing.Point(240, 107);
             this.cbGrade.Margin = new System.Windows.Forms.Padding(4);
             this.cbGrade.Name = "cbGrade";
             this.cbGrade.Size = new System.Drawing.Size(180, 24);
@@ -93,7 +95,7 @@
             // 
             // txtbLastName2
             // 
-            this.txtbLastName2.Location = new System.Drawing.Point(447, 49);
+            this.txtbLastName2.Location = new System.Drawing.Point(451, 49);
             this.txtbLastName2.Margin = new System.Windows.Forms.Padding(4);
             this.txtbLastName2.Name = "txtbLastName2";
             this.txtbLastName2.Size = new System.Drawing.Size(180, 22);
@@ -102,7 +104,7 @@
             // cbLevel
             // 
             this.cbLevel.FormattingEnabled = true;
-            this.cbLevel.Location = new System.Drawing.Point(22, 107);
+            this.cbLevel.Location = new System.Drawing.Point(31, 107);
             this.cbLevel.Margin = new System.Windows.Forms.Padding(4);
             this.cbLevel.Name = "cbLevel";
             this.cbLevel.Size = new System.Drawing.Size(180, 24);
@@ -132,7 +134,7 @@
             // 
             // txtbLastName
             // 
-            this.txtbLastName.Location = new System.Drawing.Point(231, 49);
+            this.txtbLastName.Location = new System.Drawing.Point(240, 49);
             this.txtbLastName.Margin = new System.Windows.Forms.Padding(4);
             this.txtbLastName.Name = "txtbLastName";
             this.txtbLastName.Size = new System.Drawing.Size(180, 22);
@@ -151,7 +153,7 @@
             // 
             // txtbName
             // 
-            this.txtbName.Location = new System.Drawing.Point(22, 49);
+            this.txtbName.Location = new System.Drawing.Point(31, 49);
             this.txtbName.Margin = new System.Windows.Forms.Padding(4);
             this.txtbName.Name = "txtbName";
             this.txtbName.Size = new System.Drawing.Size(180, 22);
@@ -241,6 +243,17 @@
             this.lblAccNum.TabIndex = 21;
             this.lblAccNum.Text = "Cuenta:";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(451, 107);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(160, 22);
+            this.checkBox1.TabIndex = 26;
+            this.checkBox1.Text = "Medio Internado?";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // frmStudentSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -256,6 +269,7 @@
             this.Name = "frmStudentSearch";
             this.ShowIcon = false;
             this.Text = "Búsqueda de Alumnos";
+            this.Load += new System.EventHandler(this.frmStudentSearch_Load);
             this.groupBParameters.ResumeLayout(false);
             this.groupBParameters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dGridStudentResults)).EndInit();
@@ -283,6 +297,7 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox txtbAccNum;
         private System.Windows.Forms.Label lblAccNum;
+        private System.Windows.Forms.CheckBox checkBox1;
 
     }
 }
