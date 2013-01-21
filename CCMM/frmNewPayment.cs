@@ -20,8 +20,8 @@ namespace CCMM
         frmStudentDetails frmStudentDetails;
         private List<GenericObject> ConceptList;
         private List<GenericObject> ConceptListAS;
-        private List<string> selectedStudent = new List<string>();
-        private List<string> studentToPay = null;
+        infoStudent selectedStudent = new infoStudent();
+        infoStudent studentToPay = new infoStudent();
 
         private void btnStudentSearch_Click(object sender, EventArgs e)
         {
@@ -55,15 +55,15 @@ namespace CCMM
                 cbPaymentConcept.Enabled = false;
 
                 //If a student was actually found
-                if (selectedStudent.Count != 0)
+                if (selectedStudent != null)
                 {
                     //Check if student is attending, after-school only or both. 
-                    if (selectedStudent[4] == "99")
+                    if (selectedStudent.studentGroup == 99)
                     {
                         //After-school only
                         loadOrder = "MI";
                     }
-                    else if (selectedStudent[8] == "1")
+                    else if (selectedStudent.studentAfterSchool)
                     {
                         //Both concept lists
                         loadOrder = "BT";
@@ -116,7 +116,7 @@ namespace CCMM
                     cbPaymentConcept.Enabled = true;
                     picAccNumber.Image = (Image)CCMM.Properties.Resources.CheckMark;
                     llinkViewAccDetails.Visible = true;
-                    llinkViewAccDetails.Text = "[" + selectedStudent[1] + " " + selectedStudent[2] + "]";
+                    llinkViewAccDetails.Text = "[" + selectedStudent.studentFistName + " " + selectedStudent.studentLastName + "]";
                                    
                     //Update amount
                     cbPaymentConcept_SelectedIndexChanged(null, null);
@@ -141,13 +141,13 @@ namespace CCMM
             {
                 case "BT":
                     //Load both lists;
-                    ConceptList = DAL.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
+                    ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
                     ConceptListAS = DAL.getAfterSchoolConcepts();
                     break;
 
                 case "SC":
                     //Load only school-payments
-                    ConceptList = DAL.getAvailableConcepts(int.Parse(selectedStudent[4]), int.Parse(selectedStudent[5]));
+                    ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
                     break;
 
                 case "MI":
@@ -175,9 +175,9 @@ namespace CCMM
                     if (cbPaymentConcept.SelectedItem == conceptEntry)
                     {
                         //If the selected student has a discount, apply. Only works if a student is currently selected
-                        if (studentToPay != null && int.Parse(studentToPay[6]) > 0)
+                        if (studentToPay != null && studentToPay.paymentDiscount > 0)
                         {
-                            double paymentAmount = conceptEntry.Amount - (conceptEntry.Amount * (int.Parse(studentToPay[6].ToString()) * .01));
+                            double paymentAmount = conceptEntry.Amount - (conceptEntry.Amount * ((studentToPay.paymentDiscount) * .01));
                             txtbPaymentAmount.Text = paymentAmount.ToString();
                             picDiscountWarning.Image = (Image)Properties.Resources.Warning;
                         }
@@ -242,7 +242,7 @@ namespace CCMM
                 paymentDetails.Add(txtbPaymentAmount.Text);
                 paymentDetails.Add(datePaymentDate.Value.ToString());
                 paymentDetails.Add(cbPaymentComplete.Checked.ToString());
-                paymentDetails.Add(selectedStudent[0]);
+                paymentDetails.Add(selectedStudent.studentID.ToString());
                 paymentDetails.Add(cbPaymentConcept.SelectedValue.ToString());
 
                 //Send list to parse and then to insert on database

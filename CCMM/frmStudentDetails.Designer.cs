@@ -51,10 +51,11 @@
             this.lblName = new System.Windows.Forms.Label();
             this.txtbAccNum = new System.Windows.Forms.TextBox();
             this.lblAccNum = new System.Windows.Forms.Label();
-            this.picUsers = new System.Windows.Forms.PictureBox();
-            this.picAccNumber = new System.Windows.Forms.PictureBox();
             this.lblAccType = new System.Windows.Forms.Label();
             this.cbAccType = new System.Windows.Forms.ComboBox();
+            this.cbAfterSchool = new System.Windows.Forms.CheckBox();
+            this.picUsers = new System.Windows.Forms.PictureBox();
+            this.picAccNumber = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.gDataPayments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccNumber)).BeginInit();
@@ -89,6 +90,7 @@
             this.datePaymentTo.Name = "datePaymentTo";
             this.datePaymentTo.Size = new System.Drawing.Size(120, 22);
             this.datePaymentTo.TabIndex = 78;
+            this.datePaymentTo.ValueChanged += new System.EventHandler(this.datePaymentTo_ValueChanged);
             // 
             // lblPaymentDateTo
             // 
@@ -109,6 +111,7 @@
             this.datePaymentFrom.Name = "datePaymentFrom";
             this.datePaymentFrom.Size = new System.Drawing.Size(120, 22);
             this.datePaymentFrom.TabIndex = 76;
+            this.datePaymentFrom.ValueChanged += new System.EventHandler(this.datePaymentFrom_ValueChanged);
             // 
             // lblPaymentDateFrom
             // 
@@ -131,6 +134,7 @@
             this.btnPrintGrid.Text = "Imprimir Historial";
             this.btnPrintGrid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnPrintGrid.UseVisualStyleBackColor = true;
+            this.btnPrintGrid.Click += new System.EventHandler(this.btnPrintGrid_Click);
             // 
             // lblPaymentHistory
             // 
@@ -201,6 +205,7 @@
             // 
             // cbGrade
             // 
+            this.cbGrade.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGrade.FormattingEnabled = true;
             this.cbGrade.Items.AddRange(new object[] {
             "1",
@@ -227,6 +232,7 @@
             this.cbGrade.Size = new System.Drawing.Size(57, 24);
             this.cbGrade.TabIndex = 62;
             this.cbGrade.Visible = false;
+            this.cbGrade.SelectedIndexChanged += new System.EventHandler(this.cbGrade_SelectedIndexChanged);
             // 
             // lblGrade
             // 
@@ -319,6 +325,43 @@
             this.lblAccNum.TabIndex = 65;
             this.lblAccNum.Text = "Cuenta:";
             // 
+            // lblAccType
+            // 
+            this.lblAccType.AutoSize = true;
+            this.lblAccType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAccType.Location = new System.Drawing.Point(21, 146);
+            this.lblAccType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAccType.Name = "lblAccType";
+            this.lblAccType.Size = new System.Drawing.Size(127, 18);
+            this.lblAccType.TabIndex = 83;
+            this.lblAccType.Text = "Tipo de Cuenta:";
+            // 
+            // cbAccType
+            // 
+            this.cbAccType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAccType.Enabled = false;
+            this.cbAccType.FormattingEnabled = true;
+            this.cbAccType.Items.AddRange(new object[] {
+            "Normal",
+            "Diferido"});
+            this.cbAccType.Location = new System.Drawing.Point(35, 167);
+            this.cbAccType.Name = "cbAccType";
+            this.cbAccType.Size = new System.Drawing.Size(126, 24);
+            this.cbAccType.TabIndex = 84;
+            // 
+            // cbAfterSchool
+            // 
+            this.cbAfterSchool.AutoSize = true;
+            this.cbAfterSchool.Enabled = false;
+            this.cbAfterSchool.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAfterSchool.Location = new System.Drawing.Point(239, 167);
+            this.cbAfterSchool.Name = "cbAfterSchool";
+            this.cbAfterSchool.Size = new System.Drawing.Size(160, 22);
+            this.cbAfterSchool.TabIndex = 85;
+            this.cbAfterSchool.Text = "Medio Internado?";
+            this.cbAfterSchool.UseVisualStyleBackColor = true;
+            this.cbAfterSchool.CheckedChanged += new System.EventHandler(this.cbAfterSchool_CheckedChanged);
+            // 
             // picUsers
             // 
             this.picUsers.Image = global::CCMM.Properties.Resources.Users;
@@ -338,31 +381,12 @@
             this.picAccNumber.TabIndex = 80;
             this.picAccNumber.TabStop = false;
             // 
-            // lblAccType
-            // 
-            this.lblAccType.AutoSize = true;
-            this.lblAccType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccType.Location = new System.Drawing.Point(21, 146);
-            this.lblAccType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAccType.Name = "lblAccType";
-            this.lblAccType.Size = new System.Drawing.Size(127, 18);
-            this.lblAccType.TabIndex = 83;
-            this.lblAccType.Text = "Tipo de Cuenta:";
-            // 
-            // cbAccType
-            // 
-            this.cbAccType.Enabled = false;
-            this.cbAccType.FormattingEnabled = true;
-            this.cbAccType.Location = new System.Drawing.Point(35, 167);
-            this.cbAccType.Name = "cbAccType";
-            this.cbAccType.Size = new System.Drawing.Size(126, 24);
-            this.cbAccType.TabIndex = 84;
-            // 
             // frmStudentDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(716, 505);
+            this.Controls.Add(this.cbAfterSchool);
             this.Controls.Add(this.cbAccType);
             this.Controls.Add(this.lblAccType);
             this.Controls.Add(this.picUsers);
@@ -431,5 +455,6 @@
         private System.Windows.Forms.Label lblAccNum;
         private System.Windows.Forms.Label lblAccType;
         private System.Windows.Forms.ComboBox cbAccType;
+        private System.Windows.Forms.CheckBox cbAfterSchool;
     }
 }

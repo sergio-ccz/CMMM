@@ -5,30 +5,6 @@ using System.Text;
 
 namespace CCMM
 {
-    class newPayment
-    {
-        public string paymentFolio { get; set; }
-        public double payedAmount { get; set; }
-        public DateTime paymentDate { get; set; }
-        public bool paymentComplete { get; set; }
-        public string paymentComments { get; set; }
-        public Int32 studentID { get; set; }
-        public int conceptID { get; set; }
-    }
-
-    class infoStudent
-    {
-        public Int32 studentID { get; set; }
-        public string studentFistName { get; set; }
-        public string studentLastName { get; set; }
-        public string studentLastName2 { get; set; }
-        public int studentGroup { get; set; }
-        public int studentLevel { get; set; }
-        public int paymentDiscount { get; set; }
-        public string paymentType { get; set; }
-        public bool studentAfterSchool { get; set; }
-    }
-
     class BAL
     {
         public static List<string> CreateWeekEntries()
@@ -54,14 +30,9 @@ namespace CCMM
 
         public static void CreateNewPayment(List<string> paymentDetails)
         {
-            //paymentDetails.Add(txtbPaymentFolio.Text);
-            //paymentDetails.Add(txtbPaymentAmount.Text);
-            //paymentDetails.Add(datePaymentDate.Value.ToString());
-            //paymentDetails.Add(cbPaymentComplete.Checked.ToString());
-            //paymentDetails.Add(selectedStudent[0]);
-            //paymentDetails.Add(cbPaymentConcept.SelectedValue.ToString());
+            //Create payment object and assign values
+            infoPayment nPayment = new infoPayment();
 
-            newPayment nPayment = new newPayment();
             nPayment.paymentFolio = paymentDetails[0];
             nPayment.payedAmount = double.Parse(paymentDetails[1]);
             nPayment.paymentDate = DateTime.Parse(paymentDetails[2]);
@@ -70,6 +41,79 @@ namespace CCMM
             nPayment.conceptID = int.Parse(paymentDetails[5]);
 
             DAL.InsertPayment(nPayment); 
+        }
+
+        /// <summary>
+        /// Calculates on which school level is a determined group
+        /// </summary>
+        /// <param name="stdGrade"></param>
+        /// <returns></returns>
+        public static int getLevelfromGrade(int stdGrade)
+        {
+            //A student the 99 group is after-school only
+            if (stdGrade == 99)
+            {
+                //After-school only
+                return 5;
+            }
+
+            if (stdGrade <= 6)
+            {
+                //Primaria
+                return 1;
+            }
+
+            if (stdGrade >= 7 && stdGrade <= 9)
+            {
+                //Secundaria
+                return 2;
+            }
+
+            if (stdGrade >= 10 && stdGrade <= 12)
+            {
+                //Preparatoria
+                return 3;
+            }
+
+            if (stdGrade >= 13 && stdGrade <= 21)
+            {
+                //Licenciatura
+                return 4;
+            }
+
+
+            //After school only if a problem arises
+            return 99;
+        }
+        
+        public static int getLevelbyName(string levelName)
+        {
+            int schoolLevel = 1;
+
+            switch (levelName)
+            {
+                case "Primaria":
+                    schoolLevel = 1;
+                    break;
+
+                case "Secundaria":
+                    schoolLevel = 2;
+                    break;
+
+                case "Preparatoria":
+                    schoolLevel = 3;
+                    break;
+
+                case "Universidad":
+                    schoolLevel = 4;
+                    break;
+
+                case "Medio Internado":
+                    schoolLevel = 5;
+                    break;
+            }
+
+            return schoolLevel;
         }
     }
 }

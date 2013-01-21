@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBParameters = new System.Windows.Forms.GroupBox();
+            this.cbAfterSchool = new System.Windows.Forms.CheckBox();
             this.cbGrade = new System.Windows.Forms.ComboBox();
             this.lblGrade = new System.Windows.Forms.Label();
             this.txtbLastName2 = new System.Windows.Forms.TextBox();
@@ -45,14 +46,13 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtbAccNum = new System.Windows.Forms.TextBox();
             this.lblAccNum = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dGridStudentResults)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBParameters
             // 
-            this.groupBParameters.Controls.Add(this.checkBox1);
+            this.groupBParameters.Controls.Add(this.cbAfterSchool);
             this.groupBParameters.Controls.Add(this.cbGrade);
             this.groupBParameters.Controls.Add(this.lblGrade);
             this.groupBParameters.Controls.Add(this.txtbLastName2);
@@ -73,14 +73,47 @@
             this.groupBParameters.TabStop = false;
             this.groupBParameters.Text = "Parametros de Búsqueda";
             // 
+            // cbAfterSchool
+            // 
+            this.cbAfterSchool.AutoSize = true;
+            this.cbAfterSchool.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAfterSchool.Location = new System.Drawing.Point(451, 107);
+            this.cbAfterSchool.Name = "cbAfterSchool";
+            this.cbAfterSchool.Size = new System.Drawing.Size(160, 22);
+            this.cbAfterSchool.TabIndex = 26;
+            this.cbAfterSchool.Text = "Medio Internado?";
+            this.cbAfterSchool.UseVisualStyleBackColor = true;
+            // 
             // cbGrade
             // 
+            this.cbGrade.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGrade.Enabled = false;
             this.cbGrade.FormattingEnabled = true;
+            this.cbGrade.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "Solo MI"});
             this.cbGrade.Location = new System.Drawing.Point(240, 107);
             this.cbGrade.Margin = new System.Windows.Forms.Padding(4);
             this.cbGrade.Name = "cbGrade";
             this.cbGrade.Size = new System.Drawing.Size(180, 24);
             this.cbGrade.TabIndex = 25;
+            this.cbGrade.SelectedIndexChanged += new System.EventHandler(this.cbGrade_SelectedIndexChanged);
             // 
             // lblGrade
             // 
@@ -103,12 +136,21 @@
             // 
             // cbLevel
             // 
+            this.cbLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLevel.FormattingEnabled = true;
+            this.cbLevel.Items.AddRange(new object[] {
+            "Todos",
+            "Primaria",
+            "Secundaria",
+            "Preparatoria",
+            "Universidad",
+            "Medio Internado"});
             this.cbLevel.Location = new System.Drawing.Point(31, 107);
             this.cbLevel.Margin = new System.Windows.Forms.Padding(4);
             this.cbLevel.Name = "cbLevel";
             this.cbLevel.Size = new System.Drawing.Size(180, 24);
             this.cbLevel.TabIndex = 22;
+            this.cbLevel.SelectedIndexChanged += new System.EventHandler(this.cbLevel_SelectedIndexChanged);
             // 
             // lblLevel
             // 
@@ -198,6 +240,8 @@
             // 
             // dGridStudentResults
             // 
+            this.dGridStudentResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dGridStudentResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dGridStudentResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dGridStudentResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -243,17 +287,6 @@
             this.lblAccNum.TabIndex = 21;
             this.lblAccNum.Text = "Cuenta:";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(451, 107);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(160, 22);
-            this.checkBox1.TabIndex = 26;
-            this.checkBox1.Text = "Medio Internado?";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // frmStudentSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -297,7 +330,7 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox txtbAccNum;
         private System.Windows.Forms.Label lblAccNum;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox cbAfterSchool;
 
     }
 }

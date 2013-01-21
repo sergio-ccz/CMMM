@@ -74,7 +74,7 @@ namespace CCMM
                 {
                     baseQuery += parameters[i];
 
-                    if (parameters.Count > 1 || i < (parameters.Count - 1))
+                    if (parameters[i] != parameters.Last())
                     {
                         baseQuery += " AND ";
                     }
@@ -94,35 +94,45 @@ namespace CCMM
         /// Retrieves all information about a specific student
         /// </summary>
         /// <param name="studentAccount">The student's account number</param>
-        /// <returns>Array containing each column's value</returns>
-        public static List<string> getStudentDetails(Int32 studentAccount)
+        /// <returns>Student object [infoStudent]</returns>
+        public static infoStudent getStudentDetails(Int32 studentAccount)
         {
-            //Create List
-            List<string> studentDetails = new List<string>();
+            //Create student object
+            infoStudent studentDetails = new infoStudent();
 
-            //Open connection and create the command 
+            //Create connection, command and open connection. 
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
             sqlConnection.Open();
 
-            SqlCeCommand sqlCommmand = sqlConnection.CreateCommand();
-            sqlCommmand.CommandText = "SELECT * FROM Students WHERE Account_Num = " + studentAccount;
+            //Gets concepts that are available depending on group and level of student
+            sqlCommand.CommandText = "SELECT * FROM Students WHERE Account_Num = " + studentAccount;
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
 
-            //Execute the command and save each column into the List<>
-            SqlCeDataReader sqlReader = sqlCommmand.ExecuteReader();
-
+            //Get values from columns, add to student object
             while (sqlReader.Read())
             {
-                for (int i = 0; i < sqlReader.FieldCount; i++)
-                {
-                    studentDetails.Add(sqlReader[i].ToString());
-                }
+                studentDetails.studentID = Int32.Parse(sqlReader["Account_Num"].ToString());
+                studentDetails.studentFistName = sqlReader["First_Name"].ToString();
+                studentDetails.studentLastName = sqlReader["Last_Name"].ToString();
+                studentDetails.studentLastName2 = sqlReader["Last_Name_2"].ToString();
+                studentDetails.studentGroup = int.Parse(sqlReader["Group"].ToString());
+                studentDetails.studentLevel = int.Parse(sqlReader["School_Level"].ToString());
+                studentDetails.paymentDiscount = int.Parse(sqlReader["Discount"].ToString());
+                studentDetails.paymentType = sqlReader["Pay_Type"].ToString();
+                if (sqlReader["After_School"].ToString() == "1")
+                    studentDetails.studentAfterSchool = true;
+                else
+                    studentDetails.studentAfterSchool = false;
             }
 
-            sqlConnection.Close();
+            if (studentDetails.studentID == 0)
+                return null;
 
-            //Return the List<>
             return studentDetails;
         }
+
+
 
         /// <summary>
         /// Inserts records for each week of the current year, will be used every new year.
@@ -244,7 +254,7 @@ namespace CCMM
         /// Creates new record that represents payment of a student
         /// </summary>
         /// <param name="nPayment"></param>
-        public static void InsertPayment(newPayment nPayment)
+        public static void InsertPayment(infoPayment nPayment)
         {
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
             sqlConnection.Open();
@@ -329,24 +339,34 @@ namespace CCMM
             return payTables;
         }
 
-        public static string updateStudentRecord(List<string> studentDetails, string currentAccNum)
+        public static string updateStudentRecord(infoStudent editedStudent, Int32 currentAccNum)
         {
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
             sqlConnection.Open();
 
-            int group = Int16.Parse(studentDetails[4]);
-
             string response = "";
 
-            //AccNum, fName, lastname, lastname2, grade, discount
-            SqlCeCommand updateCommand = new SqlCeCommand("UPDATE Students SET Account_Num = @AccN, First_Name = @fName, Last_Name = @lName, Last_Name_2 = @lName2, [Group] = @gNum WHERE Account_Num = @currentStu", sqlConnection);
+            //test
+            editedStudent.paymentType = "Normal";
 
-            updateCommand.Parameters.AddWithValue("@AccN", int.Parse(studentDetails[0]));
-            updateCommand.Parameters.AddWithValue("@fName", studentDetails[1]);
-            updateCommand.Parameters.AddWithValue("@lName", studentDetails[2]);
-            updateCommand.Parameters.AddWithValue("@lName2", studentDetails[3]);
-            updateCommand.Parameters.AddWithValue("@gNum", Int16.Parse(studentDetails[4]));
-            updateCommand.Parameters.AddWithValue("@disc", Int16.Parse(studentDetails[5]));
+            //AccNum, fName, lastname, lastname2, grade, discount
+            SqlCeCommand updateCommand = new SqlCeCommand("UPDATE Students SET Account_Num = @AccN, First_Name = @fName, Last_Name = @lName, Last_Name_2 = @lName2," +
+                "[Group] = @gNum, School_Level = @sLevel, Discount = @disc, Pay_Type = @payType, After_School = @inASch WHERE Account_Num = @currentStu", sqlConnection);
+
+            updateCommand.Parameters.AddWithValue("@AccN", editedStudent.studentID);
+            updateCommand.Parameters.AddWithValue("@fName", editedStudent.studentFistName);
+            updateCommand.Parameters.AddWithValue("@lName", editedStudent.studentLastName);
+            updateCommand.Parameters.AddWithValue("@lName2", editedStudent.studentLastName2);
+            updateCommand.Parameters.AddWithValue("@gNum", editedStudent.studentGroup);
+            updateCommand.Parameters.AddWithValue("@sLevel", editedStudent.studentLevel);
+            updateCommand.Parameters.AddWithValue("@disc", editedStudent.paymentDiscount);
+            updateCommand.Parameters.AddWithValue("@payType", editedStudent.paymentType);
+
+            if (editedStudent.studentAfterSchool)
+                updateCommand.Parameters.AddWithValue("@inASch", 1);
+            else
+                updateCommand.Parameters.AddWithValue("@inASch", 0);
+            
             updateCommand.Parameters.AddWithValue("@currentStu", currentAccNum);
 
             updateCommand.CommandType = System.Data.CommandType.Text;
@@ -358,13 +378,52 @@ namespace CCMM
             }
             catch (Exception e)
             {
-                response = e.ToString();
+                throw e;
             }
 
             sqlConnection.Close();
             sqlConnection.Dispose();
 
             return response;
+        }
+
+        public static void newStudentRecord(infoStudent newStudent)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            //AccNum, fName, lastname, lastname2, grade, discount
+            SqlCeCommand newStudentCommand = new SqlCeCommand("INSERT INTO Students VALUES (@accNum, @fistName, @lastName, @lastName2, @stdGroup, @stdLevel, @stdDiscount, @accType, @afterSchool)", sqlConnection);
+            newStudentCommand.CommandType = System.Data.CommandType.Text;
+
+            newStudentCommand.Parameters.AddWithValue("@accNum", newStudent.studentID);
+            newStudentCommand.Parameters.AddWithValue("@fistName", newStudent.studentFistName);
+            newStudentCommand.Parameters.AddWithValue("@lastName", newStudent.studentLastName);
+            newStudentCommand.Parameters.AddWithValue("@lastName2", newStudent.studentLastName2);
+            newStudentCommand.Parameters.AddWithValue("@stdGroup", newStudent.studentGroup);
+            newStudentCommand.Parameters.AddWithValue("@stdLevel", newStudent.studentLevel);
+            newStudentCommand.Parameters.AddWithValue("@stdDiscount", newStudent.paymentDiscount);
+            newStudentCommand.Parameters.AddWithValue("@accType", newStudent.paymentType);
+            
+            if(newStudent.studentAfterSchool)
+                newStudentCommand.Parameters.AddWithValue("@afterSchool", 1);
+            else
+                newStudentCommand.Parameters.AddWithValue("@afterSchool", 0);
+            
+
+            try
+            {
+                newStudentCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                sqlConnection.Close();
+                sqlConnection.Dispose();
+            }
         }
     }
 }

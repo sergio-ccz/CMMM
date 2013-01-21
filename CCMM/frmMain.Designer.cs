@@ -54,7 +54,7 @@
             this.mbtnSettings});
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
-            this.menuMain.Size = new System.Drawing.Size(816, 56);
+            this.menuMain.Size = new System.Drawing.Size(1131, 56);
             this.menuMain.TabIndex = 1;
             this.menuMain.Text = "menuStrip1";
             // 
@@ -102,6 +102,7 @@
             this.mbtnStudentRegistration.Name = "mbtnStudentRegistration";
             this.mbtnStudentRegistration.Size = new System.Drawing.Size(184, 24);
             this.mbtnStudentRegistration.Text = "Nuevo Alumno";
+            this.mbtnStudentRegistration.Click += new System.EventHandler(this.mbtnStudentRegistration_Click);
             // 
             // mbtnReports
             // 
@@ -118,13 +119,13 @@
             // diarioToolStripMenuItem
             // 
             this.diarioToolStripMenuItem.Name = "diarioToolStripMenuItem";
-            this.diarioToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.diarioToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
             this.diarioToolStripMenuItem.Text = "Diario";
             // 
             // generalToolStripMenuItem
             // 
             this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            this.generalToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.generalToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
             this.generalToolStripMenuItem.Text = "General";
             // 
             // mbtnSettings
@@ -155,7 +156,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(816, 507);
+            this.ClientSize = new System.Drawing.Size(1131, 681);
             this.Controls.Add(this.menuMain);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuMain;

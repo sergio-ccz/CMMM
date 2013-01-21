@@ -64,6 +64,12 @@
   <ItemGroup>
     <Compile Include="BAL.cs" />
     <Compile Include="DAL.cs" />
+    <Compile Include="frmDailyReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDailyReport.Designer.cs">
+      <DependentUpon>frmDailyReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +81,12 @@
     </Compile>
     <Compile Include="frmNewPayment.Designer.cs">
       <DependentUpon>frmNewPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewStudent.Designer.cs">
+      <DependentUpon>frmNewStudent.cs</DependentUpon>
     </Compile>
     <Compile Include="frmStudentDetails.cs">
       <SubType>Form</SubType>
@@ -89,12 +101,19 @@
       <DependentUpon>frmStudentSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmDailyReport.resx">
+      <DependentUpon>frmDailyReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewPayment.resx">
       <DependentUpon>frmNewPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewStudent.resx">
+      <DependentUpon>frmNewStudent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStudentDetails.resx">
       <DependentUpon>frmStudentDetails.cs</DependentUpon>
