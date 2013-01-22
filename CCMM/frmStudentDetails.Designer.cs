@@ -202,6 +202,7 @@
             this.chkSpecialAcc.Size = new System.Drawing.Size(18, 17);
             this.chkSpecialAcc.TabIndex = 63;
             this.chkSpecialAcc.UseVisualStyleBackColor = true;
+            this.chkSpecialAcc.CheckedChanged += new System.EventHandler(this.chkSpecialAcc_CheckedChanged);
             // 
             // cbGrade
             // 

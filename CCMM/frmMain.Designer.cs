@@ -35,7 +35,7 @@
             this.mbtnStudentSearch = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnStudentRegistration = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnReports = new System.Windows.Forms.ToolStripMenuItem();
-            this.diarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnDailyReport = new System.Windows.Forms.ToolStripMenuItem();
             this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoCicloEscolarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,7 +107,7 @@
             // mbtnReports
             // 
             this.mbtnReports.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.diarioToolStripMenuItem,
+            this.mbtnDailyReport,
             this.generalToolStripMenuItem});
             this.mbtnReports.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mbtnReports.Image = global::CCMM.Properties.Resources.Report;
@@ -115,17 +115,19 @@
             this.mbtnReports.Name = "mbtnReports";
             this.mbtnReports.Size = new System.Drawing.Size(132, 52);
             this.mbtnReports.Text = "Reportes";
+            this.mbtnReports.Click += new System.EventHandler(this.mbtnReports_Click);
             // 
-            // diarioToolStripMenuItem
+            // mbtnDailyReport
             // 
-            this.diarioToolStripMenuItem.Name = "diarioToolStripMenuItem";
-            this.diarioToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
-            this.diarioToolStripMenuItem.Text = "Diario";
+            this.mbtnDailyReport.Name = "mbtnDailyReport";
+            this.mbtnDailyReport.Size = new System.Drawing.Size(152, 24);
+            this.mbtnDailyReport.Text = "Diario";
+            this.mbtnDailyReport.Click += new System.EventHandler(this.mbtnDailyReport_Click);
             // 
             // generalToolStripMenuItem
             // 
             this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            this.generalToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
+            this.generalToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
             this.generalToolStripMenuItem.Text = "General";
             // 
             // mbtnSettings
@@ -180,7 +182,7 @@
         private System.Windows.Forms.ToolStripMenuItem mbtnSettings;
         private System.Windows.Forms.ToolStripMenuItem mbtnStudentSearch;
         private System.Windows.Forms.ToolStripMenuItem mbtnStudentRegistration;
-        private System.Windows.Forms.ToolStripMenuItem diarioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mbtnDailyReport;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevoCicloEscolarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem catalogoDeConceptosToolStripMenuItem;

@@ -29,6 +29,13 @@ namespace CCMM
         public bool studentAfterSchool { get; set; }
     }
 
+    class infoConcept
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public float Amount { get; set; }
+    }
+
     class ProgramObjects
     {
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 
 namespace CCMM
 {
@@ -114,6 +115,42 @@ namespace CCMM
             }
 
             return schoolLevel;
+        }
+
+        public static List<infoConcept> getAvailableConcepts(Int32 studentID, string conceptType, bool showAll)
+        {
+            //Get student information
+            infoStudent payingStudent = DAL.getStudentDetails(studentID);
+            List<infoConcept> availableConcepts = new List<infoConcept>();
+            List<int> payedConcepts = new List<int>();
+            //Get available concepts for student
+
+            if (conceptType == "School")
+                availableConcepts = DAL.getAvailableConcepts(payingStudent.studentGroup, payingStudent.studentLevel);
+            else
+                availableConcepts = DAL.getAfterSchoolConcepts();
+
+            if (showAll)
+                return availableConcepts;
+
+            //Get payments made by student
+            payedConcepts = DAL.getPayedConceptList(studentID);
+            
+            //Parse results and create a list of concepts already paid
+            for (int i = 0; i < availableConcepts.Count; i++)
+            {
+                foreach (int pConcept in payedConcepts)
+                {
+                    if (int.Parse(availableConcepts[i].Value) == pConcept)
+                    {
+                        //Delete concepts that have already been payed
+                        availableConcepts.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+
+            return availableConcepts;
         }
     }
 }

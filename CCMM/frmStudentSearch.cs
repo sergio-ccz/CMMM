@@ -81,6 +81,11 @@ namespace CCMM
                 }
             }
 
+            if (cbAfterSchool.Checked)
+            {
+                parameters.Add("(Students.After_School = 1)");
+            }
+
 
             //Fill dataGridView using the DataAccess class
             dGridStudentResults.DataSource = null;

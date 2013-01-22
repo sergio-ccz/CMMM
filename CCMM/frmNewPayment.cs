@@ -18,8 +18,8 @@ namespace CCMM
 
         private bool finishedLoading = false;
         frmStudentDetails frmStudentDetails;
-        private List<GenericObject> ConceptList;
-        private List<GenericObject> ConceptListAS;
+        private List<infoConcept> ConceptList;
+        private List<infoConcept> ConceptListAS;
         infoStudent selectedStudent = new infoStudent();
         infoStudent studentToPay = new infoStudent();
 
@@ -27,13 +27,16 @@ namespace CCMM
         {
             //Try to get account number
             frmStudentSearch frmSelectUserPayment = new frmStudentSearch("paymentSearch");
+            //Show window to search for students
             frmSelectUserPayment.ShowDialog();
 
+            //If a student was selected, show student ID on textbox
             if (frmSelectUserPayment.studentID != null && frmSelectUserPayment.studentID != "")
             {
                 txtbAccNum.Text = frmSelectUserPayment.studentID;
             }
 
+            //Dispose of search window
             frmSelectUserPayment.Dispose();
         }
 
@@ -43,65 +46,18 @@ namespace CCMM
             {
                 //Get the select student details (or try)
                 selectedStudent = DAL.getStudentDetails(Int32.Parse(txtbAccNum.Text));
-                string loadOrder = "";
                 studentToPay = selectedStudent;
-                
-                //Clean concept list to add new ones for new student.
-                cbPaymentType.Items.Clear();
-                cbPaymentConcept.DataSource = null;
-                cbPaymentConcept.Items.Clear();
-                txtbPaymentAmount.Clear();
-                cbPaymentConcept.Text = "";
-                cbPaymentConcept.Enabled = false;
 
                 //If a student was actually found
                 if (selectedStudent != null)
                 {
-                    //Check if student is attending, after-school only or both. 
-                    if (selectedStudent.studentGroup == 99)
-                    {
-                        //After-school only
-                        loadOrder = "MI";
-                    }
-                    else if (selectedStudent.studentAfterSchool)
-                    {
-                        //Both concept lists
-                        loadOrder = "BT";
-                    }
-                    else
-                    {
-                        //Only school-payments
-                        loadOrder = "SC";
-                    }
+                    //Flag to show that loading is in process
+                    finishedLoading = false;
+
+                    ReloadLists();
 
                     //Show the payment details box
                     gbxPaymentDetails.Visible = true;
-
-                    switch (loadOrder)
-                    {
-                        case "BT":
-                            //Load both lists;
-                            cbPaymentType.Items.Insert(0, "Pagos Escolares");
-                            cbPaymentType.Items.Insert(1, "Medio Internado");
-                            cbPaymentType.SelectedIndex = 0;
-                            LoadConceptLists(loadOrder);
-                            break;
-
-                        case "SC":
-                            //Load only school-payments
-                            cbPaymentType.Items.Insert(0, "Pagos Escolares");
-                            cbPaymentType.SelectedIndex = 0;
-                            LoadConceptLists(loadOrder);
-                            break;
-
-                        case "MI":
-                            //Load only after-school payments
-                            cbPaymentType.Items.Insert(0, "Medio Internado");
-                            cbPaymentType.SelectedIndex = 0;
-                            LoadConceptLists(loadOrder);
-                            break;
-
-                    }
 
                     //Load selected concept list depending on selected type
                     cbPaymentConcept.ValueMember = "Value";
@@ -141,18 +97,22 @@ namespace CCMM
             {
                 case "BT":
                     //Load both lists;
-                    ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
-                    ConceptListAS = DAL.getAfterSchoolConcepts();
+                    //ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
+                    //ConceptListAS = DAL.getAfterSchoolConcepts();
+                    ConceptList = BAL.getAvailableConcepts(selectedStudent.studentID, "School", cbShowAllConcepts.Checked);
+                    ConceptListAS = BAL.getAvailableConcepts(selectedStudent.studentID, "MedioInternado", cbShowAllConcepts.Checked);
                     break;
 
                 case "SC":
                     //Load only school-payments
-                    ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
+                    //ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
+                    ConceptList = BAL.getAvailableConcepts(selectedStudent.studentID, "School", cbShowAllConcepts.Checked);
                     break;
 
                 case "MI":
                     //Load only after-school payments
                     ConceptListAS = DAL.getAfterSchoolConcepts();
+                    ConceptListAS = BAL.getAvailableConcepts(selectedStudent.studentID, "MedioInternado", cbShowAllConcepts.Checked);
                     break;
 
             }
@@ -162,7 +122,7 @@ namespace CCMM
         {
             if (finishedLoading)
             {
-                List<GenericObject> cList = new List<GenericObject>();
+                List<infoConcept> cList = new List<infoConcept>();
 
                 if (cbPaymentType.SelectedItem != null && cbPaymentType.SelectedItem.ToString() == "Medio Internado")
                     cList = ConceptListAS;
@@ -170,7 +130,7 @@ namespace CCMM
                     cList = ConceptList;
 
                 //Get base amounts for the selected concept
-                foreach (GenericObject conceptEntry in cList)
+                foreach (infoConcept conceptEntry in cList)
                 {
                     if (cbPaymentConcept.SelectedItem == conceptEntry)
                     {
@@ -210,10 +170,12 @@ namespace CCMM
                 if (cbPaymentType.SelectedItem.ToString() == "Pagos Escolares")
                 {
                     cbPaymentConcept.DataSource = ConceptList;
+                    //cbPaymentConcept.DataSource = BAL.getAvailableConcepts(selectedStudent.studentID, "School", cbShowAllConcepts.Checked);
                 }
                 else
                 {
                     cbPaymentConcept.DataSource = ConceptListAS;
+                    //cbPaymentConcept.DataSource = BAL.getAvailableConcepts(selectedStudent.studentID, "MedioInternado", cbShowAllConcepts.Checked);
                 } 
             }
         }
@@ -257,6 +219,76 @@ namespace CCMM
                 MessageBox.Show("Hubo un error, por favor de verificar los datos");
                 return;
             }
+        }
+
+        private void cbShowAllConcepts_CheckedChanged(object sender, EventArgs e)
+        {
+            finishedLoading = false;
+            ReloadLists();
+            finishedLoading = true;
+            
+        }
+
+        private void ReloadLists()
+        {
+            string loadOrder = "";
+
+            //Clean concept list to add new ones for new student.
+            cbPaymentType.Items.Clear();
+
+            cbPaymentConcept.DataSource = null;
+            cbPaymentConcept.Items.Clear();
+            cbPaymentConcept.Text = "";
+
+            txtbPaymentAmount.Clear();
+
+            //Check if student is attending, after-school only or both. 
+            if (selectedStudent.studentGroup == 99)
+            {
+                //After-school only
+                loadOrder = "MI";
+            }
+            else if (selectedStudent.studentAfterSchool)
+            {
+                //Both concept lists
+                loadOrder = "BT";
+            }
+            else
+            {
+                //Only school-payments
+                loadOrder = "SC";
+            }
+
+            //Reload concept lists
+            LoadConceptLists(loadOrder);
+
+            switch (loadOrder)
+            {
+                case "BT":
+                    //Load both lists;
+                    cbPaymentType.Items.Insert(0, "Pagos Escolares");
+                    cbPaymentType.Items.Insert(1, "Medio Internado");
+                    cbPaymentType.SelectedIndex = 0;
+                    cbPaymentConcept.DataSource = ConceptList;
+                    break;
+
+                case "SC":
+                    //Load only school-payments
+                    cbPaymentType.Items.Insert(0, "Pagos Escolares");
+                    cbPaymentType.SelectedIndex = 0;
+                    cbPaymentConcept.DataSource = ConceptList;
+                    break;
+
+                case "MI":
+                    //Load only after-school payments
+                    cbPaymentType.Items.Insert(0, "Medio Internado");
+                    cbPaymentType.SelectedIndex = 0;
+                    cbPaymentConcept.DataSource = ConceptListAS;
+                    break;
+            }
+
+            cbPaymentConcept.ValueMember = "Value";
+            cbPaymentConcept.DisplayMember = "Name";
         }
 
     }

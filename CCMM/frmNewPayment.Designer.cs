@@ -49,6 +49,7 @@
             this.lblAccNum = new System.Windows.Forms.Label();
             this.picUsers = new System.Windows.Forms.PictureBox();
             this.picAccNumber = new System.Windows.Forms.PictureBox();
+            this.cbShowAllConcepts = new System.Windows.Forms.CheckBox();
             this.gbxPaymentDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDiscountWarning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsers)).BeginInit();
@@ -70,6 +71,7 @@
             // 
             // gbxPaymentDetails
             // 
+            this.gbxPaymentDetails.Controls.Add(this.cbShowAllConcepts);
             this.gbxPaymentDetails.Controls.Add(this.picDiscountWarning);
             this.gbxPaymentDetails.Controls.Add(this.txtbPaymentAmount);
             this.gbxPaymentDetails.Controls.Add(this.lblPaymentAmount);
@@ -293,6 +295,17 @@
             this.picAccNumber.TabIndex = 34;
             this.picAccNumber.TabStop = false;
             // 
+            // cbShowAllConcepts
+            // 
+            this.cbShowAllConcepts.AutoSize = true;
+            this.cbShowAllConcepts.Location = new System.Drawing.Point(293, 136);
+            this.cbShowAllConcepts.Name = "cbShowAllConcepts";
+            this.cbShowAllConcepts.Size = new System.Drawing.Size(208, 21);
+            this.cbShowAllConcepts.TabIndex = 38;
+            this.cbShowAllConcepts.Text = "Mostrar todos los conceptos";
+            this.cbShowAllConcepts.UseVisualStyleBackColor = true;
+            this.cbShowAllConcepts.CheckedChanged += new System.EventHandler(this.cbShowAllConcepts_CheckedChanged);
+            // 
             // frmNewPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -342,5 +355,6 @@
         private System.Windows.Forms.Label lblPaymentAmount;
         private System.Windows.Forms.ComboBox cbPaymentType;
         private System.Windows.Forms.Label lblPaymentType;
+        private System.Windows.Forms.CheckBox cbShowAllConcepts;
     }
 }

@@ -245,5 +245,13 @@ namespace CCMM
         {
             updatePaymentsGrid();
         }
+
+        private void chkSpecialAcc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSpecialAcc.Checked)
+                txtbDiscount.Show();
+            else
+                txtbDiscount.Hide();
+        }
     }
 }

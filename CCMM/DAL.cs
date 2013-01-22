@@ -7,12 +7,7 @@ using System.Data.SqlServerCe;
 
 namespace CCMM
 {
-    class GenericObject
-    {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public float Amount { get; set; }
-    }
+
 
     class DAL
     {
@@ -167,10 +162,10 @@ namespace CCMM
         /// <param name="stdGroup">Group of student</param>
         /// <param name="stdLevel">Level of student</param>
         /// <returns>List with objects representign the different concepts</returns>
-        public static List<GenericObject> getAvailableConcepts(int stdGroup, int stdLevel)
+        public static List<infoConcept> getAvailableConcepts(int stdGroup, int stdLevel)
         {
             //Create list to hold concepts
-            List<GenericObject> lstConcept = new List<GenericObject>();
+            List<infoConcept> lstConcept = new List<infoConcept>();
             
             //Create connection, command and open connection. 
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
@@ -189,7 +184,7 @@ namespace CCMM
             //Create objects for each concept and fill List<>
             while (sqlReader.Read())
             {
-                GenericObject gObject = new GenericObject();
+                infoConcept gObject = new infoConcept();
                 gObject.Name = sqlReader["Title"].ToString(); ;
                 gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
                 gObject.Value = sqlReader["FK_Concept_ID"].ToString();
@@ -199,6 +194,7 @@ namespace CCMM
 
             return lstConcept;
         }
+
 
         /// <summary>
         /// Checks if student is enrolled in after-school programs
@@ -220,10 +216,10 @@ namespace CCMM
         /// Gets the list of concepts from the after-school programs
         /// </summary>
         /// <returns>List with each concept (id, title & amount)</returns>
-        public static List<GenericObject> getAfterSchoolConcepts()
+        public static List<infoConcept> getAfterSchoolConcepts()
         {
             //Create list, connection and open connection.
-            List<GenericObject> lstConcept = new List<GenericObject>();
+            List<infoConcept> lstConcept = new List<infoConcept>();
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
             sqlConnection.Open();
 
@@ -237,7 +233,7 @@ namespace CCMM
 
             while (sqlReader.Read())
             {
-                GenericObject gObject = new GenericObject();
+                infoConcept gObject = new infoConcept();
                 gObject.Name = sqlReader["Title"].ToString(); ;
                 gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
                 gObject.Value = sqlReader["ID"].ToString();
@@ -338,6 +334,66 @@ namespace CCMM
 
             return payTables;
         }
+
+        public static DataTable getPaymentsByDate(DateTime startDate, DateTime? endDate)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+
+            sqlConnection.Open();
+            SqlCeCommand sqlCommand = new SqlCeCommand();
+            sqlCommand.CommandText = "SELECT Payment.Folio, Payment.Amount AS Cantidad, " +
+                "Payment.Date AS Fecha, Payment.Completed AS Completado, Conceptos.Title AS " +
+                "Concepto FROM Payment INNER JOIN Conceptos ON Payment.Concept_ID = Conceptos.ID ";
+
+            if (endDate != null)
+            {
+                sqlCommand.CommandText += " WHERE (Date > CONVERT(DATETIME, '" + startDate.ToShortDateString() + "', 102)) AND (Date < CONVERT(DATETIME, '" + endDate.Value.ToShortDateString() + "', 102))";
+            }
+            else
+            {
+                sqlCommand.CommandText += " WHERE (Date > CONVERT(DATETIME, '" + startDate.ToShortDateString() + "', 102))";
+            }
+
+            // Create a new data adapter based on the specified query.
+            SqlCeDataAdapter dataAdapter = new SqlCeDataAdapter(sqlCommand.CommandText, sqlConnection);
+
+            // Create a command builder to generate SQL update, insert, and 
+            // delete commands based on selectCommand. These are used to 
+            // update the database.
+            SqlCeCommandBuilder commandBuilder = new SqlCeCommandBuilder(dataAdapter);
+
+            // Populate a new data table and bind it to the BindingSource.
+            DataTable payTables = new DataTable();
+            payTables.Locale = System.Globalization.CultureInfo.InvariantCulture;
+            dataAdapter.Fill(payTables);
+
+            return payTables;
+        }
+
+        public static List<int> getPayedConceptList(Int32 studentID)
+        {
+            List<int> payedConcepts = new List<int>();
+
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            SqlCeCommand sqlCommand = new SqlCeCommand();
+            sqlCommand.CommandText = "SELECT Concept_ID FROM Payment WHERE Student_ID = @stID";
+
+            sqlCommand.Parameters.AddWithValue("@stID", studentID);
+            sqlCommand.Connection = sqlConnection;
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
+
+            while (sqlReader.Read())
+            {
+                payedConcepts.Add(int.Parse(sqlReader["Concept_ID"].ToString()));
+            }
+
+            sqlConnection.Close();
+
+            return payedConcepts;
+        }
+
 
         public static string updateStudentRecord(infoStudent editedStudent, Int32 currentAccNum)
         {

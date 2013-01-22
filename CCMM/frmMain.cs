@@ -20,6 +20,7 @@ namespace CCMM
         frmNewPayment frmNewPayment;
         frmStudentSearch frmStudentSearch;
         frmNewStudent frmNewStudent;
+        frmDailyReport frmDailyReport;
         //frmPaymentSearch frmPaymentSearch;
         //frmConceptConfiguration frmConceptConfiguration;
 
@@ -55,6 +56,20 @@ namespace CCMM
                 frmNewStudent = new frmNewStudent();
                 frmNewStudent.MdiParent = this;
                 frmNewStudent.Show();
+            }
+        }
+
+        private void mbtnReports_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void mbtnDailyReport_Click(object sender, EventArgs e)
+        {
+            if (frmDailyReport == null || frmDailyReport.Visible == false)
+            {
+                frmDailyReport = new frmDailyReport();
+                frmDailyReport.MdiParent = this;
+                frmDailyReport.Show();
             }
         }
     }

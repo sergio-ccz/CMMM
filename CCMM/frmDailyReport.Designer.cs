@@ -29,8 +29,12 @@
         private void InitializeComponent()
         {
             this.lblInfo1 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.lblDatePicker = new System.Windows.Forms.Label();
+            this.dtpPaymentDate = new System.Windows.Forms.DateTimePicker();
+            this.dgridPaymentTable = new System.Windows.Forms.DataGridView();
+            this.btnDataPreview = new System.Windows.Forms.Button();
+            this.btnPrint = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgridPaymentTable)).BeginInit();
             this.SuspendLayout();
             // 
             // lblInfo1
@@ -43,32 +47,70 @@
             this.lblInfo1.TabIndex = 0;
             this.lblInfo1.Text = "Impresion de Reporte por día";
             // 
-            // label1
+            // lblDatePicker
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 54);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 17);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Día a imprimir: ";
+            this.lblDatePicker.AutoSize = true;
+            this.lblDatePicker.Location = new System.Drawing.Point(13, 54);
+            this.lblDatePicker.Name = "lblDatePicker";
+            this.lblDatePicker.Size = new System.Drawing.Size(102, 17);
+            this.lblDatePicker.TabIndex = 1;
+            this.lblDatePicker.Text = "Día a imprimir: ";
             // 
-            // dateTimePicker1
+            // dtpPaymentDate
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(121, 54);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(271, 22);
-            this.dateTimePicker1.TabIndex = 2;
+            this.dtpPaymentDate.Location = new System.Drawing.Point(121, 54);
+            this.dtpPaymentDate.Name = "dtpPaymentDate";
+            this.dtpPaymentDate.Size = new System.Drawing.Size(271, 22);
+            this.dtpPaymentDate.TabIndex = 2;
+            // 
+            // dgridPaymentTable
+            // 
+            this.dgridPaymentTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgridPaymentTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgridPaymentTable.Location = new System.Drawing.Point(12, 97);
+            this.dgridPaymentTable.Name = "dgridPaymentTable";
+            this.dgridPaymentTable.RowTemplate.Height = 24;
+            this.dgridPaymentTable.Size = new System.Drawing.Size(584, 191);
+            this.dgridPaymentTable.TabIndex = 3;
+            // 
+            // btnDataPreview
+            // 
+            this.btnDataPreview.Location = new System.Drawing.Point(408, 50);
+            this.btnDataPreview.Name = "btnDataPreview";
+            this.btnDataPreview.Size = new System.Drawing.Size(126, 34);
+            this.btnDataPreview.TabIndex = 4;
+            this.btnDataPreview.Text = "Mostrar pagos";
+            this.btnDataPreview.UseVisualStyleBackColor = true;
+            this.btnDataPreview.Click += new System.EventHandler(this.btnDataPreview_Click);
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrint.Image = global::CCMM.Properties.Resources.Print;
+            this.btnPrint.Location = new System.Drawing.Point(549, 43);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(47, 48);
+            this.btnPrint.TabIndex = 5;
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // frmDailyReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(608, 300);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnPrint);
+            this.Controls.Add(this.btnDataPreview);
+            this.Controls.Add(this.dgridPaymentTable);
+            this.Controls.Add(this.dtpPaymentDate);
+            this.Controls.Add(this.lblDatePicker);
             this.Controls.Add(this.lblInfo1);
             this.Name = "frmDailyReport";
-            this.Text = "frmDailyReport";
+            this.Text = "Impresión Reporte Diario";
+            this.Load += new System.EventHandler(this.frmDailyReport_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgridPaymentTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -77,7 +119,10 @@
         #endregion
 
         private System.Windows.Forms.Label lblInfo1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label lblDatePicker;
+        private System.Windows.Forms.DateTimePicker dtpPaymentDate;
+        private System.Windows.Forms.DataGridView dgridPaymentTable;
+        private System.Windows.Forms.Button btnDataPreview;
+        private System.Windows.Forms.Button btnPrint;
     }
 }
