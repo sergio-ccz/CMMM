@@ -21,6 +21,7 @@ namespace CCMM
         frmStudentSearch frmStudentSearch;
         frmNewStudent frmNewStudent;
         frmDailyReport frmDailyReport;
+        frmReportCreation frmReportCreation;
         //frmPaymentSearch frmPaymentSearch;
         //frmConceptConfiguration frmConceptConfiguration;
 
@@ -36,7 +37,6 @@ namespace CCMM
 
         private void mbtnPaySearch_Click(object sender, EventArgs e)
         {
-            
         }
 
         private void mbtnStudentSearch_Click(object sender, EventArgs e)
@@ -70,6 +70,16 @@ namespace CCMM
                 frmDailyReport = new frmDailyReport();
                 frmDailyReport.MdiParent = this;
                 frmDailyReport.Show();
+            }
+        }
+
+        private void mtbCombReport_Click(object sender, EventArgs e)
+        {
+            if (frmReportCreation == null || frmReportCreation.Visible == false)
+            {
+                frmReportCreation = new frmReportCreation();
+                frmReportCreation.MdiParent = this;
+                frmReportCreation.Show();
             }
         }
     }

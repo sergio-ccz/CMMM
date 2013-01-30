@@ -34,6 +34,8 @@ namespace CCMM
         public string Name { get; set; }
         public string Value { get; set; }
         public float Amount { get; set; }
+        public DateTime LimitDate { get; set; }
+        public string Type { get; set; }
     }
 
     class ProgramObjects

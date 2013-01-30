@@ -64,11 +64,9 @@
             this.groupBParameters.Controls.Add(this.txtbName);
             this.groupBParameters.Controls.Add(this.lblName);
             this.groupBParameters.Enabled = false;
-            this.groupBParameters.Location = new System.Drawing.Point(13, 85);
-            this.groupBParameters.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBParameters.Location = new System.Drawing.Point(10, 69);
             this.groupBParameters.Name = "groupBParameters";
-            this.groupBParameters.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBParameters.Size = new System.Drawing.Size(639, 153);
+            this.groupBParameters.Size = new System.Drawing.Size(585, 124);
             this.groupBParameters.TabIndex = 27;
             this.groupBParameters.TabStop = false;
             this.groupBParameters.Text = "Parametros de Búsqueda";
@@ -77,9 +75,10 @@
             // 
             this.cbAfterSchool.AutoSize = true;
             this.cbAfterSchool.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbAfterSchool.Location = new System.Drawing.Point(451, 107);
+            this.cbAfterSchool.Location = new System.Drawing.Point(394, 90);
+            this.cbAfterSchool.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbAfterSchool.Name = "cbAfterSchool";
-            this.cbAfterSchool.Size = new System.Drawing.Size(160, 22);
+            this.cbAfterSchool.Size = new System.Drawing.Size(139, 19);
             this.cbAfterSchool.TabIndex = 26;
             this.cbAfterSchool.Text = "Medio Internado?";
             this.cbAfterSchool.UseVisualStyleBackColor = true;
@@ -108,10 +107,9 @@
             "16",
             "17",
             "Solo MI"});
-            this.cbGrade.Location = new System.Drawing.Point(240, 107);
-            this.cbGrade.Margin = new System.Windows.Forms.Padding(4);
+            this.cbGrade.Location = new System.Drawing.Point(236, 90);
             this.cbGrade.Name = "cbGrade";
-            this.cbGrade.Size = new System.Drawing.Size(180, 24);
+            this.cbGrade.Size = new System.Drawing.Size(136, 21);
             this.cbGrade.TabIndex = 25;
             this.cbGrade.SelectedIndexChanged += new System.EventHandler(this.cbGrade_SelectedIndexChanged);
             // 
@@ -119,19 +117,17 @@
             // 
             this.lblGrade.AutoSize = true;
             this.lblGrade.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGrade.Location = new System.Drawing.Point(228, 86);
-            this.lblGrade.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGrade.Location = new System.Drawing.Point(227, 73);
             this.lblGrade.Name = "lblGrade";
-            this.lblGrade.Size = new System.Drawing.Size(65, 18);
+            this.lblGrade.Size = new System.Drawing.Size(54, 15);
             this.lblGrade.TabIndex = 24;
             this.lblGrade.Text = "Grado: ";
             // 
             // txtbLastName2
             // 
-            this.txtbLastName2.Location = new System.Drawing.Point(451, 49);
-            this.txtbLastName2.Margin = new System.Windows.Forms.Padding(4);
+            this.txtbLastName2.Location = new System.Drawing.Point(394, 43);
             this.txtbLastName2.Name = "txtbLastName2";
-            this.txtbLastName2.Size = new System.Drawing.Size(180, 22);
+            this.txtbLastName2.Size = new System.Drawing.Size(136, 20);
             this.txtbLastName2.TabIndex = 23;
             // 
             // cbLevel
@@ -145,10 +141,9 @@
             "Preparatoria",
             "Universidad",
             "Medio Internado"});
-            this.cbLevel.Location = new System.Drawing.Point(31, 107);
-            this.cbLevel.Margin = new System.Windows.Forms.Padding(4);
+            this.cbLevel.Location = new System.Drawing.Point(79, 90);
             this.cbLevel.Name = "cbLevel";
-            this.cbLevel.Size = new System.Drawing.Size(180, 24);
+            this.cbLevel.Size = new System.Drawing.Size(136, 21);
             this.cbLevel.TabIndex = 22;
             this.cbLevel.SelectedIndexChanged += new System.EventHandler(this.cbLevel_SelectedIndexChanged);
             // 
@@ -156,10 +151,9 @@
             // 
             this.lblLevel.AutoSize = true;
             this.lblLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLevel.Location = new System.Drawing.Point(19, 86);
-            this.lblLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLevel.Location = new System.Drawing.Point(70, 73);
             this.lblLevel.Name = "lblLevel";
-            this.lblLevel.Size = new System.Drawing.Size(55, 18);
+            this.lblLevel.Size = new System.Drawing.Size(47, 15);
             this.lblLevel.TabIndex = 21;
             this.lblLevel.Text = "Nivel: ";
             // 
@@ -167,48 +161,43 @@
             // 
             this.lblLastName2.AutoSize = true;
             this.lblLastName2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastName2.Location = new System.Drawing.Point(444, 28);
-            this.lblLastName2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLastName2.Location = new System.Drawing.Point(389, 26);
             this.lblLastName2.Name = "lblLastName2";
-            this.lblLastName2.Size = new System.Drawing.Size(144, 18);
+            this.lblLastName2.Size = new System.Drawing.Size(124, 15);
             this.lblLastName2.TabIndex = 20;
             this.lblLastName2.Text = "Apellido Materno: ";
             // 
             // txtbLastName
             // 
-            this.txtbLastName.Location = new System.Drawing.Point(240, 49);
-            this.txtbLastName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtbLastName.Location = new System.Drawing.Point(236, 43);
             this.txtbLastName.Name = "txtbLastName";
-            this.txtbLastName.Size = new System.Drawing.Size(180, 22);
+            this.txtbLastName.Size = new System.Drawing.Size(136, 20);
             this.txtbLastName.TabIndex = 19;
             // 
             // lblLastName
             // 
             this.lblLastName.AutoSize = true;
             this.lblLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastName.Location = new System.Drawing.Point(228, 28);
-            this.lblLastName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLastName.Location = new System.Drawing.Point(227, 26);
             this.lblLastName.Name = "lblLastName";
-            this.lblLastName.Size = new System.Drawing.Size(141, 18);
+            this.lblLastName.Size = new System.Drawing.Size(121, 15);
             this.lblLastName.TabIndex = 18;
             this.lblLastName.Text = "Apellido Paterno: ";
             // 
             // txtbName
             // 
-            this.txtbName.Location = new System.Drawing.Point(31, 49);
-            this.txtbName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtbName.Location = new System.Drawing.Point(79, 43);
             this.txtbName.Name = "txtbName";
-            this.txtbName.Size = new System.Drawing.Size(180, 22);
+            this.txtbName.Size = new System.Drawing.Size(136, 20);
             this.txtbName.TabIndex = 17;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.Location = new System.Drawing.Point(19, 28);
-            this.lblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblName.Location = new System.Drawing.Point(70, 26);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(78, 18);
+            this.lblName.Size = new System.Drawing.Size(66, 15);
             this.lblName.TabIndex = 16;
             this.lblName.Text = "Nombre: ";
             // 
@@ -216,10 +205,9 @@
             // 
             this.cbParameteresActive.AutoSize = true;
             this.cbParameteresActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbParameteresActive.Location = new System.Drawing.Point(217, 40);
-            this.cbParameteresActive.Margin = new System.Windows.Forms.Padding(4);
+            this.cbParameteresActive.Location = new System.Drawing.Point(163, 32);
             this.cbParameteresActive.Name = "cbParameteresActive";
-            this.cbParameteresActive.Size = new System.Drawing.Size(207, 22);
+            this.cbParameteresActive.Size = new System.Drawing.Size(175, 19);
             this.cbParameteresActive.TabIndex = 26;
             this.cbParameteresActive.Text = "Buscar por información";
             this.cbParameteresActive.UseVisualStyleBackColor = true;
@@ -231,10 +219,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.lblSearchTips.AutoSize = true;
             this.lblSearchTips.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSearchTips.Location = new System.Drawing.Point(12, 248);
-            this.lblSearchTips.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSearchTips.Location = new System.Drawing.Point(9, 202);
             this.lblSearchTips.Name = "lblSearchTips";
-            this.lblSearchTips.Size = new System.Drawing.Size(298, 17);
+            this.lblSearchTips.Size = new System.Drawing.Size(236, 13);
             this.lblSearchTips.TabIndex = 25;
             this.lblSearchTips.Text = "Doble click al alumno que hace el pago:";
             // 
@@ -245,12 +232,11 @@
             this.dGridStudentResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dGridStudentResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dGridStudentResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGridStudentResults.Location = new System.Drawing.Point(13, 279);
-            this.dGridStudentResults.Margin = new System.Windows.Forms.Padding(4);
+            this.dGridStudentResults.Location = new System.Drawing.Point(10, 227);
             this.dGridStudentResults.Name = "dGridStudentResults";
             this.dGridStudentResults.ReadOnly = true;
             this.dGridStudentResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dGridStudentResults.Size = new System.Drawing.Size(639, 227);
+            this.dGridStudentResults.Size = new System.Drawing.Size(585, 184);
             this.dGridStudentResults.TabIndex = 24;
             this.dGridStudentResults.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dGridStudentResults_CellContentClick);
             // 
@@ -258,10 +244,9 @@
             // 
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Image = global::CCMM.Properties.Resources.Search;
-            this.btnSearch.Location = new System.Drawing.Point(484, 24);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSearch.Location = new System.Drawing.Point(478, 12);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(156, 53);
+            this.btnSearch.Size = new System.Drawing.Size(117, 43);
             this.btnSearch.TabIndex = 23;
             this.btnSearch.Text = "Buscar";
             this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -270,28 +255,26 @@
             // 
             // txtbAccNum
             // 
-            this.txtbAccNum.Location = new System.Drawing.Point(13, 40);
-            this.txtbAccNum.Margin = new System.Windows.Forms.Padding(4);
+            this.txtbAccNum.Location = new System.Drawing.Point(10, 32);
             this.txtbAccNum.Name = "txtbAccNum";
-            this.txtbAccNum.Size = new System.Drawing.Size(180, 22);
+            this.txtbAccNum.Size = new System.Drawing.Size(136, 20);
             this.txtbAccNum.TabIndex = 22;
             // 
             // lblAccNum
             // 
             this.lblAccNum.AutoSize = true;
             this.lblAccNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccNum.Location = new System.Drawing.Point(10, 19);
-            this.lblAccNum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAccNum.Location = new System.Drawing.Point(8, 15);
             this.lblAccNum.Name = "lblAccNum";
-            this.lblAccNum.Size = new System.Drawing.Size(66, 18);
+            this.lblAccNum.Size = new System.Drawing.Size(56, 15);
             this.lblAccNum.TabIndex = 21;
             this.lblAccNum.Text = "Cuenta:";
             // 
             // frmStudentSearch
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 519);
+            this.ClientSize = new System.Drawing.Size(605, 422);
             this.Controls.Add(this.groupBParameters);
             this.Controls.Add(this.cbParameteresActive);
             this.Controls.Add(this.lblSearchTips);
@@ -299,6 +282,7 @@
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtbAccNum);
             this.Controls.Add(this.lblAccNum);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmStudentSearch";
             this.ShowIcon = false;
             this.Text = "Búsqueda de Alumnos";

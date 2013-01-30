@@ -136,7 +136,7 @@ namespace CCMM
         {
             //Create list with 52 or 53 entries for each week of the current year
             //Entries will be like [2XXX] Semana #X Date - Date
-            List<string> weekYears = BAL.CreateWeekEntries();
+            List<string[]> weekYears = BAL.CreateWeekEntries();
 
             //Create and open connection
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
@@ -146,11 +146,11 @@ namespace CCMM
             insertCommand.Connection = sqlConnection;
             insertCommand.CommandType = System.Data.CommandType.Text;
 
-            foreach (string week in weekYears)
+            foreach (string[] week in weekYears)
             {
 
                 //INSERT INTO Conceptos (Title, Base_Amount, Concept_Type) VALUES ('Test', 3000, 'No')
-                insertCommand.CommandText = "INSERT INTO Conceptos (Title, Base_Amount, Concept_Type) VALUES ('" + week + "', 400, 'Internado')";
+                insertCommand.CommandText = "INSERT INTO Conceptos (Title, Base_Amount, Concept_Type, Limit_Date) VALUES ('" + week[0] + "', 400, 'Internado', '" + week[1] + "')";
                 insertCommand.ExecuteNonQuery();
             }
             
@@ -225,7 +225,7 @@ namespace CCMM
 
             SqlCeCommand qCommand = new SqlCeCommand();
             //Get all concepts that are type "Internado"
-            qCommand.CommandText = "SELECT ID, Title, Base_Amount FROM Conceptos WHERE (Concept_Type = 'Internado')" +
+            qCommand.CommandText = "SELECT ID, Title, Base_Amount, Limit_Date FROM Conceptos WHERE (Concept_Type = 'Internado')" +
                 "ORDER BY ID";
 
             qCommand.Connection = sqlConnection;
@@ -237,6 +237,7 @@ namespace CCMM
                 gObject.Name = sqlReader["Title"].ToString(); ;
                 gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
                 gObject.Value = sqlReader["ID"].ToString();
+                gObject.LimitDate = DateTime.Parse(sqlReader["Limit_Date"].ToString());
 
                 lstConcept.Add(gObject);
             }
@@ -480,6 +481,103 @@ namespace CCMM
                 sqlConnection.Close();
                 sqlConnection.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Retreive a list<> of available concepts for the selected account
+        /// </summary>
+        /// <param name="stdGroup">Group of student</param>
+        /// <param name="stdLevel">Level of student</param>
+        /// <returns>List with objects representign the different concepts</returns>
+        public static List<infoConcept> getExpiredSchoolConcepts(int stdGroup, int stdLevel, Int32 studentID)
+        {
+            //Create list to hold concepts
+            List<infoConcept> lstConcept = new List<infoConcept>();
+            List<infoConcept> lstExpiredConcepts = new List<infoConcept>();
+
+            //Create connection, command and open connection. 
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlConnection.Open();
+
+            //Gets concepts that have expired that are avaible to the student depending on group and level
+            sqlCommand.CommandText = "SELECT Rel_GL_Concept.FK_Concept_ID, Conceptos.ID, Conceptos.Title, Conceptos.Base_Amount," +
+                " Conceptos.Concept_Type, Conceptos.Limit_Date FROM Rel_GL_Concept INNER JOIN Conceptos " + 
+                " ON Rel_GL_Concept.FK_Concept_ID = Conceptos.ID WHERE (Rel_GL_Concept.FK_Group_ID = " + stdGroup +") AND" +
+                " (Conceptos.Limit_Date < CONVERT(DATETIME, '" + DateTime.Now.ToShortDateString() + "', 102)) OR" + 
+                " (Rel_GL_Concept.FK_Level_ID = " + stdLevel +") AND (Conceptos.Limit_Date < CONVERT(DATETIME, '" + DateTime.Now.ToShortDateString() +"', 102))";
+
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
+
+            //Create objects for each concept and fill List<>
+            while (sqlReader.Read())
+            {
+                infoConcept gObject = new infoConcept();
+                gObject.Name = sqlReader["Title"].ToString(); ;
+                gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
+                gObject.Value = sqlReader["FK_Concept_ID"].ToString();
+                gObject.LimitDate = DateTime.Parse(sqlReader["Limit_Date"].ToString());
+                gObject.Type = sqlReader["Concept_Type"].ToString();
+
+                lstConcept.Add(gObject);
+            }
+
+            //Expired concepts for student: lstConcept;
+
+            //Get payments made by student
+            List<int> payedConcepts = getPayedConceptList(studentID);
+            bool payed = false;
+
+            foreach (infoConcept aConcept in lstConcept)
+            {
+                if (aConcept.Type == "School")
+                {
+                    foreach (int pIDConcept in payedConcepts)
+                    {
+                        if (pIDConcept == int.Parse(aConcept.Value))
+                        {
+                            payed = true;
+                        }
+                    }
+
+                    if (!payed)
+                        lstExpiredConcepts.Add(aConcept);
+                }
+            }
+
+            return lstExpiredConcepts;
+        }
+
+        public static List<infoConcept> getExpiredASConcepts(Int32 studentID)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            List<infoConcept> afConcepts = getAfterSchoolConcepts();
+            List<int> payedConcepts = getPayedConceptList(studentID);
+            List<infoConcept> expiredConcepts = new List<infoConcept>();
+
+            bool payed = false;
+
+            foreach (infoConcept afCon in afConcepts)
+            {
+                if (afCon.LimitDate < DateTime.Now)
+                {
+                    payed = false;
+
+                    foreach (int conceptID in payedConcepts)
+                    {
+                        if (conceptID == int.Parse(afCon.Value))
+                        {
+                            payed = true;
+                        }
+                    }
+
+                    if (!payed)
+                        expiredConcepts.Add(afCon);
+                }
+            }
+
+            return expiredConcepts;
+            
         }
     }
 }

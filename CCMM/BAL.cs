@@ -8,17 +8,22 @@ namespace CCMM
 {
     class BAL
     {
-        public static List<string> CreateWeekEntries()
+        public static List<string[]> CreateWeekEntries()
         {
+            List<string[]> yearWeeks2 = new List<string[]>();
             List<string> yearWeeks = new List<string>();
+            string format = "MMM-ddd-d";
 
             for (int i = 1; i < 53; i++)
             {
+                yearWeeks.Clear();
                 DateTime[] tempWeek = WeekDays(DateTime.Now.Year, i);
-                yearWeeks.Add("[" + DateTime.Now.Year + "]" + "Semana #" + i + " " + tempWeek[0].ToShortDateString() + " - " + tempWeek[6].ToShortDateString());
+                yearWeeks.Add("[" + DateTime.Now.Year + "]" + " #" + i + " " + tempWeek[0].ToString(format) + " -> " + tempWeek[6].ToString(format));
+                yearWeeks.Add(tempWeek[6].ToShortDateString());
+                yearWeeks2.Add(yearWeeks.ToArray());
             }
 
-            return yearWeeks;
+            return yearWeeks2;
         }
 
         private static DateTime[] WeekDays(int Year, int WeekNumber)
@@ -26,7 +31,7 @@ namespace CCMM
             DateTime start = new DateTime(Year, 1, 4);
             start = start.AddDays(-((int)start.DayOfWeek));
             start = start.AddDays(7 * (WeekNumber - 1));
-            return Enumerable.Range(0, 7).Select(num => start.AddDays(num)).ToArray();
+            return Enumerable.Range(1, 7).Select(num => start.AddDays(num)).ToArray();
         }
 
         public static void CreateNewPayment(List<string> paymentDetails)
@@ -152,5 +157,47 @@ namespace CCMM
 
             return availableConcepts;
         }
+
+        public static DataTable getExpiredSchoolConcepts(int stdGroup, int stdLevel, Int32 studentID)
+        {
+            List<infoConcept> expiredConcepts = DAL.getExpiredSchoolConcepts(stdGroup, stdLevel, studentID);
+
+            DataTable table = new DataTable();
+            table.Columns.Add("Concepto", typeof(string));
+            table.Columns.Add("Fecha limite", typeof(DateTime));
+            table.Columns.Add("Monto a Pagar", typeof(double));
+
+            foreach (infoConcept expConcept in expiredConcepts)
+            {
+                table.Rows.Add(expConcept.Name, expConcept.LimitDate, expConcept.Amount);
+            }
+
+            if (table.Rows.Count > 0)
+                return table;
+            else
+                return null;
+        }
+
+        public static DataTable getDTAfterSchoolExpired(infoStudent selectedStudent)
+        {
+            List<infoConcept> expiredConcepts = DAL.getExpiredASConcepts(selectedStudent.studentID);
+
+            DataTable table = new DataTable();
+            table.Columns.Add("Concepto", typeof(string));
+            table.Columns.Add("Fecha limite", typeof(DateTime));
+            table.Columns.Add("Monto a Pagar", typeof(double));
+
+            foreach (infoConcept expConcept in expiredConcepts)
+            {
+                table.Rows.Add(expConcept.Name, expConcept.LimitDate, expConcept.Amount);
+            }
+
+            if (table.Rows.Count > 0)
+                return table;
+            else
+                return null;
+        }
     }
+
+            
 }

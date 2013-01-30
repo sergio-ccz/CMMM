@@ -24,6 +24,8 @@ namespace CCMM
         bool geditEnabled = true;
         private double selectedAccount;
 
+        int[] levelValues = new int[5] { 0, 6, 9, 12, 20 };
+
         //Global object with current student information
         infoStudent selectedStudent = new infoStudent();
 
@@ -47,7 +49,6 @@ namespace CCMM
             txtbName.Text = selectedStudent.studentFistName;
             txtbLastName.Text = selectedStudent.studentLastName;
             txtbLastName2.Text = selectedStudent.studentLastName2;
-            cbAfterSchool.Checked = selectedStudent.studentAfterSchool;
 
             //Load payment type
             if (selectedStudent.paymentType == "Normal")
@@ -55,17 +56,10 @@ namespace CCMM
             else
                 cbAccType.SelectedIndex = 1;
 
-            //If person is enrolled in school -> show grade, otherwise (when it's after-school only) just N/A
-            if (selectedStudent.studentGroup == 99)
-            {
-                txtbFalseGrade.Text = "Solo M.I.";
-                cbGrade.SelectedIndex = 17;
-            }
-            else
-            {
-                txtbFalseGrade.Text = selectedStudent.studentGroup.ToString();
-                cbGrade.SelectedIndex = selectedStudent.studentGroup - 1;
-            }
+            //Load school level
+            cbSchoolLevel.SelectedIndex = selectedStudent.studentLevel - 1;
+
+            cbGrade.SelectedIndex = (selectedStudent.studentGroup - levelValues[selectedStudent.studentLevel - 1]) - 1;
 
             //Check/uncheck the special/discount 
             if (selectedStudent.paymentDiscount > 0)
@@ -75,7 +69,6 @@ namespace CCMM
                 lblDiscount.Visible = true;
                 txtbDiscount.Text = selectedStudent.paymentDiscount.ToString();
             }
-
         }
 
         private void frmStudentDetails_Load(object sender, EventArgs e)
@@ -108,10 +101,8 @@ namespace CCMM
                 txtbName.ReadOnly = false;
                 txtbLastName.ReadOnly = false;
                 txtbLastName2.ReadOnly = false;
-                txtbFalseGrade.Visible = false;
                 cbGrade.Visible = true;
                 cbAccType.Enabled = true;
-                cbAfterSchool.Enabled = true;
 
                 txtbDiscount.ReadOnly = false;
                 chkSpecialAcc.Enabled = true;
@@ -179,7 +170,6 @@ namespace CCMM
                     editedStudent.paymentDiscount = 0;
 
                 editedStudent.paymentType = cbAccType.SelectedText;
-                editedStudent.studentAfterSchool = cbAfterSchool.Checked;
 
                 //If student is after-school only, assign the group 99, otherwise just a normal group
                 if (cbGrade.Text != "Solo MI")
@@ -200,10 +190,7 @@ namespace CCMM
                     txtbName.ReadOnly = true;
                     txtbLastName.ReadOnly = true;
                     txtbLastName2.ReadOnly = true;
-                    txtbFalseGrade.Text = cbGrade.Text;
-                    txtbFalseGrade.Visible = true;
-                    cbGrade.Visible = false;
-                    cbAfterSchool.Enabled = false;
+                    cbGrade.Visible = false;;
 
                     txtbDiscount.ReadOnly = true;
                     chkSpecialAcc.Enabled = false;
@@ -213,8 +200,7 @@ namespace CCMM
 
         private void cbGrade_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbGrade.SelectedItem.ToString() == "Solo MI")
-                cbAfterSchool.Checked = true;
+            
         }
 
         private void btnPrintGrid_Click(object sender, EventArgs e)
@@ -224,8 +210,7 @@ namespace CCMM
 
         private void cbAfterSchool_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbGrade.SelectedItem.ToString() == "Solo MI")
-                cbAfterSchool.Checked = true;
+            
         }
 
         private void updatePaymentsGrid()
@@ -252,6 +237,44 @@ namespace CCMM
                 txtbDiscount.Show();
             else
                 txtbDiscount.Hide();
+        }
+
+        private void lnlblExpPayments_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            datePaymentFrom.Enabled = false;
+            datePaymentTo.Enabled = false;
+            gDataPayments.DataSource = null;
+            DataTable totalExpConcepts = new DataTable();
+
+            DataTable ExpAfterSchool = new DataTable();
+
+            if (selectedStudent.studentGroup != 99)
+            {
+                totalExpConcepts = BAL.getExpiredSchoolConcepts(selectedStudent.studentGroup, BAL.getLevelfromGrade(selectedStudent.studentGroup), selectedStudent.studentID);
+            }
+
+
+            if(selectedStudent.studentAfterSchool)
+            {
+                if (selectedStudent.studentGroup != 99)
+                {
+                    ExpAfterSchool = BAL.getDTAfterSchoolExpired(selectedStudent);
+                    totalExpConcepts.Merge(ExpAfterSchool);
+                }
+                else
+                {
+                    totalExpConcepts = BAL.getDTAfterSchoolExpired(selectedStudent);
+                }
+            }
+
+            gDataPayments.DataSource = totalExpConcepts;
+        }
+
+        private void llblResetGrid_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            datePaymentFrom.Enabled = true;
+            datePaymentTo.Enabled = true;
+            loadPayments(null, null);
         }
     }
 }
