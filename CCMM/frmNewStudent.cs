@@ -16,9 +16,12 @@ namespace CCMM
             InitializeComponent();
         }
 
+        int[] levelValues = new int[5] { 0, 6, 9, 12, 20 };
+
         private void frmNewStudent_Load(object sender, EventArgs e)
         {
             //Set base values
+            cbSchoolLevel.SelectedIndex = 0;
             cbGrade.SelectedIndex = 0;
             cbAccType.SelectedIndex = 0;
         }
@@ -82,12 +85,7 @@ namespace CCMM
                 newStudent.studentFistName = txtbName.Text;
                 newStudent.studentLastName = txtbLastName.Text;
                 newStudent.studentLastName2 = txtbLastName2.Text;
-
-                //If student is after-school only, assign the group 99, otherwise just a normal group
-                if (cbGrade.Text != "Solo MI")
-                    newStudent.studentGroup = int.Parse(cbGrade.Text);
-                else
-                    newStudent.studentGroup = 99;
+                newStudent.studentGroup = cbGrade.SelectedIndex + levelValues[cbSchoolLevel.SelectedIndex] + 1;
 
                 if (chkSpecialAcc.Checked)
                 {
@@ -100,8 +98,7 @@ namespace CCMM
 
                 newStudent.studentLevel = BAL.getLevelfromGrade(newStudent.studentGroup);
                 newStudent.paymentType = cbAccType.Text;
-                newStudent.studentAfterSchool = cbAfterSchool.Checked;
-
+            
                 DAL.newStudentRecord(newStudent);
             }
             catch (Exception exp)
@@ -111,19 +108,45 @@ namespace CCMM
             }
 
             MessageBox.Show("Registro creado");
+
+            //Clean
+            txtbAccNum.Clear();
+            txtbDiscount.Clear();
+            txtbLastName.Clear();
+            txtbLastName2.Clear();
+            txtbName.Clear();
+            cbAccType.SelectedIndex = 0;
+            cbSchoolLevel.SelectedIndex = 0;
+            chkSpecialAcc.Checked = false;
+
+
             //If(OK) Show confirmation/reload (FALSE) Show what happened
         }
 
-        private void cbGrade_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbGrade.SelectedItem.ToString() == "Solo MI")
-                cbAfterSchool.Checked = true;
-        }
+        private void cbGrade_SelectedIndexChanged(object sender, EventArgs e){}
+        private void cbAfterSchool_CheckedChanged(object sender, EventArgs e){}
 
-        private void cbAfterSchool_CheckedChanged(object sender, EventArgs e)
+        private void cbSchoolLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbGrade.SelectedItem.ToString() == "Solo MI")
-                cbAfterSchool.Checked = true;
+            cbGrade.Items.Clear();
+
+            if (cbSchoolLevel.Text == "Primaria")
+            {
+                for (int i = 1; i <= 6; i++)
+                    cbGrade.Items.Add(i);
+            }
+            else if (cbSchoolLevel.Text == "Universidad")
+            {
+                for (int i = 1; i <= 5; i++)
+                    cbGrade.Items.Add(i);
+            }
+            else
+            {
+                for (int i = 1; i <= 3; i++)
+                    cbGrade.Items.Add(i);
+            }
+
+            cbGrade.SelectedIndex = 0;
         }
     }
 }

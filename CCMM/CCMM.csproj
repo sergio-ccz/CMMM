@@ -68,6 +68,18 @@
   <ItemGroup>
     <Compile Include="BAL.cs" />
     <Compile Include="DAL.cs" />
+    <Compile Include="frmConceptCatalog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConceptCatalog.Designer.cs">
+      <DependentUpon>frmConceptCatalog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConceptDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConceptDetails.Designer.cs">
+      <DependentUpon>frmConceptDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDailyReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,9 +122,16 @@
     <Compile Include="frmStudentSearch.Designer.cs">
       <DependentUpon>frmStudentSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Printing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmConceptCatalog.resx">
+      <DependentUpon>frmConceptCatalog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConceptDetails.resx">
+      <DependentUpon>frmConceptDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDailyReport.resx">
       <DependentUpon>frmDailyReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -158,6 +177,7 @@
     <Content Include="CMMM.DB.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Images\logo.png" />
     <None Include="Images\CheckMark.png" />
   </ItemGroup>
   <ItemGroup>

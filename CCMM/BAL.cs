@@ -26,6 +26,8 @@ namespace CCMM
             return yearWeeks2;
         }
 
+        public static string MoneyFormat = "$#,##0.00;-$#,##0.00;Zero";
+
         private static DateTime[] WeekDays(int Year, int WeekNumber)
         {
             DateTime start = new DateTime(Year, 1, 4);
@@ -57,7 +59,7 @@ namespace CCMM
         public static int getLevelfromGrade(int stdGrade)
         {
             //A student the 99 group is after-school only
-            if (stdGrade == 99)
+            if (stdGrade >= 20)
             {
                 //After-school only
                 return 5;
@@ -178,25 +180,65 @@ namespace CCMM
                 return null;
         }
 
-        public static DataTable getDTAfterSchoolExpired(infoStudent selectedStudent)
+        public static int getGradeLevel(int level, int grade)
         {
-            List<infoConcept> expiredConcepts = DAL.getExpiredASConcepts(selectedStudent.studentID);
+            int[] levelValues = new int[5] { 0, 6, 9, 12, 20 };
 
-            DataTable table = new DataTable();
-            table.Columns.Add("Concepto", typeof(string));
-            table.Columns.Add("Fecha limite", typeof(DateTime));
-            table.Columns.Add("Monto a Pagar", typeof(double));
+            return grade - levelValues[level - 1];
+        }
 
-            foreach (infoConcept expConcept in expiredConcepts)
+        public static List<string[]> getExpiredConceptsAll(int conceptType)
+        {
+            List<string[]> expiredPayments = new List<string[]>();
+            List<string> tempList = new List<string>();
+
+            //Get all students
+            List<infoStudent> allStudents = DAL.GetAllStudents();
+
+            //Break if no students were found
+            if (allStudents.Count == 0)
+                return null;
+
+            //Go trough each student
+            foreach (var student in allStudents)
             {
-                table.Rows.Add(expConcept.Name, expConcept.LimitDate, expConcept.Amount);
+                //Get all school concepts
+                if (conceptType == 1)
+                {
+                    if (student.studentLevel == 5)
+                        continue;
+                }
+                else
+                {
+                    if (student.studentLevel != 5)
+                        continue;
+                }
+
+                //Get expired concepts for that student
+                List<infoConcept> expiredByStudent = DAL.getExpiredSchoolConcepts(student.studentGroup, student.studentLevel, student.studentID);
+
+                //If no expired concepts were found
+                if (expiredByStudent.Count == 0)
+                    continue;
+
+                //Check each expired concept for the student
+                foreach (var expiredConcept in expiredByStudent)
+                {
+                    tempList = new List<string>();
+                    //sid, slvl, concept  name, concept amount
+                    tempList.Add(student.studentID.ToString());
+                    tempList.Add(student.studentLevel.ToString());
+                    tempList.Add(expiredConcept.Name);
+                    tempList.Add(expiredConcept.Amount.ToString());
+
+                    expiredPayments.Add(tempList.ToArray());
+                }
             }
 
-            if (table.Rows.Count > 0)
-                return table;
-            else
-                return null;
+            return expiredPayments;
         }
+
+        
     }
 
             

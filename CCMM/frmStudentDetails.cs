@@ -107,6 +107,9 @@ namespace CCMM
                 txtbDiscount.ReadOnly = false;
                 chkSpecialAcc.Enabled = true;
 
+                cbSchoolLevel.Enabled = true;
+                cbGrade.Enabled = true;
+
                 return;
 
             }
@@ -172,11 +175,7 @@ namespace CCMM
                 editedStudent.paymentType = cbAccType.SelectedText;
 
                 //If student is after-school only, assign the group 99, otherwise just a normal group
-                if (cbGrade.Text != "Solo MI")
-                    editedStudent.studentGroup = int.Parse(cbGrade.Text);
-                else
-                    editedStudent.studentGroup = 99;
-
+                editedStudent.studentGroup = (cbGrade.SelectedIndex + levelValues[cbSchoolLevel.SelectedIndex]) + 1;
                 editedStudent.studentLevel = BAL.getLevelfromGrade(editedStudent.studentGroup);
                 
                 //Send the edited information, alongside the current account number
@@ -190,7 +189,8 @@ namespace CCMM
                     txtbName.ReadOnly = true;
                     txtbLastName.ReadOnly = true;
                     txtbLastName2.ReadOnly = true;
-                    cbGrade.Visible = false;;
+                    cbGrade.Enabled = false;
+                    cbSchoolLevel.Enabled = false;
 
                     txtbDiscount.ReadOnly = true;
                     chkSpecialAcc.Enabled = false;
@@ -248,26 +248,7 @@ namespace CCMM
 
             DataTable ExpAfterSchool = new DataTable();
 
-            if (selectedStudent.studentGroup != 99)
-            {
-                totalExpConcepts = BAL.getExpiredSchoolConcepts(selectedStudent.studentGroup, BAL.getLevelfromGrade(selectedStudent.studentGroup), selectedStudent.studentID);
-            }
-
-
-            if(selectedStudent.studentAfterSchool)
-            {
-                if (selectedStudent.studentGroup != 99)
-                {
-                    ExpAfterSchool = BAL.getDTAfterSchoolExpired(selectedStudent);
-                    totalExpConcepts.Merge(ExpAfterSchool);
-                }
-                else
-                {
-                    totalExpConcepts = BAL.getDTAfterSchoolExpired(selectedStudent);
-                }
-            }
-
-            gDataPayments.DataSource = totalExpConcepts;
+            gDataPayments.DataSource = BAL.getExpiredSchoolConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel, selectedStudent.studentID);
         }
 
         private void llblResetGrid_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -275,6 +256,34 @@ namespace CCMM
             datePaymentFrom.Enabled = true;
             datePaymentTo.Enabled = true;
             loadPayments(null, null);
+        }
+
+        private void cbSchoolLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbGrade.Items.Clear();
+
+            if (cbSchoolLevel.Text == "Primaria")
+            {
+                for (int i = 1; i <= 6; i++)
+                    cbGrade.Items.Add(i);
+            }
+            else if (cbSchoolLevel.Text == "Universidad")
+            {
+                for (int i = 1; i <= 5; i++)
+                    cbGrade.Items.Add(i);
+            }
+            else
+            {
+                for (int i = 1; i <= 3; i++)
+                    cbGrade.Items.Add(i);
+            }
+
+            cbGrade.SelectedIndex = 0;
+        }
+
+        private void lblLevel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

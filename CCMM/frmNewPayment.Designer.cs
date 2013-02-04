@@ -30,11 +30,10 @@
         {
             this.llinkViewAccDetails = new System.Windows.Forms.LinkLabel();
             this.gbxPaymentDetails = new System.Windows.Forms.GroupBox();
+            this.cbShowAllConcepts = new System.Windows.Forms.CheckBox();
             this.picDiscountWarning = new System.Windows.Forms.PictureBox();
             this.txtbPaymentAmount = new System.Windows.Forms.TextBox();
             this.lblPaymentAmount = new System.Windows.Forms.Label();
-            this.cbPaymentType = new System.Windows.Forms.ComboBox();
-            this.lblPaymentType = new System.Windows.Forms.Label();
             this.txtbPaymentFolio = new System.Windows.Forms.TextBox();
             this.lblPaymentFolio = new System.Windows.Forms.Label();
             this.lblPaymentComplete = new System.Windows.Forms.Label();
@@ -49,7 +48,6 @@
             this.lblAccNum = new System.Windows.Forms.Label();
             this.picUsers = new System.Windows.Forms.PictureBox();
             this.picAccNumber = new System.Windows.Forms.PictureBox();
-            this.cbShowAllConcepts = new System.Windows.Forms.CheckBox();
             this.gbxPaymentDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDiscountWarning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsers)).BeginInit();
@@ -75,8 +73,6 @@
             this.gbxPaymentDetails.Controls.Add(this.picDiscountWarning);
             this.gbxPaymentDetails.Controls.Add(this.txtbPaymentAmount);
             this.gbxPaymentDetails.Controls.Add(this.lblPaymentAmount);
-            this.gbxPaymentDetails.Controls.Add(this.cbPaymentType);
-            this.gbxPaymentDetails.Controls.Add(this.lblPaymentType);
             this.gbxPaymentDetails.Controls.Add(this.txtbPaymentFolio);
             this.gbxPaymentDetails.Controls.Add(this.lblPaymentFolio);
             this.gbxPaymentDetails.Controls.Add(this.lblPaymentComplete);
@@ -94,6 +90,17 @@
             this.gbxPaymentDetails.TabIndex = 35;
             this.gbxPaymentDetails.TabStop = false;
             this.gbxPaymentDetails.Text = "Detalles de Pago";
+            // 
+            // cbShowAllConcepts
+            // 
+            this.cbShowAllConcepts.AutoSize = true;
+            this.cbShowAllConcepts.Location = new System.Drawing.Point(382, 111);
+            this.cbShowAllConcepts.Name = "cbShowAllConcepts";
+            this.cbShowAllConcepts.Size = new System.Drawing.Size(208, 21);
+            this.cbShowAllConcepts.TabIndex = 38;
+            this.cbShowAllConcepts.Text = "Mostrar todos los conceptos";
+            this.cbShowAllConcepts.UseVisualStyleBackColor = true;
+            this.cbShowAllConcepts.CheckedChanged += new System.EventHandler(this.cbShowAllConcepts_CheckedChanged);
             // 
             // picDiscountWarning
             // 
@@ -123,29 +130,6 @@
             this.lblPaymentAmount.Size = new System.Drawing.Size(115, 24);
             this.lblPaymentAmount.TabIndex = 37;
             this.lblPaymentAmount.Text = "Cantidad $:";
-            // 
-            // cbPaymentType
-            // 
-            this.cbPaymentType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPaymentType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPaymentType.FormattingEnabled = true;
-            this.cbPaymentType.Location = new System.Drawing.Point(52, 103);
-            this.cbPaymentType.Margin = new System.Windows.Forms.Padding(4);
-            this.cbPaymentType.Name = "cbPaymentType";
-            this.cbPaymentType.Size = new System.Drawing.Size(208, 26);
-            this.cbPaymentType.TabIndex = 36;
-            this.cbPaymentType.SelectedIndexChanged += new System.EventHandler(this.cbPaymentType_SelectedIndexChanged);
-            // 
-            // lblPaymentType
-            // 
-            this.lblPaymentType.AutoSize = true;
-            this.lblPaymentType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPaymentType.Location = new System.Drawing.Point(23, 75);
-            this.lblPaymentType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblPaymentType.Name = "lblPaymentType";
-            this.lblPaymentType.Size = new System.Drawing.Size(142, 24);
-            this.lblPaymentType.TabIndex = 35;
-            this.lblPaymentType.Text = "Tipo de Pago:";
             // 
             // txtbPaymentFolio
             // 
@@ -181,6 +165,8 @@
             // cbPaymentComplete
             // 
             this.cbPaymentComplete.AutoSize = true;
+            this.cbPaymentComplete.Checked = true;
+            this.cbPaymentComplete.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbPaymentComplete.Location = new System.Drawing.Point(143, 219);
             this.cbPaymentComplete.Margin = new System.Windows.Forms.Padding(4);
             this.cbPaymentComplete.Name = "cbPaymentComplete";
@@ -191,7 +177,7 @@
             // btnSavePayment
             // 
             this.btnSavePayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSavePayment.Location = new System.Drawing.Point(402, 201);
+            this.btnSavePayment.Location = new System.Drawing.Point(372, 172);
             this.btnSavePayment.Margin = new System.Windows.Forms.Padding(4);
             this.btnSavePayment.Name = "btnSavePayment";
             this.btnSavePayment.Size = new System.Drawing.Size(214, 35);
@@ -226,7 +212,7 @@
             this.cbPaymentConcept.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPaymentConcept.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPaymentConcept.FormattingEnabled = true;
-            this.cbPaymentConcept.Location = new System.Drawing.Point(293, 103);
+            this.cbPaymentConcept.Location = new System.Drawing.Point(52, 107);
             this.cbPaymentConcept.Margin = new System.Windows.Forms.Padding(4);
             this.cbPaymentConcept.Name = "cbPaymentConcept";
             this.cbPaymentConcept.Size = new System.Drawing.Size(323, 26);
@@ -237,7 +223,7 @@
             // 
             this.lblPaymentConcept.AutoSize = true;
             this.lblPaymentConcept.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPaymentConcept.Location = new System.Drawing.Point(283, 75);
+            this.lblPaymentConcept.Location = new System.Drawing.Point(23, 75);
             this.lblPaymentConcept.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPaymentConcept.Name = "lblPaymentConcept";
             this.lblPaymentConcept.Size = new System.Drawing.Size(112, 24);
@@ -295,17 +281,6 @@
             this.picAccNumber.TabIndex = 34;
             this.picAccNumber.TabStop = false;
             // 
-            // cbShowAllConcepts
-            // 
-            this.cbShowAllConcepts.AutoSize = true;
-            this.cbShowAllConcepts.Location = new System.Drawing.Point(293, 136);
-            this.cbShowAllConcepts.Name = "cbShowAllConcepts";
-            this.cbShowAllConcepts.Size = new System.Drawing.Size(208, 21);
-            this.cbShowAllConcepts.TabIndex = 38;
-            this.cbShowAllConcepts.Text = "Mostrar todos los conceptos";
-            this.cbShowAllConcepts.UseVisualStyleBackColor = true;
-            this.cbShowAllConcepts.CheckedChanged += new System.EventHandler(this.cbShowAllConcepts_CheckedChanged);
-            // 
             // frmNewPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -353,8 +328,6 @@
         private System.Windows.Forms.PictureBox picDiscountWarning;
         private System.Windows.Forms.TextBox txtbPaymentAmount;
         private System.Windows.Forms.Label lblPaymentAmount;
-        private System.Windows.Forms.ComboBox cbPaymentType;
-        private System.Windows.Forms.Label lblPaymentType;
         private System.Windows.Forms.CheckBox cbShowAllConcepts;
     }
 }

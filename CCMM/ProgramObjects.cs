@@ -26,7 +26,6 @@ namespace CCMM
         public int studentLevel { get; set; }
         public int paymentDiscount { get; set; }
         public string paymentType { get; set; }
-        public bool studentAfterSchool { get; set; }
     }
 
     class infoConcept

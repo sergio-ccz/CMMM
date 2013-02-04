@@ -115,10 +115,6 @@ namespace CCMM
                 studentDetails.studentLevel = int.Parse(sqlReader["School_Level"].ToString());
                 studentDetails.paymentDiscount = int.Parse(sqlReader["Discount"].ToString());
                 studentDetails.paymentType = sqlReader["Pay_Type"].ToString();
-                if (sqlReader["After_School"].ToString() == "1")
-                    studentDetails.studentAfterSchool = true;
-                else
-                    studentDetails.studentAfterSchool = false;
             }
 
             if (studentDetails.studentID == 0)
@@ -336,7 +332,7 @@ namespace CCMM
             return payTables;
         }
 
-        public static DataTable getPaymentsByDate(DateTime startDate, DateTime? endDate)
+        public static DataTable getPaymentsByDate(DateTime startDate, DateTime? endDate, bool medioInternado)
         {
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
 
@@ -344,7 +340,9 @@ namespace CCMM
             SqlCeCommand sqlCommand = new SqlCeCommand();
             sqlCommand.CommandText = "SELECT Payment.Folio, Payment.Amount AS Cantidad, " +
                 "Payment.Date AS Fecha, Payment.Completed AS Completado, Conceptos.Title AS " +
-                "Concepto FROM Payment INNER JOIN Conceptos ON Payment.Concept_ID = Conceptos.ID ";
+                "Concepto FROM Payment INNER JOIN Conceptos ON Payment.Concept_ID = Conceptos.ID " +
+                "INNER JOIN Students ON Payment.Student_ID = Students.Account_Num";
+
 
             if (endDate != null)
             {
@@ -352,7 +350,16 @@ namespace CCMM
             }
             else
             {
-                sqlCommand.CommandText += " WHERE (Date > CONVERT(DATETIME, '" + startDate.ToShortDateString() + "', 102))";
+                sqlCommand.CommandText += " WHERE (Date > CONVERT(DATETIME, '" + startDate.ToShortDateString() + "', 102)) AND (Date < CONVERT(DATETIME, '" + startDate.AddDays(1).ToShortDateString() + "', 102))";
+            }
+
+            if (!medioInternado)
+            {
+                sqlCommand.CommandText += " AND (Students.School_Level = 5)";
+            }
+            else
+            {
+                sqlCommand.CommandText += " AND (Students.School_Level <> 5)";
             }
 
             // Create a new data adapter based on the specified query.
@@ -367,6 +374,9 @@ namespace CCMM
             DataTable payTables = new DataTable();
             payTables.Locale = System.Globalization.CultureInfo.InvariantCulture;
             dataAdapter.Fill(payTables);
+
+            if (payTables.Rows.Count == 0)
+                return null;
 
             return payTables;
         }
@@ -408,7 +418,7 @@ namespace CCMM
 
             //AccNum, fName, lastname, lastname2, grade, discount
             SqlCeCommand updateCommand = new SqlCeCommand("UPDATE Students SET Account_Num = @AccN, First_Name = @fName, Last_Name = @lName, Last_Name_2 = @lName2," +
-                "[Group] = @gNum, School_Level = @sLevel, Discount = @disc, Pay_Type = @payType, After_School = @inASch WHERE Account_Num = @currentStu", sqlConnection);
+                "[Group] = @gNum, School_Level = @sLevel, Discount = @disc, Pay_Type = @payType WHERE Account_Num = @currentStu", sqlConnection);
 
             updateCommand.Parameters.AddWithValue("@AccN", editedStudent.studentID);
             updateCommand.Parameters.AddWithValue("@fName", editedStudent.studentFistName);
@@ -418,11 +428,6 @@ namespace CCMM
             updateCommand.Parameters.AddWithValue("@sLevel", editedStudent.studentLevel);
             updateCommand.Parameters.AddWithValue("@disc", editedStudent.paymentDiscount);
             updateCommand.Parameters.AddWithValue("@payType", editedStudent.paymentType);
-
-            if (editedStudent.studentAfterSchool)
-                updateCommand.Parameters.AddWithValue("@inASch", 1);
-            else
-                updateCommand.Parameters.AddWithValue("@inASch", 0);
             
             updateCommand.Parameters.AddWithValue("@currentStu", currentAccNum);
 
@@ -450,7 +455,7 @@ namespace CCMM
             sqlConnection.Open();
 
             //AccNum, fName, lastname, lastname2, grade, discount
-            SqlCeCommand newStudentCommand = new SqlCeCommand("INSERT INTO Students VALUES (@accNum, @fistName, @lastName, @lastName2, @stdGroup, @stdLevel, @stdDiscount, @accType, @afterSchool)", sqlConnection);
+            SqlCeCommand newStudentCommand = new SqlCeCommand("INSERT INTO Students VALUES (@accNum, @fistName, @lastName, @lastName2, @stdGroup, @stdLevel, @stdDiscount, @accType)", sqlConnection);
             newStudentCommand.CommandType = System.Data.CommandType.Text;
 
             newStudentCommand.Parameters.AddWithValue("@accNum", newStudent.studentID);
@@ -460,13 +465,7 @@ namespace CCMM
             newStudentCommand.Parameters.AddWithValue("@stdGroup", newStudent.studentGroup);
             newStudentCommand.Parameters.AddWithValue("@stdLevel", newStudent.studentLevel);
             newStudentCommand.Parameters.AddWithValue("@stdDiscount", newStudent.paymentDiscount);
-            newStudentCommand.Parameters.AddWithValue("@accType", newStudent.paymentType);
-            
-            if(newStudent.studentAfterSchool)
-                newStudentCommand.Parameters.AddWithValue("@afterSchool", 1);
-            else
-                newStudentCommand.Parameters.AddWithValue("@afterSchool", 0);
-            
+            newStudentCommand.Parameters.AddWithValue("@accType", newStudent.paymentType);                       
 
             try
             {
@@ -484,7 +483,7 @@ namespace CCMM
         }
 
         /// <summary>
-        /// Retreive a list<> of available concepts for the selected account
+        /// Retreive a list of available concepts for the selected account
         /// </summary>
         /// <param name="stdGroup">Group of student</param>
         /// <param name="stdLevel">Level of student</param>
@@ -530,19 +529,16 @@ namespace CCMM
 
             foreach (infoConcept aConcept in lstConcept)
             {
-                if (aConcept.Type == "School")
+                foreach (int pIDConcept in payedConcepts)
                 {
-                    foreach (int pIDConcept in payedConcepts)
+                    if (pIDConcept == int.Parse(aConcept.Value))
                     {
-                        if (pIDConcept == int.Parse(aConcept.Value))
-                        {
-                            payed = true;
-                        }
+                        payed = true;
                     }
-
-                    if (!payed)
-                        lstExpiredConcepts.Add(aConcept);
                 }
+
+                if (!payed)
+                    lstExpiredConcepts.Add(aConcept);
             }
 
             return lstExpiredConcepts;
@@ -578,6 +574,143 @@ namespace CCMM
 
             return expiredConcepts;
             
+        }
+
+        public static List<string[]> SchoolPaymentsInfo(DateTime qDate, DateTime? toDate, bool schoolReport)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            string dateFilter = string.Empty;
+            string internadoFilter = string.Empty;
+            DateTime endDate = qDate;         
+            sqlConnection.Open();
+
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+
+            if (toDate == null)
+            {
+                endDate = qDate.AddDays(1);
+            }
+            else
+            {
+                 endDate = toDate.Value;
+            }
+
+            if (schoolReport)
+            {
+                internadoFilter = "AND (Students.School_Level <> 5) ";
+            }
+            else
+            {
+                internadoFilter = "AND (Students.School_Level = 5) ";
+            }
+
+            sqlCommand.CommandText = "SELECT Students.School_Level, Students.[Group], Payment.Student_ID, Students.Last_Name, Students.Last_Name_2, Students.First_Name, " +
+            "Payment.Folio, Conceptos.Title, Payment.Amount FROM Conceptos INNER JOIN Payment ON Conceptos.ID = Payment.Concept_ID INNER JOIN " +
+            "Students ON Payment.Student_ID = Students.Account_Num WHERE (Payment.Date > CONVERT(DATETIME, @date, 102)) AND (Payment.Date < CONVERT(DATETIME, @date2, 102)) " 
+            + internadoFilter + "AND (Payment.Completed = 1) ORDER BY Students.School_Level DESC, Payment.PID";
+
+            List<string[]> levelPayment = new List<string[]>();
+            List<string> tempList = new List<string>();
+
+            sqlCommand.Parameters.AddWithValue("@date", qDate.ToShortDateString());
+            sqlCommand.Parameters.AddWithValue("@date2", endDate.ToShortDateString());
+
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
+
+            while (sqlReader.Read())
+            {
+
+                //Nivel, Grado, Grupo, SID, Nombre, Folio, Conceptop, Importe
+                tempList = new List<string>();
+                tempList.Add(sqlReader["School_Level"].ToString());
+                tempList.Add(BAL.getGradeLevel(int.Parse(sqlReader["School_Level"].ToString()), int.Parse(sqlReader["Group"].ToString())).ToString());
+                tempList.Add("A");
+                tempList.Add(sqlReader["Student_ID"].ToString());
+                tempList.Add(sqlReader["Last_Name"].ToString() + " " + sqlReader["Last_Name_2"].ToString() + " " + sqlReader["First_Name"].ToString());
+                tempList.Add(sqlReader["Folio"].ToString());
+                tempList.Add(sqlReader["Title"].ToString());
+                tempList.Add(sqlReader["Amount"].ToString());
+
+                levelPayment.Add(tempList.ToArray());
+
+            }
+
+            sqlConnection.Close();
+
+            return levelPayment;
+        }
+
+        public static List<infoStudent> GetAllStudents()
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+            List<infoStudent> allStudents = new List<infoStudent>();
+
+
+            sqlCommand.CommandText = "SELECT Account_Num, First_Name, Last_Name, Last_Name_2, School_Level, [Group] " +
+                "FROM Students ORDER BY School_Level DESC, [Group]";
+
+            sqlConnection.Open();
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
+
+            while (sqlReader.Read())
+            {
+                infoStudent studentDetails = new infoStudent();
+                studentDetails.studentID = Int32.Parse(sqlReader["Account_Num"].ToString());
+                studentDetails.studentFistName = sqlReader["First_Name"].ToString();
+                studentDetails.studentLastName = sqlReader["Last_Name"].ToString();
+                studentDetails.studentLastName2 = sqlReader["Last_Name_2"].ToString();
+                studentDetails.studentLevel = int.Parse(sqlReader["School_Level"].ToString());
+                studentDetails.studentGroup = int.Parse(sqlReader["Group"].ToString());
+
+                allStudents.Add(studentDetails);
+            }
+
+            sqlConnection.Close();
+
+            return allStudents;
+        }
+
+        public static DataTable GetConcepts(string parameters)
+        {
+            DataTable dt = new DataTable();
+
+            string query = "SELECT Conceptos.ID AS ID,  Conceptos.Title AS Concepto, Conceptos.Concept_Type AS [Tipo Concepto], Conceptos.Base_Amount AS [Monto a Pagar], " +
+                "Conceptos.Limit_Date AS [Fecha Limite] FROM Conceptos INNER JOIN Rel_GL_Concept ON Conceptos.ID = Rel_GL_Concept.FK_Concept_ID " +
+                parameters + " ORDER BY Conceptos.ID";
+
+            return dtFill(query);
+        }
+
+        public static infoConcept getConceptInfo(int conceptID)
+        {
+            //Create list to hold concepts
+            infoConcept gObject = new infoConcept();
+
+            //Create connection, command and open connection. 
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlConnection.Open();
+
+            //Gets concepts that are available depending on group and level of student
+            sqlCommand.CommandText = "SELECT ID, Title, Base_Amount, Limit_Date FROM Conceptos WHERE " +
+                "ID = @cID";
+
+            sqlCommand.Parameters.AddWithValue("@cID", conceptID);
+
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
+
+            //Create objects for each concept and fill List<>
+            while (sqlReader.Read())
+            {
+                gObject.Name = sqlReader["Title"].ToString(); ;
+                gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
+                gObject.Value = sqlReader["ID"].ToString();
+                string coco = sqlReader["Limit_Date"].ToString();
+                gObject.LimitDate = DateTime.Parse(sqlReader["Limit_Date"].ToString());
+            }
+
+            return gObject;
         }
     }
 }

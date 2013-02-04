@@ -15,6 +15,7 @@ namespace CCMM
         frmStudentDetails frmStudentDetails;
 
         public string studentID { set; get; }
+        int[] levelValues = new int[5] { 0, 6, 9, 12, 20 };
 
         public frmStudentSearch(string type)
         {
@@ -47,45 +48,35 @@ namespace CCMM
                 accNum = txtbAccNum.Text;
             }
 
-            //Save parameters to parameter list
-            if (txtbName.Text != "")
+            if (cbParameteresActive.Checked)
             {
-                parameters.Add("(Students.First_Name LIKE '%" + txtbName.Text + "%')");
-            }
-
-            if (txtbLastName.Text != "")
-            {
-                parameters.Add("(Students.Last_Name LIKE '%" + txtbLastName.Text + "%')");
-            }
-
-            if (txtbLastName2.Text != "")
-            {
-                parameters.Add("(Students.Last_Name2 LIKE '%" + txtbLastName2.Text + "%')");
-            }
-
-            if (cbGrade.Enabled)
-            {
-                //If a grade is selected
-                if (Int32.TryParse(cbGrade.SelectedItem.ToString(), out num))
+                //Save parameters to parameter list
+                if (txtbName.Text != "")
                 {
-                    parameters.Add("(Students.[Group] = " + Int32.Parse(cbGrade.SelectedItem.ToString()) + ")");
+                    parameters.Add("(Students.First_Name LIKE '%" + txtbName.Text + "%')");
                 }
-                else if (cbLevel.SelectedItem.ToString() == "Medio Internado")
+
+                if (txtbLastName.Text != "")
                 {
-                    //If only after-school students
-                    parameters.Add("(Students.[Group] = 99)");
+                    parameters.Add("(Students.Last_Name LIKE '%" + txtbLastName.Text + "%')");
                 }
-                else
+
+                if (txtbLastName2.Text != "")
+                {
+                    parameters.Add("(Students.Last_Name2 LIKE '%" + txtbLastName2.Text + "%')");
+                }
+
+                if (cbGrade.Enabled && cbGrade.SelectedIndex != 0)
+                {
+                    int sGrade = Int32.Parse(cbGrade.SelectedItem.ToString());
+                    sGrade = sGrade + levelValues[cbLevel.SelectedIndex - 1];
+                    parameters.Add("(Students.[Group] = " + sGrade + ")");
+                }
+                else if(cbLevel.SelectedIndex != 0)
                 {
                     parameters.Add("(Students.School_Level = " + BAL.getLevelbyName(cbLevel.SelectedItem.ToString()).ToString() + ")");
                 }
             }
-
-            if (cbAfterSchool.Checked)
-            {
-                parameters.Add("(Students.After_School = 1)");
-            }
-
 
             //Fill dataGridView using the DataAccess class
             dGridStudentResults.DataSource = null;
@@ -100,6 +91,7 @@ namespace CCMM
             {
                 txtbAccNum.Enabled = false;
                 groupBParameters.Enabled = true;
+                cbLevel.SelectedIndex = 0;
             }
             else
             {
@@ -151,49 +143,44 @@ namespace CCMM
         //Load school years depending on selected school level
         private void cbLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int numGrades = 0;
             cbGrade.Items.Clear();
+            cbGrade.Items.Add("Todos");
 
             switch (cbLevel.SelectedItem.ToString())
             {
                 case "Todos":
-                    cbGrade.Items.Add("Todos");
                     cbGrade.Enabled = false;
                     break;
 
                 case "Medio Internado":
-                    cbGrade.Items.Add("Solo Medio Internado");
-                    cbAfterSchool.Checked = true;
+                    numGrades = 3;
                     cbGrade.Enabled = true;
                     break;
 
                 case "Primaria":
-                    cbGrade.Items.Add("Todos");
-                    for (int i = 1; i <= 6; i++)
-                        cbGrade.Items.Add(i.ToString());
+                    numGrades = 6;
                     cbGrade.Enabled = true;
                     break;
 
                 case "Secundaria":
-                    cbGrade.Items.Add("Todos");
-                    for (int i = 7; i <= 9; i++)
-                        cbGrade.Items.Add(i.ToString());
+                    numGrades = 3;
                     cbGrade.Enabled = true;
                     break;
 
                 case "Preparatoria":
-                    cbGrade.Items.Add("Todos");
-                    for (int i = 10; i <= 12; i++)
-                        cbGrade.Items.Add(i.ToString());
+                    numGrades = 3;
                     cbGrade.Enabled = true;
                     break;
 
                 case "Universidad":
-                    cbGrade.Items.Add("Todos");
-                    for (int i = 13; i <= 17; i++)
-                        cbGrade.Items.Add(i.ToString());
+                    numGrades = 5;
                     cbGrade.Enabled = true;
                     break;
             }
+
+            for (int i = 1; i <= numGrades; i++)
+                cbGrade.Items.Add(i);
 
             cbGrade.SelectedIndex = 0;
         }

@@ -22,6 +22,7 @@ namespace CCMM
         frmNewStudent frmNewStudent;
         frmDailyReport frmDailyReport;
         frmReportCreation frmReportCreation;
+        frmConceptCatalog frmConceptCatalog;
         //frmPaymentSearch frmPaymentSearch;
         //frmConceptConfiguration frmConceptConfiguration;
 
@@ -65,21 +66,61 @@ namespace CCMM
 
         private void mbtnDailyReport_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void mtbCombReport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mBtnSchoolEarnings_Click(object sender, EventArgs e)
+        {
             if (frmDailyReport == null || frmDailyReport.Visible == false)
             {
-                frmDailyReport = new frmDailyReport();
+                frmDailyReport = new frmDailyReport("School", "Earnings");
                 frmDailyReport.MdiParent = this;
                 frmDailyReport.Show();
             }
         }
 
-        private void mtbCombReport_Click(object sender, EventArgs e)
+        private void mbtnMedioEarnings_Click(object sender, EventArgs e)
         {
-            if (frmReportCreation == null || frmReportCreation.Visible == false)
+            if (frmDailyReport == null || frmDailyReport.Visible == false)
             {
-                frmReportCreation = new frmReportCreation();
-                frmReportCreation.MdiParent = this;
-                frmReportCreation.Show();
+                frmDailyReport = new frmDailyReport("Medio Internado", "Earnings");
+                frmDailyReport.MdiParent = this;
+                frmDailyReport.Show();
+            }
+        }
+
+        private void mbtnSchoolDebts_Click(object sender, EventArgs e)
+        {
+            if (frmDailyReport == null || frmDailyReport.Visible == false)
+            {
+                frmDailyReport = new frmDailyReport("School", "Debt");
+                frmDailyReport.MdiParent = this;
+                frmDailyReport.Show();
+            }
+        }
+
+        private void mbtnMedioDebts_Click(object sender, EventArgs e)
+        {
+            if (frmDailyReport == null || frmDailyReport.Visible == false)
+            {
+                frmDailyReport = new frmDailyReport("Medio Internado", "Debt");
+                frmDailyReport.MdiParent = this;
+                frmDailyReport.Show();
+            }
+        }
+
+        private void mbtnConceptCatalog_Click(object sender, EventArgs e)
+        {
+            if (frmConceptCatalog == null || frmConceptCatalog.Visible == false)
+            {
+                frmConceptCatalog = new frmConceptCatalog();
+                frmConceptCatalog.MdiParent = this;
+                frmConceptCatalog.Show();
             }
         }
     }

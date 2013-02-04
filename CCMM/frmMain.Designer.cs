@@ -36,10 +36,14 @@
             this.mbtnStudentRegistration = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnReports = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtDateReport = new System.Windows.Forms.ToolStripMenuItem();
+            this.mBtnSchoolEarnings = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnMedioEarnings = new System.Windows.Forms.ToolStripMenuItem();
             this.mtbCombReport = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnSchoolDebts = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnMedioDebts = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoCicloEscolarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.catalogoDeConceptosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnConceptCatalog = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,8 +58,8 @@
             this.mbtnSettings});
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
-            this.menuMain.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuMain.Size = new System.Drawing.Size(894, 56);
+            this.menuMain.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuMain.Size = new System.Drawing.Size(1192, 56);
             this.menuMain.TabIndex = 1;
             this.menuMain.Text = "menuStrip1";
             // 
@@ -65,7 +69,7 @@
             this.mbtnNewPayment.Image = global::CCMM.Properties.Resources.NewPayment;
             this.mbtnNewPayment.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mbtnNewPayment.Name = "mbtnNewPayment";
-            this.mbtnNewPayment.Size = new System.Drawing.Size(165, 52);
+            this.mbtnNewPayment.Size = new System.Drawing.Size(195, 52);
             this.mbtnNewPayment.Text = "Registrar Pago";
             this.mbtnNewPayment.Click += new System.EventHandler(this.mbtnNewPayment_Click);
             // 
@@ -75,7 +79,7 @@
             this.mbtnPaySearch.Image = global::CCMM.Properties.Resources.Search;
             this.mbtnPaySearch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mbtnPaySearch.Name = "mbtnPaySearch";
-            this.mbtnPaySearch.Size = new System.Drawing.Size(195, 52);
+            this.mbtnPaySearch.Size = new System.Drawing.Size(226, 52);
             this.mbtnPaySearch.Text = "Búsqueda Pagos";
             this.mbtnPaySearch.Click += new System.EventHandler(this.mbtnPaySearch_Click);
             // 
@@ -88,14 +92,14 @@
             this.mbtnStudents.Image = global::CCMM.Properties.Resources.Users;
             this.mbtnStudents.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mbtnStudents.Name = "mbtnStudents";
-            this.mbtnStudents.Size = new System.Drawing.Size(138, 52);
+            this.mbtnStudents.Size = new System.Drawing.Size(155, 52);
             this.mbtnStudents.Text = "Alumnos";
             // 
             // mbtnStudentSearch
             // 
             this.mbtnStudentSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mbtnStudentSearch.Name = "mbtnStudentSearch";
-            this.mbtnStudentSearch.Size = new System.Drawing.Size(196, 26);
+            this.mbtnStudentSearch.Size = new System.Drawing.Size(226, 32);
             this.mbtnStudentSearch.Text = "Búsqueda";
             this.mbtnStudentSearch.Click += new System.EventHandler(this.mbtnStudentSearch_Click);
             // 
@@ -103,7 +107,7 @@
             // 
             this.mbtnStudentRegistration.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mbtnStudentRegistration.Name = "mbtnStudentRegistration";
-            this.mbtnStudentRegistration.Size = new System.Drawing.Size(196, 26);
+            this.mbtnStudentRegistration.Size = new System.Drawing.Size(226, 32);
             this.mbtnStudentRegistration.Text = "Nuevo Alumno";
             this.mbtnStudentRegistration.Click += new System.EventHandler(this.mbtnStudentRegistration_Click);
             // 
@@ -116,59 +120,94 @@
             this.mbtnReports.Image = global::CCMM.Properties.Resources.Report;
             this.mbtnReports.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mbtnReports.Name = "mbtnReports";
-            this.mbtnReports.Size = new System.Drawing.Size(137, 52);
+            this.mbtnReports.Size = new System.Drawing.Size(157, 52);
             this.mbtnReports.Text = "Reportes";
             this.mbtnReports.Click += new System.EventHandler(this.mbtnReports_Click);
             // 
             // mbtDateReport
             // 
+            this.mbtDateReport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mBtnSchoolEarnings,
+            this.mbtnMedioEarnings});
             this.mbtDateReport.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mbtDateReport.Name = "mbtDateReport";
-            this.mbtDateReport.Size = new System.Drawing.Size(228, 26);
-            this.mbtDateReport.Text = "Por Fecha";
+            this.mbtDateReport.Size = new System.Drawing.Size(166, 32);
+            this.mbtDateReport.Text = "Ingresos";
             this.mbtDateReport.Click += new System.EventHandler(this.mbtnDailyReport_Click);
+            // 
+            // mBtnSchoolEarnings
+            // 
+            this.mBtnSchoolEarnings.Name = "mBtnSchoolEarnings";
+            this.mBtnSchoolEarnings.Size = new System.Drawing.Size(242, 32);
+            this.mBtnSchoolEarnings.Text = "Escolares";
+            this.mBtnSchoolEarnings.Click += new System.EventHandler(this.mBtnSchoolEarnings_Click);
+            // 
+            // mbtnMedioEarnings
+            // 
+            this.mbtnMedioEarnings.Name = "mbtnMedioEarnings";
+            this.mbtnMedioEarnings.Size = new System.Drawing.Size(242, 32);
+            this.mbtnMedioEarnings.Text = "Medio Internado";
+            this.mbtnMedioEarnings.Click += new System.EventHandler(this.mbtnMedioEarnings_Click);
             // 
             // mtbCombReport
             // 
+            this.mtbCombReport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mbtnSchoolDebts,
+            this.mbtnMedioDebts});
             this.mtbCombReport.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mtbCombReport.Name = "mtbCombReport";
-            this.mtbCombReport.Size = new System.Drawing.Size(228, 26);
-            this.mtbCombReport.Text = "Ingresos y Adeudos";
+            this.mtbCombReport.Size = new System.Drawing.Size(166, 32);
+            this.mtbCombReport.Text = "Adeudos";
             this.mtbCombReport.Click += new System.EventHandler(this.mtbCombReport_Click);
+            // 
+            // mbtnSchoolDebts
+            // 
+            this.mbtnSchoolDebts.Name = "mbtnSchoolDebts";
+            this.mbtnSchoolDebts.Size = new System.Drawing.Size(242, 32);
+            this.mbtnSchoolDebts.Text = "Escolares";
+            this.mbtnSchoolDebts.Click += new System.EventHandler(this.mbtnSchoolDebts_Click);
+            // 
+            // mbtnMedioDebts
+            // 
+            this.mbtnMedioDebts.Name = "mbtnMedioDebts";
+            this.mbtnMedioDebts.Size = new System.Drawing.Size(242, 32);
+            this.mbtnMedioDebts.Text = "Medio Internado";
+            this.mbtnMedioDebts.Click += new System.EventHandler(this.mbtnMedioDebts_Click);
             // 
             // mbtnSettings
             // 
             this.mbtnSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuevoCicloEscolarToolStripMenuItem,
-            this.catalogoDeConceptosToolStripMenuItem});
+            this.mbtnConceptCatalog});
             this.mbtnSettings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mbtnSettings.Image = global::CCMM.Properties.Resources.Settings;
             this.mbtnSettings.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mbtnSettings.Name = "mbtnSettings";
-            this.mbtnSettings.Size = new System.Drawing.Size(163, 52);
+            this.mbtnSettings.Size = new System.Drawing.Size(189, 52);
             this.mbtnSettings.Text = "Configuración";
             // 
             // nuevoCicloEscolarToolStripMenuItem
             // 
             this.nuevoCicloEscolarToolStripMenuItem.Name = "nuevoCicloEscolarToolStripMenuItem";
-            this.nuevoCicloEscolarToolStripMenuItem.Size = new System.Drawing.Size(256, 26);
+            this.nuevoCicloEscolarToolStripMenuItem.Size = new System.Drawing.Size(301, 32);
             this.nuevoCicloEscolarToolStripMenuItem.Text = "Nuevo Ciclo Escolar";
             // 
-            // catalogoDeConceptosToolStripMenuItem
+            // mbtnConceptCatalog
             // 
-            this.catalogoDeConceptosToolStripMenuItem.Name = "catalogoDeConceptosToolStripMenuItem";
-            this.catalogoDeConceptosToolStripMenuItem.Size = new System.Drawing.Size(256, 26);
-            this.catalogoDeConceptosToolStripMenuItem.Text = "Catalogo de Conceptos";
+            this.mbtnConceptCatalog.Name = "mbtnConceptCatalog";
+            this.mbtnConceptCatalog.Size = new System.Drawing.Size(301, 32);
+            this.mbtnConceptCatalog.Text = "Catalogo de Conceptos";
+            this.mbtnConceptCatalog.Click += new System.EventHandler(this.mbtnConceptCatalog_Click);
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(894, 553);
+            this.ClientSize = new System.Drawing.Size(1192, 681);
             this.Controls.Add(this.menuMain);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuMain;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "frmMain";
             this.ShowIcon = false;
             this.Text = "Registro de ingresos y adeudos";
@@ -192,7 +231,11 @@
         private System.Windows.Forms.ToolStripMenuItem mbtDateReport;
         private System.Windows.Forms.ToolStripMenuItem mtbCombReport;
         private System.Windows.Forms.ToolStripMenuItem nuevoCicloEscolarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem catalogoDeConceptosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mbtnConceptCatalog;
+        private System.Windows.Forms.ToolStripMenuItem mBtnSchoolEarnings;
+        private System.Windows.Forms.ToolStripMenuItem mbtnMedioEarnings;
+        private System.Windows.Forms.ToolStripMenuItem mbtnSchoolDebts;
+        private System.Windows.Forms.ToolStripMenuItem mbtnMedioDebts;
     }
 }
 

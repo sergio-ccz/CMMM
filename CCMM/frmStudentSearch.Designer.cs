@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBParameters = new System.Windows.Forms.GroupBox();
-            this.cbAfterSchool = new System.Windows.Forms.CheckBox();
             this.cbGrade = new System.Windows.Forms.ComboBox();
             this.lblGrade = new System.Windows.Forms.Label();
             this.txtbLastName2 = new System.Windows.Forms.TextBox();
@@ -52,7 +51,6 @@
             // 
             // groupBParameters
             // 
-            this.groupBParameters.Controls.Add(this.cbAfterSchool);
             this.groupBParameters.Controls.Add(this.cbGrade);
             this.groupBParameters.Controls.Add(this.lblGrade);
             this.groupBParameters.Controls.Add(this.txtbLastName2);
@@ -64,52 +62,24 @@
             this.groupBParameters.Controls.Add(this.txtbName);
             this.groupBParameters.Controls.Add(this.lblName);
             this.groupBParameters.Enabled = false;
-            this.groupBParameters.Location = new System.Drawing.Point(10, 69);
+            this.groupBParameters.Location = new System.Drawing.Point(13, 85);
+            this.groupBParameters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBParameters.Name = "groupBParameters";
-            this.groupBParameters.Size = new System.Drawing.Size(585, 124);
+            this.groupBParameters.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBParameters.Size = new System.Drawing.Size(780, 153);
             this.groupBParameters.TabIndex = 27;
             this.groupBParameters.TabStop = false;
             this.groupBParameters.Text = "Parametros de Búsqueda";
-            // 
-            // cbAfterSchool
-            // 
-            this.cbAfterSchool.AutoSize = true;
-            this.cbAfterSchool.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbAfterSchool.Location = new System.Drawing.Point(394, 90);
-            this.cbAfterSchool.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.cbAfterSchool.Name = "cbAfterSchool";
-            this.cbAfterSchool.Size = new System.Drawing.Size(139, 19);
-            this.cbAfterSchool.TabIndex = 26;
-            this.cbAfterSchool.Text = "Medio Internado?";
-            this.cbAfterSchool.UseVisualStyleBackColor = true;
             // 
             // cbGrade
             // 
             this.cbGrade.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGrade.Enabled = false;
             this.cbGrade.FormattingEnabled = true;
-            this.cbGrade.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "Solo MI"});
-            this.cbGrade.Location = new System.Drawing.Point(236, 90);
+            this.cbGrade.Location = new System.Drawing.Point(315, 111);
+            this.cbGrade.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbGrade.Name = "cbGrade";
-            this.cbGrade.Size = new System.Drawing.Size(136, 21);
+            this.cbGrade.Size = new System.Drawing.Size(180, 24);
             this.cbGrade.TabIndex = 25;
             this.cbGrade.SelectedIndexChanged += new System.EventHandler(this.cbGrade_SelectedIndexChanged);
             // 
@@ -117,17 +87,19 @@
             // 
             this.lblGrade.AutoSize = true;
             this.lblGrade.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGrade.Location = new System.Drawing.Point(227, 73);
+            this.lblGrade.Location = new System.Drawing.Point(303, 90);
+            this.lblGrade.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGrade.Name = "lblGrade";
-            this.lblGrade.Size = new System.Drawing.Size(54, 15);
+            this.lblGrade.Size = new System.Drawing.Size(65, 18);
             this.lblGrade.TabIndex = 24;
             this.lblGrade.Text = "Grado: ";
             // 
             // txtbLastName2
             // 
-            this.txtbLastName2.Location = new System.Drawing.Point(394, 43);
+            this.txtbLastName2.Location = new System.Drawing.Point(525, 53);
+            this.txtbLastName2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtbLastName2.Name = "txtbLastName2";
-            this.txtbLastName2.Size = new System.Drawing.Size(136, 20);
+            this.txtbLastName2.Size = new System.Drawing.Size(180, 22);
             this.txtbLastName2.TabIndex = 23;
             // 
             // cbLevel
@@ -141,9 +113,10 @@
             "Preparatoria",
             "Universidad",
             "Medio Internado"});
-            this.cbLevel.Location = new System.Drawing.Point(79, 90);
+            this.cbLevel.Location = new System.Drawing.Point(105, 111);
+            this.cbLevel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbLevel.Name = "cbLevel";
-            this.cbLevel.Size = new System.Drawing.Size(136, 21);
+            this.cbLevel.Size = new System.Drawing.Size(180, 24);
             this.cbLevel.TabIndex = 22;
             this.cbLevel.SelectedIndexChanged += new System.EventHandler(this.cbLevel_SelectedIndexChanged);
             // 
@@ -151,9 +124,10 @@
             // 
             this.lblLevel.AutoSize = true;
             this.lblLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLevel.Location = new System.Drawing.Point(70, 73);
+            this.lblLevel.Location = new System.Drawing.Point(93, 90);
+            this.lblLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLevel.Name = "lblLevel";
-            this.lblLevel.Size = new System.Drawing.Size(47, 15);
+            this.lblLevel.Size = new System.Drawing.Size(55, 18);
             this.lblLevel.TabIndex = 21;
             this.lblLevel.Text = "Nivel: ";
             // 
@@ -161,43 +135,48 @@
             // 
             this.lblLastName2.AutoSize = true;
             this.lblLastName2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastName2.Location = new System.Drawing.Point(389, 26);
+            this.lblLastName2.Location = new System.Drawing.Point(519, 32);
+            this.lblLastName2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastName2.Name = "lblLastName2";
-            this.lblLastName2.Size = new System.Drawing.Size(124, 15);
+            this.lblLastName2.Size = new System.Drawing.Size(144, 18);
             this.lblLastName2.TabIndex = 20;
             this.lblLastName2.Text = "Apellido Materno: ";
             // 
             // txtbLastName
             // 
-            this.txtbLastName.Location = new System.Drawing.Point(236, 43);
+            this.txtbLastName.Location = new System.Drawing.Point(315, 53);
+            this.txtbLastName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtbLastName.Name = "txtbLastName";
-            this.txtbLastName.Size = new System.Drawing.Size(136, 20);
+            this.txtbLastName.Size = new System.Drawing.Size(180, 22);
             this.txtbLastName.TabIndex = 19;
             // 
             // lblLastName
             // 
             this.lblLastName.AutoSize = true;
             this.lblLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastName.Location = new System.Drawing.Point(227, 26);
+            this.lblLastName.Location = new System.Drawing.Point(303, 32);
+            this.lblLastName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastName.Name = "lblLastName";
-            this.lblLastName.Size = new System.Drawing.Size(121, 15);
+            this.lblLastName.Size = new System.Drawing.Size(141, 18);
             this.lblLastName.TabIndex = 18;
             this.lblLastName.Text = "Apellido Paterno: ";
             // 
             // txtbName
             // 
-            this.txtbName.Location = new System.Drawing.Point(79, 43);
+            this.txtbName.Location = new System.Drawing.Point(105, 53);
+            this.txtbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtbName.Name = "txtbName";
-            this.txtbName.Size = new System.Drawing.Size(136, 20);
+            this.txtbName.Size = new System.Drawing.Size(180, 22);
             this.txtbName.TabIndex = 17;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.Location = new System.Drawing.Point(70, 26);
+            this.lblName.Location = new System.Drawing.Point(93, 32);
+            this.lblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(66, 15);
+            this.lblName.Size = new System.Drawing.Size(78, 18);
             this.lblName.TabIndex = 16;
             this.lblName.Text = "Nombre: ";
             // 
@@ -205,9 +184,10 @@
             // 
             this.cbParameteresActive.AutoSize = true;
             this.cbParameteresActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbParameteresActive.Location = new System.Drawing.Point(163, 32);
+            this.cbParameteresActive.Location = new System.Drawing.Point(217, 39);
+            this.cbParameteresActive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbParameteresActive.Name = "cbParameteresActive";
-            this.cbParameteresActive.Size = new System.Drawing.Size(175, 19);
+            this.cbParameteresActive.Size = new System.Drawing.Size(207, 22);
             this.cbParameteresActive.TabIndex = 26;
             this.cbParameteresActive.Text = "Buscar por información";
             this.cbParameteresActive.UseVisualStyleBackColor = true;
@@ -219,9 +199,10 @@
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.lblSearchTips.AutoSize = true;
             this.lblSearchTips.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSearchTips.Location = new System.Drawing.Point(9, 202);
+            this.lblSearchTips.Location = new System.Drawing.Point(12, 249);
+            this.lblSearchTips.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSearchTips.Name = "lblSearchTips";
-            this.lblSearchTips.Size = new System.Drawing.Size(236, 13);
+            this.lblSearchTips.Size = new System.Drawing.Size(298, 17);
             this.lblSearchTips.TabIndex = 25;
             this.lblSearchTips.Text = "Doble click al alumno que hace el pago:";
             // 
@@ -232,11 +213,12 @@
             this.dGridStudentResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dGridStudentResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dGridStudentResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGridStudentResults.Location = new System.Drawing.Point(10, 227);
+            this.dGridStudentResults.Location = new System.Drawing.Point(13, 279);
+            this.dGridStudentResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dGridStudentResults.Name = "dGridStudentResults";
             this.dGridStudentResults.ReadOnly = true;
             this.dGridStudentResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dGridStudentResults.Size = new System.Drawing.Size(585, 184);
+            this.dGridStudentResults.Size = new System.Drawing.Size(780, 226);
             this.dGridStudentResults.TabIndex = 24;
             this.dGridStudentResults.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dGridStudentResults_CellContentClick);
             // 
@@ -244,9 +226,10 @@
             // 
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Image = global::CCMM.Properties.Resources.Search;
-            this.btnSearch.Location = new System.Drawing.Point(478, 12);
+            this.btnSearch.Location = new System.Drawing.Point(637, 15);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(117, 43);
+            this.btnSearch.Size = new System.Drawing.Size(156, 53);
             this.btnSearch.TabIndex = 23;
             this.btnSearch.Text = "Buscar";
             this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -255,26 +238,28 @@
             // 
             // txtbAccNum
             // 
-            this.txtbAccNum.Location = new System.Drawing.Point(10, 32);
+            this.txtbAccNum.Location = new System.Drawing.Point(13, 39);
+            this.txtbAccNum.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtbAccNum.Name = "txtbAccNum";
-            this.txtbAccNum.Size = new System.Drawing.Size(136, 20);
+            this.txtbAccNum.Size = new System.Drawing.Size(180, 22);
             this.txtbAccNum.TabIndex = 22;
             // 
             // lblAccNum
             // 
             this.lblAccNum.AutoSize = true;
             this.lblAccNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccNum.Location = new System.Drawing.Point(8, 15);
+            this.lblAccNum.Location = new System.Drawing.Point(11, 18);
+            this.lblAccNum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAccNum.Name = "lblAccNum";
-            this.lblAccNum.Size = new System.Drawing.Size(56, 15);
+            this.lblAccNum.Size = new System.Drawing.Size(66, 18);
             this.lblAccNum.TabIndex = 21;
             this.lblAccNum.Text = "Cuenta:";
             // 
             // frmStudentSearch
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 422);
+            this.ClientSize = new System.Drawing.Size(807, 519);
             this.Controls.Add(this.groupBParameters);
             this.Controls.Add(this.cbParameteresActive);
             this.Controls.Add(this.lblSearchTips);
@@ -282,7 +267,7 @@
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtbAccNum);
             this.Controls.Add(this.lblAccNum);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "frmStudentSearch";
             this.ShowIcon = false;
             this.Text = "Búsqueda de Alumnos";
@@ -314,7 +299,6 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox txtbAccNum;
         private System.Windows.Forms.Label lblAccNum;
-        private System.Windows.Forms.CheckBox cbAfterSchool;
 
     }
 }
