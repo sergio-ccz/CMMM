@@ -48,6 +48,7 @@
             this.lblAccNum = new System.Windows.Forms.Label();
             this.picUsers = new System.Windows.Forms.PictureBox();
             this.picAccNumber = new System.Windows.Forms.PictureBox();
+            this.lblAccType = new System.Windows.Forms.Label();
             this.gbxPaymentDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDiscountWarning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsers)).BeginInit();
@@ -90,6 +91,7 @@
             this.gbxPaymentDetails.TabIndex = 35;
             this.gbxPaymentDetails.TabStop = false;
             this.gbxPaymentDetails.Text = "Detalles de Pago";
+            this.gbxPaymentDetails.Visible = false;
             // 
             // cbShowAllConcepts
             // 
@@ -281,11 +283,22 @@
             this.picAccNumber.TabIndex = 34;
             this.picAccNumber.TabStop = false;
             // 
+            // lblAccType
+            // 
+            this.lblAccType.AutoSize = true;
+            this.lblAccType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAccType.Location = new System.Drawing.Point(188, 69);
+            this.lblAccType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAccType.Name = "lblAccType";
+            this.lblAccType.Size = new System.Drawing.Size(0, 24);
+            this.lblAccType.TabIndex = 38;
+            // 
             // frmNewPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(647, 394);
+            this.Controls.Add(this.lblAccType);
             this.Controls.Add(this.picUsers);
             this.Controls.Add(this.llinkViewAccDetails);
             this.Controls.Add(this.gbxPaymentDetails);
@@ -329,5 +342,6 @@
         private System.Windows.Forms.TextBox txtbPaymentAmount;
         private System.Windows.Forms.Label lblPaymentAmount;
         private System.Windows.Forms.CheckBox cbShowAllConcepts;
+        private System.Windows.Forms.Label lblAccType;
     }
 }

@@ -135,6 +135,7 @@ namespace CCMM
                 string id = dGridConcepts.SelectedCells[0].Value.ToString();
                 frmConceptDetails frmConceptDetails = new frmConceptDetails(int.Parse(id));
                 frmConceptDetails.ShowDialog();
+                UpdateGridResults();
             }
         }
     }

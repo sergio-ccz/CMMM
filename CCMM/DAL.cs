@@ -493,6 +493,7 @@ namespace CCMM
             //Create list to hold concepts
             List<infoConcept> lstConcept = new List<infoConcept>();
             List<infoConcept> lstExpiredConcepts = new List<infoConcept>();
+            string accountType = getStudentDetails(studentID).paymentType;
 
             //Create connection, command and open connection. 
             SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
@@ -517,6 +518,9 @@ namespace CCMM
                 gObject.Value = sqlReader["FK_Concept_ID"].ToString();
                 gObject.LimitDate = DateTime.Parse(sqlReader["Limit_Date"].ToString());
                 gObject.Type = sqlReader["Concept_Type"].ToString();
+
+                if (gObject.Name.Contains("Vacaci") && accountType == "Diferido")
+                    continue;
 
                 lstConcept.Add(gObject);
             }
@@ -711,6 +715,37 @@ namespace CCMM
             }
 
             return gObject;
+        }
+
+        public static void UpdateConcept(infoConcept updatedConcept)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            //AccNum, fName, lastname, lastname2, grade, discount
+            SqlCeCommand updateCommand = new SqlCeCommand("UPDATE Conceptos SET Title = @conTitle, Base_Amount= @conAmount, Limit_Date = @conDate " +
+                "WHERE ID = @conID", sqlConnection);
+
+            updateCommand.Parameters.AddWithValue("@conTitle", updatedConcept.Name);
+            updateCommand.Parameters.AddWithValue("@conAmount", updatedConcept.Amount);
+            updateCommand.Parameters.AddWithValue("@conDate", updatedConcept.LimitDate.ToShortDateString());
+            updateCommand.Parameters.AddWithValue("@conID", updatedConcept.Value);
+
+            updateCommand.CommandType = System.Data.CommandType.Text;
+
+            try
+            {
+                updateCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                sqlConnection.Close();
+                sqlConnection.Dispose();
+            }
         }
     }
 }

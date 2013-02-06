@@ -23,6 +23,7 @@ namespace CCMM
         bool toSave = false;
         bool geditEnabled = true;
         private double selectedAccount;
+        private bool showingPayments = true;
 
         int[] levelValues = new int[5] { 0, 6, 9, 12, 20 };
 
@@ -205,7 +206,31 @@ namespace CCMM
 
         private void btnPrintGrid_Click(object sender, EventArgs e)
         {
+            List<string[]> reportData = new List<string[]>();
 
+            if (showingPayments)
+            {
+                //Payment history
+                reportData = BAL.CreateStudentReport(selectedStudent, DAL.getPaymentsByStudent(selectedAccount, null, null, false));
+                if (reportData.Count == 0)
+                {
+                    MessageBox.Show("No hay datos que imprimir");
+                    return;
+                }
+
+                Printing.PrintReport(reportData, "Personal Payments", DateTime.Now.Date, "Personal");
+            }
+            else
+            {
+                //Debt history
+                reportData = BAL.CreateStudentReport(selectedStudent, BAL.getExpiredSchoolConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel, selectedStudent.studentID));
+                if (reportData.Count == 0)
+                {
+                    MessageBox.Show("No hay datos que imprimir");
+                    return;
+                }
+                Printing.PrintReport(reportData, "Personal Debt", DateTime.Now.Date, "Personal");
+            }
         }
 
         private void cbAfterSchool_CheckedChanged(object sender, EventArgs e)
@@ -244,11 +269,10 @@ namespace CCMM
             datePaymentFrom.Enabled = false;
             datePaymentTo.Enabled = false;
             gDataPayments.DataSource = null;
-            DataTable totalExpConcepts = new DataTable();
-
-            DataTable ExpAfterSchool = new DataTable();
 
             gDataPayments.DataSource = BAL.getExpiredSchoolConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel, selectedStudent.studentID);
+            gDataPayments.AutoResizeColumns();
+            showingPayments = false;
         }
 
         private void llblResetGrid_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -256,6 +280,7 @@ namespace CCMM
             datePaymentFrom.Enabled = true;
             datePaymentTo.Enabled = true;
             loadPayments(null, null);
+            showingPayments = true;
         }
 
         private void cbSchoolLevel_SelectedIndexChanged(object sender, EventArgs e)

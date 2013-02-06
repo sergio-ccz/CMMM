@@ -81,6 +81,7 @@ namespace CCMM
             //Fill dataGridView using the DataAccess class
             dGridStudentResults.DataSource = null;
             dGridStudentResults.DataSource = DAL.SearchStudent(parameters, txtbAccNum.Text);
+            dGridStudentResults.AutoResizeColumns();
         }
 
         //If user has account number, it can be used to select student. Otherwise search using

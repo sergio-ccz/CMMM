@@ -238,8 +238,32 @@ namespace CCMM
             return expiredPayments;
         }
 
-        
-    }
+        public static List<string[]> CreateStudentReport(infoStudent selectedStudent, DataTable paymentTable)
+        {
+            List<string[]> reportData = new List<string[]>();
+            List<string> tempList = new List<string>();
 
-            
+
+            //Folio, Cantidad, Fecha, Completado, Concepto
+
+            foreach(DataRow payRow in paymentTable.Rows)
+            {
+                tempList = new List<string>();
+
+                tempList.Add(selectedStudent.studentID.ToString());
+                tempList.Add(selectedStudent.studentLastName + " " + selectedStudent.studentLastName2 + " " + selectedStudent.studentFistName);
+                foreach (var item in payRow.ItemArray)
+                {
+                    tempList.Add(item.ToString());
+                }
+
+                reportData.Add(tempList.ToArray());
+            }
+
+            if (reportData.Count > 0)
+                return reportData;
+
+            return null;
+        }
+    }    
 }

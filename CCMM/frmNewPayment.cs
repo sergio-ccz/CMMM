@@ -69,6 +69,7 @@ namespace CCMM
                     picAccNumber.Image = (Image)CCMM.Properties.Resources.CheckMark;
                     llinkViewAccDetails.Visible = true;
                     llinkViewAccDetails.Text = "[" + selectedStudent.studentFistName + " " + selectedStudent.studentLastName + "]";
+                    lblAccType.Text = "Tipo de Cuenta: " + selectedStudent.paymentType;
                                    
                     //Update amount
                     cbPaymentConcept_SelectedIndexChanged(null, null);
@@ -77,6 +78,7 @@ namespace CCMM
                 }
                 else
                 {
+                    lblAccType.Text = "";
                     studentToPay = null;
                 }
             }
@@ -116,7 +118,7 @@ namespace CCMM
 
         private void cbPaymentConcept_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (finishedLoading)
+            if (finishedLoading || cbPaymentConcept.Items.Count > 0)
             {
                 List<infoConcept> cList = new List<infoConcept>();
                 cList = ConceptList;

@@ -19,7 +19,7 @@ namespace CCMM
              * you'll end up with a much bigger file size.
              */
             public Image ImageHeader { get; set; }
-            private string[] ReportType = new string[2] { "Reporte de Ingresos", "Reporte de Adeudos" };
+            private string[] ReportType = new string[4] { "Reporte de Ingresos", "Reporte de Adeudos", "Historial de Pagos", "Historial de Adeudos" };
 
             public override void OnEndPage(PdfWriter writer, Document document)
             {
@@ -439,6 +439,280 @@ namespace CCMM
             System.Diagnostics.Process.Start(file);
         }
 
+        private static void PrintPaymentHistory()
+        {
+            System.Drawing.Image imageHeader = (System.Drawing.Image)CCMM.Properties.Resources.logo;
+            var logo = iTextSharp.text.Image.GetInstance(imageHeader, System.Drawing.Imaging.ImageFormat.Png);
+
+            MyPageEventHandler e = new MyPageEventHandler()
+            {
+                ImageHeader = logo
+            };
+
+            // Create a Document object
+            var document = new Document(PageSize.A4, 50, 50, 180, 25);
+
+            //ID, Name, Folio, Amount, Date, Complete, Concept(Title)
+            string file = "HistorialPagos-" + _reportData[0][0] + ".pdf";
+            // Create a new PdfWriter object, specifying the output stream
+            var output = new MemoryStream();
+            //var writer = PdfWriter.GetInstance(document, output);
+            var writer = PdfWriter.GetInstance(document, new FileStream(file, FileMode.Create));
+            writer.PageEvent = e;
+
+            // Open the Document for writing
+            document.Open();
+
+            var fontLevelTitle = FontFactory.GetFont("Arial", 12, Font.BOLD);
+            var subTitleFont = FontFactory.GetFont("Arial", 16);
+            var boldTableFont = FontFactory.GetFont("Arial", 13);
+            var cellTitle = FontFactory.GetFont("Arial", 11, Font.BOLD);
+            var bodyFont = FontFactory.GetFont("Arial", 10);
+
+            //Check if there's at least one payment 
+
+            if (_reportData.Count > 0)
+            {
+
+                infoStudent selectedStudent = DAL.getStudentDetails(Int32.Parse(_reportData[0][0]));
+                //Create base table and level table
+                var levelTable = new PdfPTable(4);
+                levelTable.TotalWidth = 475f;
+                levelTable.LockedWidth = true;
+                levelTable.SpacingBefore = 45f;
+                float[] widths = new float[] {  97f, 177f, 94f, 107f };
+                levelTable.SetWidths(widths);
+
+                string levelTitle = "Pagos por: " + _reportData[0][1];
+                PdfPCell cellLevelName = new PdfPCell(new Phrase(levelTitle, fontLevelTitle));
+                cellLevelName.Border = PdfPCell.NO_BORDER;
+                cellLevelName.Colspan = 4;
+                cellLevelName.PaddingBottom = 3;
+                levelTable.AddCell(cellLevelName);
+
+                string studentInfo = "Cuenta #" + _reportData[0][0] + " || Nivel: " + getLevelName(selectedStudent.studentLevel).ToUpper();
+                PdfPCell cellStudentAccount = new PdfPCell(new Phrase(studentInfo, fontLevelTitle));
+                cellStudentAccount.Border = PdfPCell.NO_BORDER;
+                cellStudentAccount.Colspan = 4;
+                cellStudentAccount.PaddingBottom = 3;
+                levelTable.AddCell(cellStudentAccount);
+
+                string studentInfo2 = "Grado: " + BAL.getGradeLevel(selectedStudent.studentLevel, selectedStudent.studentGroup).ToString() +
+                    "  Grupo: A";
+                PdfPCell cellStudentAccount2 = new PdfPCell(new Phrase(studentInfo2, fontLevelTitle));
+                cellStudentAccount2.Border = PdfPCell.NO_BORDER;
+                cellStudentAccount2.Colspan = 4;
+                cellStudentAccount2.PaddingBottom = 10;
+                levelTable.AddCell(cellStudentAccount2);
+
+                //Column names
+                PdfPCell cellFolio = new PdfPCell(new Phrase("Folio", cellTitle));
+                cellFolio.Border = PdfPCell.NO_BORDER;
+                PdfPCell cellConcept = new PdfPCell(new Phrase("Concepto", cellTitle));
+                cellConcept.Border = PdfPCell.NO_BORDER;
+                PdfPCell cellPayDate = new PdfPCell(new Phrase("Fecha de Pago", cellTitle));
+                cellPayDate.Border = PdfPCell.NO_BORDER;
+                PdfPCell cellCharge = new PdfPCell(new Phrase("Importe", cellTitle));
+                cellCharge.Border = PdfPCell.NO_BORDER;
+                cellCharge.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+
+                levelTable.AddCell(cellFolio);
+                levelTable.AddCell(cellConcept);
+                levelTable.AddCell(cellPayDate);
+                levelTable.AddCell(cellCharge);
+
+                double totalAmount = 0.0;
+
+                //Go trough each payment that fits the level and print it. 
+                foreach (var payment in _reportData)
+                {
+                    //ID, Name, Folio, Amount, Date, Complete, Concept(Title)
+
+                    totalAmount += double.Parse(payment[3]);
+
+                    cellPayDate = new PdfPCell(new Phrase(DateTime.Parse(payment[4]).ToShortDateString(), bodyFont));
+                    cellPayDate.Border = PdfPCell.BOTTOM_BORDER;
+
+                    cellFolio = new PdfPCell(new Phrase(payment[2], bodyFont));
+                    cellFolio.Border = PdfPCell.BOTTOM_BORDER;
+
+                    cellConcept = new PdfPCell(new Phrase(payment[6], bodyFont));
+                    cellConcept.Border = PdfPCell.BOTTOM_BORDER;
+
+                    double tempPayment = double.Parse(payment[3]);
+                    cellCharge = new PdfPCell(new Phrase(tempPayment.ToString(BAL.MoneyFormat), bodyFont));
+                    cellCharge.Border = PdfPCell.BOTTOM_BORDER;
+                    cellCharge.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+
+                    levelTable.AddCell(cellFolio);
+                    levelTable.AddCell(cellConcept);
+                    levelTable.AddCell(cellPayDate);
+                    levelTable.AddCell(cellCharge);
+
+                }
+
+                document.Add(levelTable);
+
+                //Print totals 
+                string txtTotalEarings = "Total PAGADO por " + _reportData[0][1];
+                PdfPCell cellTotalEarnings = new PdfPCell(new Phrase(txtTotalEarings));
+                cellTotalEarnings.Border = PdfPCell.NO_BORDER;
+                cellTotalEarnings.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+                PdfPCell cellnumEarnings = new PdfPCell(new Phrase(totalAmount.ToString(BAL.MoneyFormat)));
+                cellnumEarnings.Border = PdfPCell.NO_BORDER;
+                cellnumEarnings.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+
+                var totalsTable = new PdfPTable(2);
+                totalsTable.TotalWidth = 475f;
+                totalsTable.LockedWidth = true;
+                totalsTable.SpacingBefore = 45f;
+                float[] totalsWidth = new float[] { 325f, 150f };
+                totalsTable.SetWidths(totalsWidth);
+
+                totalsTable.AddCell(cellTotalEarnings);
+                totalsTable.AddCell(cellnumEarnings);
+
+                document.Add(totalsTable);
+
+                document.Close();
+                System.Diagnostics.Process.Start(file);
+            }
+        }
+
+        private static void PrintDebtHistory()
+        {
+            System.Drawing.Image imageHeader = (System.Drawing.Image)CCMM.Properties.Resources.logo;
+            var logo = iTextSharp.text.Image.GetInstance(imageHeader, System.Drawing.Imaging.ImageFormat.Png);
+
+            MyPageEventHandler e = new MyPageEventHandler()
+            {
+                ImageHeader = logo
+            };
+
+            // Create a Document object
+            var document = new Document(PageSize.A4, 50, 50, 180, 25);
+
+            //ID, NAME, CONCEPT, LIMIT DATE, AMOUNT
+            string file = "HistorialDeudas-" + _reportData[0][0] + ".pdf";
+            // Create a new PdfWriter object, specifying the output stream
+            var output = new MemoryStream();
+            //var writer = PdfWriter.GetInstance(document, output);
+            var writer = PdfWriter.GetInstance(document, new FileStream(file, FileMode.Create));
+            writer.PageEvent = e;
+
+            // Open the Document for writing
+            document.Open();
+
+            var fontLevelTitle = FontFactory.GetFont("Arial", 12, Font.BOLD);
+            var subTitleFont = FontFactory.GetFont("Arial", 16);
+            var boldTableFont = FontFactory.GetFont("Arial", 13);
+            var cellTitle = FontFactory.GetFont("Arial", 11, Font.BOLD);
+            var bodyFont = FontFactory.GetFont("Arial", 10);
+
+            //Check if there's at least one payment 
+
+            if (_reportData.Count > 0)
+            {
+
+                //ID, NAME, CONCEPT, LIMIT DATE, AMOUNT
+                infoStudent selectedStudent = DAL.getStudentDetails(Int32.Parse(_reportData[0][0]));
+                //Create base table and level table
+                var levelTable = new PdfPTable(3);
+                levelTable.TotalWidth = 475f;
+                levelTable.LockedWidth = true;
+                levelTable.SpacingBefore = 45f;
+                float[] widths = new float[] { 197f, 177f, 101f };
+                levelTable.SetWidths(widths);
+
+                string levelTitle = "Deudas por: " + _reportData[0][1];
+                PdfPCell cellLevelName = new PdfPCell(new Phrase(levelTitle, fontLevelTitle));
+                cellLevelName.Border = PdfPCell.NO_BORDER;
+                cellLevelName.Colspan = 3;
+                cellLevelName.PaddingBottom = 3;
+                levelTable.AddCell(cellLevelName);
+
+                string studentInfo = "Cuenta #" + _reportData[0][0] + " || Nivel: " + getLevelName(selectedStudent.studentLevel).ToUpper();
+                PdfPCell cellStudentAccount = new PdfPCell(new Phrase(studentInfo, fontLevelTitle));
+                cellStudentAccount.Border = PdfPCell.NO_BORDER;
+                cellStudentAccount.Colspan = 3;
+                cellStudentAccount.PaddingBottom = 3;
+                levelTable.AddCell(cellStudentAccount);
+
+                string studentInfo2 = "Grado: " + BAL.getGradeLevel(selectedStudent.studentLevel, selectedStudent.studentGroup).ToString() +
+                    "  Grupo: A";
+                PdfPCell cellStudentAccount2 = new PdfPCell(new Phrase(studentInfo2, fontLevelTitle));
+                cellStudentAccount2.Border = PdfPCell.NO_BORDER;
+                cellStudentAccount2.Colspan = 3;
+                cellStudentAccount2.PaddingBottom = 10;
+                levelTable.AddCell(cellStudentAccount2);
+
+                //Column names
+                PdfPCell cellConcept = new PdfPCell(new Phrase("Concepto", cellTitle));
+                cellConcept.Border = PdfPCell.NO_BORDER;
+                PdfPCell cellPayDate = new PdfPCell(new Phrase("Fecha Limite", cellTitle));
+                cellPayDate.Border = PdfPCell.NO_BORDER;
+                PdfPCell cellCharge = new PdfPCell(new Phrase("Importe", cellTitle));
+                cellCharge.Border = PdfPCell.NO_BORDER;
+                cellCharge.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+
+                levelTable.AddCell(cellConcept);
+                levelTable.AddCell(cellPayDate);
+                levelTable.AddCell(cellCharge);
+
+                double totalAmount = 0.0;
+
+                //Go trough each payment that fits the level and print it. 
+                foreach (var payment in _reportData)
+                {
+                    //ID, NAME, CONCEPT, LIMIT DATE, AMOUNT
+
+                    totalAmount += double.Parse(payment[4]);
+
+                    cellPayDate = new PdfPCell(new Phrase(DateTime.Parse(payment[3]).ToShortDateString(), bodyFont));
+                    cellPayDate.Border = PdfPCell.BOTTOM_BORDER;
+
+                    cellConcept = new PdfPCell(new Phrase(payment[2], bodyFont));
+                    cellConcept.Border = PdfPCell.BOTTOM_BORDER;
+
+                    double tempPayment = double.Parse(payment[4]);
+                    cellCharge = new PdfPCell(new Phrase(tempPayment.ToString(BAL.MoneyFormat), bodyFont));
+                    cellCharge.Border = PdfPCell.BOTTOM_BORDER;
+                    cellCharge.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+
+                    levelTable.AddCell(cellConcept);
+                    levelTable.AddCell(cellPayDate);
+                    levelTable.AddCell(cellCharge);
+
+                }
+
+                document.Add(levelTable);
+
+                //Print totals 
+                string txtTotalEarings = "Total de DEUDAS por " + _reportData[0][1];
+                PdfPCell cellTotalEarnings = new PdfPCell(new Phrase(txtTotalEarings));
+                cellTotalEarnings.Border = PdfPCell.NO_BORDER;
+                cellTotalEarnings.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+                PdfPCell cellnumEarnings = new PdfPCell(new Phrase(totalAmount.ToString(BAL.MoneyFormat)));
+                cellnumEarnings.Border = PdfPCell.NO_BORDER;
+                cellnumEarnings.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+
+                var totalsTable = new PdfPTable(2);
+                totalsTable.TotalWidth = 475f;
+                totalsTable.LockedWidth = true;
+                totalsTable.SpacingBefore = 45f;
+                float[] totalsWidth = new float[] { 325f, 150f };
+                totalsTable.SetWidths(totalsWidth);
+
+                totalsTable.AddCell(cellTotalEarnings);
+                totalsTable.AddCell(cellnumEarnings);
+
+                document.Add(totalsTable);
+
+                document.Close();
+                System.Diagnostics.Process.Start(file);
+            }
+        }
+
         public static string getLevelName(int level)
         {
             switch (level)
@@ -486,6 +760,16 @@ namespace CCMM
                 case "Debt":
                     _reportType = 1;
                     PrintDebtReport();
+                    break;
+
+                case "Personal Payments":
+                    _reportType = 2;
+                    PrintPaymentHistory();
+                    break;
+
+                case "Personal Debt":
+                    _reportType = 3;
+                    PrintDebtHistory();
                     break;
                     
                 default:
