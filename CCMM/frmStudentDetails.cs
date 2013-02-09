@@ -20,6 +20,7 @@ namespace CCMM
         }
 
         //Flag to know if user enabled information editing
+
         bool toSave = false;
         bool geditEnabled = true;
         private double selectedAccount;
@@ -94,6 +95,7 @@ namespace CCMM
             {
                 //Changes button text
                 btnEditSaveAcc.Text = "Guardar Cambios";
+                btnDelete.Visible = true;
 
                 toSave = true;
 
@@ -173,7 +175,7 @@ namespace CCMM
                 else
                     editedStudent.paymentDiscount = 0;
 
-                editedStudent.paymentType = cbAccType.SelectedText;
+                editedStudent.paymentType = cbAccType.SelectedItem.ToString() ;
 
                 //If student is after-school only, assign the group 99, otherwise just a normal group
                 editedStudent.studentGroup = (cbGrade.SelectedIndex + levelValues[cbSchoolLevel.SelectedIndex]) + 1;
@@ -191,7 +193,9 @@ namespace CCMM
                     txtbLastName.ReadOnly = true;
                     txtbLastName2.ReadOnly = true;
                     cbGrade.Enabled = false;
+                    btnDelete.Visible = false;
                     cbSchoolLevel.Enabled = false;
+                    cbAccType.Enabled = false;
 
                     txtbDiscount.ReadOnly = true;
                     chkSpecialAcc.Enabled = false;
@@ -309,6 +313,50 @@ namespace CCMM
         private void lblLevel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Esto borrara el registro y pagos de: " + selectedStudent.studentFistName + " " + selectedStudent.studentLastName, "Advertencia", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                //Delete account
+
+                BAL.DeleteAccount(selectedStudent);
+                editedInfo = true;
+                this.Close();
+            }
+        }
+
+        private void gDataPayments_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (showingPayments)
+            {
+                if(gDataPayments.SelectedCells.Count > 0)
+                {
+                    //Create payment list with information
+                    List<string> paymentInfo = new List<string>();
+
+                    paymentInfo.Add(gDataPayments.SelectedCells[1].Value.ToString());
+                    paymentInfo.Add(gDataPayments.SelectedCells[2].Value.ToString());
+                    paymentInfo.Add(gDataPayments.SelectedCells[3].Value.ToString());
+                    paymentInfo.Add(gDataPayments.SelectedCells[4].Value.ToString());
+                    paymentInfo.Add(gDataPayments.SelectedCells[5].Value.ToString());
+                    paymentInfo.Add(gDataPayments.SelectedCells[0].Value.ToString());
+
+                    frmPaymentDetails frmPaymentDetails = new frmPaymentDetails(paymentInfo);
+                    frmPaymentDetails.ShowDialog();
+
+
+                    if(frmPaymentDetails.updatedInfo)
+                    {
+                        datePaymentFrom.Enabled = true;
+                        datePaymentTo.Enabled = true;
+                        loadPayments(null, null);
+                        showingPayments = true;
+                    }
+                }
+            }
         }
     }
 }

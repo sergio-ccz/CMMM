@@ -124,42 +124,6 @@ namespace CCMM
             return schoolLevel;
         }
 
-        public static List<infoConcept> getAvailableConcepts(Int32 studentID, string conceptType, bool showAll)
-        {
-            //Get student information
-            infoStudent payingStudent = DAL.getStudentDetails(studentID);
-            List<infoConcept> availableConcepts = new List<infoConcept>();
-            List<int> payedConcepts = new List<int>();
-            //Get available concepts for student
-
-            if (conceptType == "School")
-                availableConcepts = DAL.getAvailableConcepts(payingStudent.studentGroup, payingStudent.studentLevel);
-            else
-                availableConcepts = DAL.getAfterSchoolConcepts();
-
-            if (showAll)
-                return availableConcepts;
-
-            //Get payments made by student
-            payedConcepts = DAL.getPayedConceptList(studentID);
-            
-            //Parse results and create a list of concepts already paid
-            for (int i = 0; i < availableConcepts.Count; i++)
-            {
-                foreach (int pConcept in payedConcepts)
-                {
-                    if (int.Parse(availableConcepts[i].Value) == pConcept)
-                    {
-                        //Delete concepts that have already been payed
-                        availableConcepts.RemoveAt(i);
-                        break;
-                    }
-                }
-            }
-
-            return availableConcepts;
-        }
-
         public static DataTable getExpiredSchoolConcepts(int stdGroup, int stdLevel, Int32 studentID)
         {
             List<infoConcept> expiredConcepts = DAL.getExpiredSchoolConcepts(stdGroup, stdLevel, studentID);
@@ -264,6 +228,94 @@ namespace CCMM
                 return reportData;
 
             return null;
+        }
+
+        public static void ModifyDiferidoConcepts(List<infoConcept> conceptList)
+        {
+            double vacationAmount = 0;
+            int vacationCount = 0;
+
+            for (int i = 0; i < conceptList.Count; i++)
+            {
+                if (conceptList[i].Name.Contains("Vacaci"))
+                {
+                    vacationAmount += conceptList[i].Amount;
+                    vacationCount++;
+                    conceptList.Remove(conceptList[i]);
+                }
+            }
+
+
+            foreach (infoConcept concept in conceptList)
+            {
+                
+            }
+
+            vacationAmount = vacationAmount / (conceptList.Count + vacationCount);
+
+            foreach (infoConcept con in conceptList)
+            {
+                con.Amount = con.Amount + float.Parse(vacationAmount.ToString());
+            }
+        }
+
+        public static void DeleteAccount(infoStudent toDelete)
+        {
+            DAL.DeletePayments(toDelete.studentID);
+            DAL.DeleteAccount(toDelete.studentID);
+        }
+
+        public static List<infoConcept> GetUnpayedConcepts(infoStudent selectedStudent)
+        {
+            List<infoConcept> studentConcepts = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
+            List<int> payedConcepts = DAL.getPayedConceptList(selectedStudent.studentID);
+
+            for (int i = 0; i < studentConcepts.Count; i++)
+            {
+                foreach (int concept in payedConcepts)
+                {
+                    if (int.Parse(studentConcepts[i].Value) == concept)
+                    {
+                        studentConcepts.RemoveAt(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+
+            return studentConcepts;
+        }
+
+        public static double CalculateOvercharge(infoStudent selectedStudent)
+        {
+            List<infoConcept> expiredConcepts = DAL.getExpiredSchoolConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel, selectedStudent.studentID);
+            List<double> overCharges = DAL.OverchargeAmounts();
+            double totalCharge = 0.0;
+
+            if (expiredConcepts.Count > 0)
+            {
+                foreach (infoConcept concept in expiredConcepts)
+                {
+                    if (concept.Type == "Mensualidad")
+                    {
+                        int afterDays = (DateTime.Now - concept.LimitDate).Days;
+
+                        if (afterDays > overCharges[0])
+                            totalCharge = overCharges[1];
+
+                        if (afterDays > overCharges[2])
+                            totalCharge = overCharges[3];
+
+                        if (afterDays > overCharges[4])
+                            totalCharge = overCharges[5];
+                    }
+                }
+            }
+
+            //check if at least one unpayed concept exists
+            //check if it's mensualidad
+            //add value depening on database to all until unpayed concept is payed (none exist)
+            return totalCharge;
         }
     }    
 }

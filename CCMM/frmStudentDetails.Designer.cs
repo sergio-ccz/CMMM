@@ -52,11 +52,12 @@
             this.lblAccNum = new System.Windows.Forms.Label();
             this.lblAccType = new System.Windows.Forms.Label();
             this.cbAccType = new System.Windows.Forms.ComboBox();
-            this.picUsers = new System.Windows.Forms.PictureBox();
-            this.picAccNumber = new System.Windows.Forms.PictureBox();
             this.lnlblExpPayments = new System.Windows.Forms.LinkLabel();
             this.cbSchoolLevel = new System.Windows.Forms.ComboBox();
             this.lblLevel = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.picUsers = new System.Windows.Forms.PictureBox();
+            this.picAccNumber = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.gDataPayments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccNumber)).BeginInit();
@@ -64,8 +65,8 @@
             // 
             // llblResetGrid
             // 
-            this.llblResetGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.llblResetGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.llblResetGrid.AutoSize = true;
             this.llblResetGrid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.llblResetGrid.Location = new System.Drawing.Point(715, 273);
@@ -121,8 +122,8 @@
             // 
             // btnPrintGrid
             // 
-            this.btnPrintGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrintGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrintGrid.Location = new System.Drawing.Point(692, 15);
             this.btnPrintGrid.Margin = new System.Windows.Forms.Padding(4);
             this.btnPrintGrid.Name = "btnPrintGrid";
@@ -147,8 +148,8 @@
             // gDataPayments
             // 
             this.gDataPayments.AllowUserToDeleteRows = false;
-            this.gDataPayments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gDataPayments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gDataPayments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gDataPayments.GridColor = System.Drawing.SystemColors.ButtonFace;
             this.gDataPayments.Location = new System.Drawing.Point(7, 310);
@@ -156,13 +157,15 @@
             this.gDataPayments.MultiSelect = false;
             this.gDataPayments.Name = "gDataPayments";
             this.gDataPayments.ReadOnly = true;
+            this.gDataPayments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gDataPayments.Size = new System.Drawing.Size(801, 213);
             this.gDataPayments.TabIndex = 72;
+            this.gDataPayments.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gDataPayments_CellContentClick);
             // 
             // btnEditSaveAcc
             // 
-            this.btnEditSaveAcc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditSaveAcc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditSaveAcc.Location = new System.Drawing.Point(692, 110);
             this.btnEditSaveAcc.Margin = new System.Windows.Forms.Padding(4);
             this.btnEditSaveAcc.Name = "btnEditSaveAcc";
@@ -351,29 +354,10 @@
             this.cbAccType.Size = new System.Drawing.Size(127, 24);
             this.cbAccType.TabIndex = 84;
             // 
-            // picUsers
-            // 
-            this.picUsers.Image = global::CCMM.Properties.Resources.Users;
-            this.picUsers.Location = new System.Drawing.Point(24, 15);
-            this.picUsers.Margin = new System.Windows.Forms.Padding(4);
-            this.picUsers.Name = "picUsers";
-            this.picUsers.Size = new System.Drawing.Size(64, 59);
-            this.picUsers.TabIndex = 82;
-            this.picUsers.TabStop = false;
-            // 
-            // picAccNumber
-            // 
-            this.picAccNumber.Location = new System.Drawing.Point(227, 34);
-            this.picAccNumber.Margin = new System.Windows.Forms.Padding(4);
-            this.picAccNumber.Name = "picAccNumber";
-            this.picAccNumber.Size = new System.Drawing.Size(31, 25);
-            this.picAccNumber.TabIndex = 80;
-            this.picAccNumber.TabStop = false;
-            // 
             // lnlblExpPayments
             // 
-            this.lnlblExpPayments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnlblExpPayments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lnlblExpPayments.AutoSize = true;
             this.lnlblExpPayments.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnlblExpPayments.Location = new System.Drawing.Point(587, 273);
@@ -415,11 +399,45 @@
             this.lblLevel.Text = "Nivel Escolar:";
             this.lblLevel.Click += new System.EventHandler(this.lblLevel_Click);
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Image = global::CCMM.Properties.Resources.Error;
+            this.btnDelete.Location = new System.Drawing.Point(692, 148);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(116, 65);
+            this.btnDelete.TabIndex = 89;
+            this.btnDelete.Text = "Borrar";
+            this.btnDelete.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Visible = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // picUsers
+            // 
+            this.picUsers.Image = global::CCMM.Properties.Resources.Users;
+            this.picUsers.Location = new System.Drawing.Point(24, 15);
+            this.picUsers.Margin = new System.Windows.Forms.Padding(4);
+            this.picUsers.Name = "picUsers";
+            this.picUsers.Size = new System.Drawing.Size(64, 59);
+            this.picUsers.TabIndex = 82;
+            this.picUsers.TabStop = false;
+            // 
+            // picAccNumber
+            // 
+            this.picAccNumber.Location = new System.Drawing.Point(227, 34);
+            this.picAccNumber.Margin = new System.Windows.Forms.Padding(4);
+            this.picAccNumber.Name = "picAccNumber";
+            this.picAccNumber.Size = new System.Drawing.Size(31, 25);
+            this.picAccNumber.TabIndex = 80;
+            this.picAccNumber.TabStop = false;
+            // 
             // frmStudentDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 538);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.cbSchoolLevel);
             this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.lnlblExpPayments);
@@ -493,5 +511,6 @@
         private System.Windows.Forms.LinkLabel lnlblExpPayments;
         private System.Windows.Forms.ComboBox cbSchoolLevel;
         private System.Windows.Forms.Label lblLevel;
+        private System.Windows.Forms.Button btnDelete;
     }
 }

@@ -119,23 +119,40 @@ namespace CCMM
 
         private void UpdateGridResults()
         {
-            if (TypeReport == "Debt")
+            try
             {
-                dgridPaymentTable.Visible = false;
-                lblWarnings.Visible = true;
+                if (TypeReport == "Debt")
+                {
+                    dgridPaymentTable.Visible = false;
+                    lblWarnings.Visible = true;
+                }
+                bool schoolOnly = true;
+
+                if (LevelReport != "School")
+                    schoolOnly = false;
+
+                DateTime? toDate = dtpPaymentDate2.Value.Date;
+
+                if (toDate == dtpPaymentDate.Value.Date)
+                    toDate = null;
+
+                DateTime selectedDate = dtpPaymentDate.Value.Date;
+                dgridPaymentTable.DataSource = DAL.getPaymentsByDate(selectedDate, toDate, schoolOnly);
             }
-            bool schoolOnly = true;
+            catch
+            {
+                dgridPaymentTable.DataSource = null;
+            }
+        }
 
-            if (LevelReport != "School")
-                schoolOnly = false;
+        private void dtpPaymentDate_ValueChanged_1(object sender, EventArgs e)
+        {
+            UpdateGridResults();
+        }
 
-            DateTime? toDate = dtpPaymentDate2.Value.Date;
-
-            if (toDate == dtpPaymentDate.Value.Date)
-                toDate = null;
-
-            DateTime selectedDate = dtpPaymentDate.Value.Date;
-            dgridPaymentTable.DataSource = DAL.getPaymentsByDate(selectedDate, toDate, schoolOnly);
+        private void dtpPaymentDate2_ValueChanged_1(object sender, EventArgs e)
+        {
+            UpdateGridResults();
         }
     }
 }

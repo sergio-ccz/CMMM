@@ -30,7 +30,6 @@
         {
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.mbtnNewPayment = new System.Windows.Forms.ToolStripMenuItem();
-            this.mbtnPaySearch = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnStudents = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnStudentSearch = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnStudentRegistration = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +51,6 @@
             this.menuMain.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mbtnNewPayment,
-            this.mbtnPaySearch,
             this.mbtnStudents,
             this.mbtnReports,
             this.mbtnSettings});
@@ -72,16 +70,6 @@
             this.mbtnNewPayment.Size = new System.Drawing.Size(195, 52);
             this.mbtnNewPayment.Text = "Registrar Pago";
             this.mbtnNewPayment.Click += new System.EventHandler(this.mbtnNewPayment_Click);
-            // 
-            // mbtnPaySearch
-            // 
-            this.mbtnPaySearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mbtnPaySearch.Image = global::CCMM.Properties.Resources.Search;
-            this.mbtnPaySearch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.mbtnPaySearch.Name = "mbtnPaySearch";
-            this.mbtnPaySearch.Size = new System.Drawing.Size(226, 52);
-            this.mbtnPaySearch.Text = "Búsqueda Pagos";
-            this.mbtnPaySearch.Click += new System.EventHandler(this.mbtnPaySearch_Click);
             // 
             // mbtnStudents
             // 
@@ -191,6 +179,8 @@
             this.nuevoCicloEscolarToolStripMenuItem.Name = "nuevoCicloEscolarToolStripMenuItem";
             this.nuevoCicloEscolarToolStripMenuItem.Size = new System.Drawing.Size(301, 32);
             this.nuevoCicloEscolarToolStripMenuItem.Text = "Nuevo Ciclo Escolar";
+            this.nuevoCicloEscolarToolStripMenuItem.Visible = false;
+            this.nuevoCicloEscolarToolStripMenuItem.Click += new System.EventHandler(this.nuevoCicloEscolarToolStripMenuItem_Click);
             // 
             // mbtnConceptCatalog
             // 
@@ -222,7 +212,6 @@
 
         private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem mbtnNewPayment;
-        private System.Windows.Forms.ToolStripMenuItem mbtnPaySearch;
         private System.Windows.Forms.ToolStripMenuItem mbtnStudents;
         private System.Windows.Forms.ToolStripMenuItem mbtnReports;
         private System.Windows.Forms.ToolStripMenuItem mbtnSettings;

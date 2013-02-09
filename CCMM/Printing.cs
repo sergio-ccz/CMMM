@@ -530,13 +530,13 @@ namespace CCMM
 
                     totalAmount += double.Parse(payment[3]);
 
-                    cellPayDate = new PdfPCell(new Phrase(DateTime.Parse(payment[4]).ToShortDateString(), bodyFont));
+                    cellPayDate = new PdfPCell(new Phrase(DateTime.Parse(payment[5]).ToShortDateString(), bodyFont));
                     cellPayDate.Border = PdfPCell.BOTTOM_BORDER;
 
-                    cellFolio = new PdfPCell(new Phrase(payment[2], bodyFont));
+                    cellFolio = new PdfPCell(new Phrase(payment[3], bodyFont));
                     cellFolio.Border = PdfPCell.BOTTOM_BORDER;
 
-                    cellConcept = new PdfPCell(new Phrase(payment[6], bodyFont));
+                    cellConcept = new PdfPCell(new Phrase(payment[7], bodyFont));
                     cellConcept.Border = PdfPCell.BOTTOM_BORDER;
 
                     double tempPayment = double.Parse(payment[3]);

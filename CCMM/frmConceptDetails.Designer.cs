@@ -72,7 +72,7 @@
             // 
             this.lblAmount.AutoSize = true;
             this.lblAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAmount.Location = new System.Drawing.Point(254, 70);
+            this.lblAmount.Location = new System.Drawing.Point(240, 70);
             this.lblAmount.Name = "lblAmount";
             this.lblAmount.Size = new System.Drawing.Size(94, 24);
             this.lblAmount.TabIndex = 3;
@@ -83,7 +83,7 @@
             this.dateDueDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateDueDate.Location = new System.Drawing.Point(47, 177);
             this.dateDueDate.Name = "dateDueDate";
-            this.dateDueDate.Size = new System.Drawing.Size(329, 27);
+            this.dateDueDate.Size = new System.Drawing.Size(315, 27);
             this.dateDueDate.TabIndex = 4;
             // 
             // txtbName
@@ -97,7 +97,7 @@
             // txtbAmount
             // 
             this.txtbAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbAmount.Location = new System.Drawing.Point(276, 100);
+            this.txtbAmount.Location = new System.Drawing.Point(262, 100);
             this.txtbAmount.Name = "txtbAmount";
             this.txtbAmount.Size = new System.Drawing.Size(100, 27);
             this.txtbAmount.TabIndex = 6;
@@ -105,10 +105,13 @@
             // btnSave
             // 
             this.btnSave.Image = global::CCMM.Properties.Resources.CheckMark;
-            this.btnSave.Location = new System.Drawing.Point(399, 81);
+            this.btnSave.Location = new System.Drawing.Point(401, 100);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(87, 66);
+            this.btnSave.Size = new System.Drawing.Size(77, 75);
             this.btnSave.TabIndex = 7;
+            this.btnSave.Text = "Guardar Cambios";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 

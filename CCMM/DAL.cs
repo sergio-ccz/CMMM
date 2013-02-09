@@ -209,41 +209,6 @@ namespace CCMM
         }
 
         /// <summary>
-        /// Gets the list of concepts from the after-school programs
-        /// </summary>
-        /// <returns>List with each concept (id, title & amount)</returns>
-        public static List<infoConcept> getAfterSchoolConcepts()
-        {
-            //Create list, connection and open connection.
-            List<infoConcept> lstConcept = new List<infoConcept>();
-            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
-            sqlConnection.Open();
-
-            SqlCeCommand qCommand = new SqlCeCommand();
-            //Get all concepts that are type "Internado"
-            qCommand.CommandText = "SELECT ID, Title, Base_Amount, Limit_Date FROM Conceptos WHERE (Concept_Type = 'Internado')" +
-                "ORDER BY ID";
-
-            qCommand.Connection = sqlConnection;
-            SqlCeDataReader sqlReader = qCommand.ExecuteReader();
-
-            while (sqlReader.Read())
-            {
-                infoConcept gObject = new infoConcept();
-                gObject.Name = sqlReader["Title"].ToString(); ;
-                gObject.Amount = float.Parse(sqlReader["Base_Amount"].ToString());
-                gObject.Value = sqlReader["ID"].ToString();
-                gObject.LimitDate = DateTime.Parse(sqlReader["Limit_Date"].ToString());
-
-                lstConcept.Add(gObject);
-            }
-
-            sqlConnection.Close();
-
-            return lstConcept;
-        }
-
-        /// <summary>
         /// Creates new record that represents payment of a student
         /// </summary>
         /// <param name="nPayment"></param>
@@ -306,7 +271,7 @@ namespace CCMM
 
             sqlConnection.Open();
             SqlCeCommand sqlCommand = new SqlCeCommand();
-            sqlCommand.CommandText = "SELECT Payment.Folio, Payment.Amount AS Cantidad, " +
+            sqlCommand.CommandText = "SELECT Payment.PID AS ID, Payment.Folio, Payment.Amount AS Cantidad, " +
                 "Payment.Date AS Fecha, Payment.Completed AS Completado, Conceptos.Title AS " +
                 "Concepto FROM Payment INNER JOIN Conceptos ON Payment.Concept_ID = Conceptos.ID " +
                 "WHERE (Payment.Student_ID = " + studentID.ToString() + " )";
@@ -412,9 +377,6 @@ namespace CCMM
             sqlConnection.Open();
 
             string response = "";
-
-            //test
-            editedStudent.paymentType = "Normal";
 
             //AccNum, fName, lastname, lastname2, grade, discount
             SqlCeCommand updateCommand = new SqlCeCommand("UPDATE Students SET Account_Num = @AccN, First_Name = @fName, Last_Name = @lName, Last_Name_2 = @lName2," +
@@ -546,38 +508,6 @@ namespace CCMM
             }
 
             return lstExpiredConcepts;
-        }
-
-        public static List<infoConcept> getExpiredASConcepts(Int32 studentID)
-        {
-            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
-            List<infoConcept> afConcepts = getAfterSchoolConcepts();
-            List<int> payedConcepts = getPayedConceptList(studentID);
-            List<infoConcept> expiredConcepts = new List<infoConcept>();
-
-            bool payed = false;
-
-            foreach (infoConcept afCon in afConcepts)
-            {
-                if (afCon.LimitDate < DateTime.Now)
-                {
-                    payed = false;
-
-                    foreach (int conceptID in payedConcepts)
-                    {
-                        if (conceptID == int.Parse(afCon.Value))
-                        {
-                            payed = true;
-                        }
-                    }
-
-                    if (!payed)
-                        expiredConcepts.Add(afCon);
-                }
-            }
-
-            return expiredConcepts;
-            
         }
 
         public static List<string[]> SchoolPaymentsInfo(DateTime qDate, DateTime? toDate, bool schoolReport)
@@ -746,6 +676,106 @@ namespace CCMM
                 sqlConnection.Close();
                 sqlConnection.Dispose();
             }
+        }
+
+        public static void DeletePayments(Int32 studentID)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+
+            sqlCommand.CommandText = "DELETE FROM Payment WHERE Student_ID = @sID";
+            sqlCommand.Parameters.AddWithValue("@sID", studentID);
+
+            sqlCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
+        }
+
+        public static void DeleteAccount(Int32 studentID)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+
+            sqlCommand.CommandText = "DELETE FROM Students WHERE Account_Num = @sID";
+            sqlCommand.Parameters.AddWithValue("@sID", studentID);
+
+            sqlCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
+        }
+
+        public static void DeletePayment(int paymentID)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+
+            sqlCommand.CommandText = "DELETE FROM Payment WHERE PID = @pID";
+            sqlCommand.Parameters.AddWithValue("@pID", paymentID);
+
+            sqlCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
+        }
+
+        public static void UpdatePayment(List<string> paymentInfo)
+        {
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+            sqlConnection.Open();
+
+            //AccNum, fName, lastname, lastname2, grade, discount
+            SqlCeCommand updateCommand = new SqlCeCommand("UPDATE Payment SET Folio = @pFolio, Amount = @pAmount, Date = @pDate, Completed = @pCompleted " +
+                "WHERE PID = @pID", sqlConnection);
+
+            updateCommand.Parameters.AddWithValue("@pFolio", paymentInfo[0]);
+            updateCommand.Parameters.AddWithValue("@pAmount", paymentInfo[1]);
+            updateCommand.Parameters.AddWithValue("@pDate", paymentInfo[2]);
+            updateCommand.Parameters.AddWithValue("@pCompleted", paymentInfo[3]);
+            updateCommand.Parameters.AddWithValue("@pID", paymentInfo[5]);
+
+            updateCommand.CommandType = System.Data.CommandType.Text;
+
+            try
+            {
+                updateCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                sqlConnection.Close();
+                sqlConnection.Dispose();
+            }
+        }
+
+        public static List<double> OverchargeAmounts()
+        {
+            List<double> amounts = new List<double>();
+            SqlCeConnection sqlConnection = new SqlCeConnection(connectionString);
+
+            sqlConnection.Open();
+
+            SqlCeCommand sqlCommand = sqlConnection.CreateCommand();
+
+            sqlCommand.CommandText = "SELECT * FROM Overcharge";
+
+            SqlCeDataReader sqlReader = sqlCommand.ExecuteReader();
+
+            //Create objects for each concept and fill List<>
+            while (sqlReader.Read())
+            {
+                amounts.Add(double.Parse(sqlReader["Days"].ToString()));
+                amounts.Add(double.Parse(sqlReader["Amount"].ToString()));
+            }
+
+            return amounts;
         }
     }
 }

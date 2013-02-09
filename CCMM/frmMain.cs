@@ -123,5 +123,10 @@ namespace CCMM
                 frmConceptCatalog.Show();
             }
         }
+
+        private void nuevoCicloEscolarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

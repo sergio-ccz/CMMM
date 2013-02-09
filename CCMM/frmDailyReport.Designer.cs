@@ -35,8 +35,8 @@
             this.lblWarnings = new System.Windows.Forms.TextBox();
             this.gbDates = new System.Windows.Forms.GroupBox();
             this.lblToDate = new System.Windows.Forms.Label();
-            this.dtpPaymentDate2 = new System.Windows.Forms.DateTimePicker();
             this.lblFromDate = new System.Windows.Forms.Label();
+            this.dtpPaymentDate2 = new System.Windows.Forms.DateTimePicker();
             this.dtpPaymentDate = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgridPaymentTable)).BeginInit();
             this.gbDates.SuspendLayout();
@@ -122,14 +122,6 @@
             this.lblToDate.TabIndex = 14;
             this.lblToDate.Text = "Hasta:";
             // 
-            // dtpPaymentDate2
-            // 
-            this.dtpPaymentDate2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpPaymentDate2.Location = new System.Drawing.Point(278, 45);
-            this.dtpPaymentDate2.Name = "dtpPaymentDate2";
-            this.dtpPaymentDate2.Size = new System.Drawing.Size(123, 22);
-            this.dtpPaymentDate2.TabIndex = 13;
-            // 
             // lblFromDate
             // 
             this.lblFromDate.AutoSize = true;
@@ -140,6 +132,15 @@
             this.lblFromDate.TabIndex = 12;
             this.lblFromDate.Text = "Desde: ";
             // 
+            // dtpPaymentDate2
+            // 
+            this.dtpPaymentDate2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpPaymentDate2.Location = new System.Drawing.Point(278, 45);
+            this.dtpPaymentDate2.Name = "dtpPaymentDate2";
+            this.dtpPaymentDate2.Size = new System.Drawing.Size(123, 22);
+            this.dtpPaymentDate2.TabIndex = 13;
+            this.dtpPaymentDate2.ValueChanged += new System.EventHandler(this.dtpPaymentDate2_ValueChanged_1);
+            // 
             // dtpPaymentDate
             // 
             this.dtpPaymentDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -147,6 +148,7 @@
             this.dtpPaymentDate.Name = "dtpPaymentDate";
             this.dtpPaymentDate.Size = new System.Drawing.Size(123, 22);
             this.dtpPaymentDate.TabIndex = 11;
+            this.dtpPaymentDate.ValueChanged += new System.EventHandler(this.dtpPaymentDate_ValueChanged_1);
             // 
             // frmDailyReport
             // 

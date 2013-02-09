@@ -63,9 +63,9 @@
             this.groupBParameters.Controls.Add(this.lblName);
             this.groupBParameters.Enabled = false;
             this.groupBParameters.Location = new System.Drawing.Point(13, 85);
-            this.groupBParameters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBParameters.Margin = new System.Windows.Forms.Padding(4);
             this.groupBParameters.Name = "groupBParameters";
-            this.groupBParameters.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBParameters.Padding = new System.Windows.Forms.Padding(4);
             this.groupBParameters.Size = new System.Drawing.Size(780, 153);
             this.groupBParameters.TabIndex = 27;
             this.groupBParameters.TabStop = false;
@@ -77,7 +77,7 @@
             this.cbGrade.Enabled = false;
             this.cbGrade.FormattingEnabled = true;
             this.cbGrade.Location = new System.Drawing.Point(315, 111);
-            this.cbGrade.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbGrade.Margin = new System.Windows.Forms.Padding(4);
             this.cbGrade.Name = "cbGrade";
             this.cbGrade.Size = new System.Drawing.Size(180, 24);
             this.cbGrade.TabIndex = 25;
@@ -97,7 +97,7 @@
             // txtbLastName2
             // 
             this.txtbLastName2.Location = new System.Drawing.Point(525, 53);
-            this.txtbLastName2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtbLastName2.Margin = new System.Windows.Forms.Padding(4);
             this.txtbLastName2.Name = "txtbLastName2";
             this.txtbLastName2.Size = new System.Drawing.Size(180, 22);
             this.txtbLastName2.TabIndex = 23;
@@ -114,7 +114,7 @@
             "Universidad",
             "Medio Internado"});
             this.cbLevel.Location = new System.Drawing.Point(105, 111);
-            this.cbLevel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbLevel.Margin = new System.Windows.Forms.Padding(4);
             this.cbLevel.Name = "cbLevel";
             this.cbLevel.Size = new System.Drawing.Size(180, 24);
             this.cbLevel.TabIndex = 22;
@@ -145,7 +145,7 @@
             // txtbLastName
             // 
             this.txtbLastName.Location = new System.Drawing.Point(315, 53);
-            this.txtbLastName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtbLastName.Margin = new System.Windows.Forms.Padding(4);
             this.txtbLastName.Name = "txtbLastName";
             this.txtbLastName.Size = new System.Drawing.Size(180, 22);
             this.txtbLastName.TabIndex = 19;
@@ -164,7 +164,7 @@
             // txtbName
             // 
             this.txtbName.Location = new System.Drawing.Point(105, 53);
-            this.txtbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtbName.Margin = new System.Windows.Forms.Padding(4);
             this.txtbName.Name = "txtbName";
             this.txtbName.Size = new System.Drawing.Size(180, 22);
             this.txtbName.TabIndex = 17;
@@ -185,7 +185,7 @@
             this.cbParameteresActive.AutoSize = true;
             this.cbParameteresActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbParameteresActive.Location = new System.Drawing.Point(217, 39);
-            this.cbParameteresActive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbParameteresActive.Margin = new System.Windows.Forms.Padding(4);
             this.cbParameteresActive.Name = "cbParameteresActive";
             this.cbParameteresActive.Size = new System.Drawing.Size(207, 22);
             this.cbParameteresActive.TabIndex = 26;
@@ -195,8 +195,8 @@
             // 
             // lblSearchTips
             // 
-            this.lblSearchTips.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblSearchTips.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lblSearchTips.AutoSize = true;
             this.lblSearchTips.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSearchTips.Location = new System.Drawing.Point(12, 249);
@@ -208,13 +208,14 @@
             // 
             // dGridStudentResults
             // 
-            this.dGridStudentResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dGridStudentResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dGridStudentResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dGridStudentResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dGridStudentResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dGridStudentResults.Location = new System.Drawing.Point(13, 279);
-            this.dGridStudentResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dGridStudentResults.Margin = new System.Windows.Forms.Padding(4);
             this.dGridStudentResults.Name = "dGridStudentResults";
             this.dGridStudentResults.ReadOnly = true;
             this.dGridStudentResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -227,7 +228,7 @@
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Image = global::CCMM.Properties.Resources.Search;
             this.btnSearch.Location = new System.Drawing.Point(637, 15);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(156, 53);
             this.btnSearch.TabIndex = 23;
@@ -239,7 +240,7 @@
             // txtbAccNum
             // 
             this.txtbAccNum.Location = new System.Drawing.Point(13, 39);
-            this.txtbAccNum.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtbAccNum.Margin = new System.Windows.Forms.Padding(4);
             this.txtbAccNum.Name = "txtbAccNum";
             this.txtbAccNum.Size = new System.Drawing.Size(180, 22);
             this.txtbAccNum.TabIndex = 22;
@@ -268,6 +269,7 @@
             this.Controls.Add(this.txtbAccNum);
             this.Controls.Add(this.lblAccNum);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MinimumSize = new System.Drawing.Size(825, 566);
             this.Name = "frmStudentSearch";
             this.ShowIcon = false;
             this.Text = "Búsqueda de Alumnos";

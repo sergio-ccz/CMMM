@@ -104,6 +104,12 @@
     <Compile Include="frmNewStudent.Designer.cs">
       <DependentUpon>frmNewStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPaymentDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPaymentDetails.Designer.cs">
+      <DependentUpon>frmPaymentDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmReportCreation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,9 @@
     <EmbeddedResource Include="frmNewStudent.resx">
       <DependentUpon>frmNewStudent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPaymentDetails.resx">
+      <DependentUpon>frmPaymentDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmReportCreation.resx">
       <DependentUpon>frmReportCreation.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,6 +186,7 @@
     <Content Include="CMMM.DB.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Images\error.png" />
     <None Include="Images\logo.png" />
     <None Include="Images\CheckMark.png" />
   </ItemGroup>

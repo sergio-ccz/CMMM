@@ -46,9 +46,9 @@
             this.btnStudentSearch = new System.Windows.Forms.Button();
             this.txtbAccNum = new System.Windows.Forms.TextBox();
             this.lblAccNum = new System.Windows.Forms.Label();
+            this.lblAccType = new System.Windows.Forms.Label();
             this.picUsers = new System.Windows.Forms.PictureBox();
             this.picAccNumber = new System.Windows.Forms.PictureBox();
-            this.lblAccType = new System.Windows.Forms.Label();
             this.gbxPaymentDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDiscountWarning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsers)).BeginInit();
@@ -141,6 +141,7 @@
             this.txtbPaymentFolio.Name = "txtbPaymentFolio";
             this.txtbPaymentFolio.Size = new System.Drawing.Size(132, 24);
             this.txtbPaymentFolio.TabIndex = 34;
+            this.txtbPaymentFolio.TextChanged += new System.EventHandler(this.txtbPaymentFolio_TextChanged);
             // 
             // lblPaymentFolio
             // 
@@ -264,6 +265,16 @@
             this.lblAccNum.TabIndex = 31;
             this.lblAccNum.Text = "#Cuenta: ";
             // 
+            // lblAccType
+            // 
+            this.lblAccType.AutoSize = true;
+            this.lblAccType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAccType.Location = new System.Drawing.Point(188, 69);
+            this.lblAccType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAccType.Name = "lblAccType";
+            this.lblAccType.Size = new System.Drawing.Size(0, 24);
+            this.lblAccType.TabIndex = 38;
+            // 
             // picUsers
             // 
             this.picUsers.Image = global::CCMM.Properties.Resources.Users;
@@ -283,16 +294,6 @@
             this.picAccNumber.TabIndex = 34;
             this.picAccNumber.TabStop = false;
             // 
-            // lblAccType
-            // 
-            this.lblAccType.AutoSize = true;
-            this.lblAccType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccType.Location = new System.Drawing.Point(188, 69);
-            this.lblAccType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAccType.Name = "lblAccType";
-            this.lblAccType.Size = new System.Drawing.Size(0, 24);
-            this.lblAccType.TabIndex = 38;
-            // 
             // frmNewPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -306,6 +307,9 @@
             this.Controls.Add(this.btnStudentSearch);
             this.Controls.Add(this.txtbAccNum);
             this.Controls.Add(this.lblAccNum);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(665, 441);
+            this.MinimumSize = new System.Drawing.Size(665, 441);
             this.Name = "frmNewPayment";
             this.ShowIcon = false;
             this.Text = "Nuevo Pago";

@@ -54,7 +54,12 @@ namespace CCMM
                     //Flag to show that loading is in process
                     finishedLoading = false;
 
-                    ConceptList = DAL.getAvailableConcepts(studentToPay.studentGroup, studentToPay.studentLevel);
+                    ConceptList = BAL.GetUnpayedConcepts(selectedStudent);
+
+                    if (selectedStudent.paymentType == "Diferido")
+                    {
+                        BAL.ModifyDiferidoConcepts(ConceptList);
+                    }
 
                     //Show the payment details box
                     gbxPaymentDetails.Visible = true;
@@ -89,39 +94,17 @@ namespace CCMM
             picAccNumber.Image = (Image)Properties.Resources.Warning;
         }
 
-        private void LoadConceptLists(string loadOrder)
-        {
-            switch (loadOrder)
-            {
-                case "BT":
-                    //Load both lists;
-                    //ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
-                    //ConceptListAS = DAL.getAfterSchoolConcepts();
-                    ConceptList = BAL.getAvailableConcepts(selectedStudent.studentID, "School", cbShowAllConcepts.Checked);
-                    ConceptListAS = BAL.getAvailableConcepts(selectedStudent.studentID, "MedioInternado", cbShowAllConcepts.Checked);
-                    break;
-
-                case "SC":
-                    //Load only school-payments
-                    //ConceptList = DAL.getAvailableConcepts(selectedStudent.studentGroup, selectedStudent.studentLevel);
-                    ConceptList = BAL.getAvailableConcepts(selectedStudent.studentID, "School", cbShowAllConcepts.Checked);
-                    break;
-
-                case "MI":
-                    //Load only after-school payments
-                    ConceptListAS = DAL.getAfterSchoolConcepts();
-                    ConceptListAS = BAL.getAvailableConcepts(selectedStudent.studentID, "MedioInternado", cbShowAllConcepts.Checked);
-                    break;
-
-            }
-        }
-
         private void cbPaymentConcept_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (finishedLoading || cbPaymentConcept.Items.Count > 0)
             {
                 List<infoConcept> cList = new List<infoConcept>();
                 cList = ConceptList;
+
+                //Load selected concept list depending on selected type
+                cbPaymentConcept.ValueMember = "Value";
+                cbPaymentConcept.DisplayMember = "Name";
+                cbPaymentConcept.DataSource = ConceptList;
 
                 //Get base amounts for the selected concept
                 foreach (infoConcept conceptEntry in cList)
@@ -142,6 +125,14 @@ namespace CCMM
                             picDiscountWarning.Image = null;
                         }
                     }
+                }
+
+                double overcharge = BAL.CalculateOvercharge(selectedStudent);
+
+                if (overcharge > 0)
+                {
+                    txtbPaymentAmount.Text = (double.Parse(txtbPaymentAmount.Text) + overcharge).ToString();
+                    picDiscountWarning.Image = (Image)Properties.Resources.Warning;
                 }
             }
         }
@@ -199,6 +190,13 @@ namespace CCMM
                 DialogResult sameStudent = MessageBox.Show("Pago registrado - ¿Seguir con mismo alumno?", "Nuevo Pago", MessageBoxButtons.YesNo);
                 if (sameStudent == System.Windows.Forms.DialogResult.No)
                     txtbAccNum.Clear();
+                else
+                {
+                    txtbPaymentAmount.Clear();
+                    datePaymentDate.Value = DateTime.Now;
+                    ConceptList = BAL.GetUnpayedConcepts(selectedStudent);
+                    ReloadLists();
+                }
             }
             catch (Exception ex)
             {
@@ -210,7 +208,14 @@ namespace CCMM
         private void cbShowAllConcepts_CheckedChanged(object sender, EventArgs e)
         {
             finishedLoading = false;
+
+            if (cbShowAllConcepts.Checked)
+                ConceptList = DAL.getAvailableConcepts(studentToPay.studentGroup, studentToPay.studentLevel);
+            else
+                ConceptList = BAL.GetUnpayedConcepts(selectedStudent);
+                        
             ReloadLists();
+            
             finishedLoading = true;
             
         }
@@ -223,6 +228,16 @@ namespace CCMM
 
             txtbPaymentAmount.Clear();
             cbPaymentConcept.DataSource = ConceptList;
+
+            cbPaymentConcept.ValueMember = "Value";
+            cbPaymentConcept.DisplayMember = "Name";
+
+            cbPaymentConcept.SelectedIndex = 0;
+
+        }
+
+        private void txtbPaymentFolio_TextChanged(object sender, EventArgs e)
+        {
 
         }
 
